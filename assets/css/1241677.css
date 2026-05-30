@@ -1,0 +1,143 @@
+/* * é um seletor universal, ou seja, aplica-se a todos os elementos HTML da página */ 
+* { 
+margin: 0; /*  Remove todas as margens padrão  */ 
+padding: 0; /* Remove os preenchimentos internos padrão */ 
+box-sizing: border-box; /* Garante que a largura e altura dos elementos incluam a borda */ 
+font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página */ 
+}
+
+/* Estilos para a barra de navegação */
+.bng-navbar { 
+    background-color: #ffffff; /* Cor de fundo */
+    display: flex; /* Alinha os elementos em linha */ 
+    align-items: center;/* Centraliza os itens verticalmente */ 
+    justify-content: space-between;/* Distribui os itens igualmente */ 
+    padding: 15px 50px;/* Adiciona espaçamento interno */ 
+    border-bottom: 1px solid #0096a6; /* Linha fininha por baixo da barra */
+} 
+ 
+.bng-navbar div { 
+    display: flex; 
+    align-items: center; 
+} 
+ 
+.bng-navbar img { 
+    height: 60px; /* Ajusta a altura do logo */ 
+    width: auto; /* Mantém a proporção do logo */
+    margin-right: 0px;/* Adiciona espaço entre o logo e o texto */ 
+} 
+
+/* Estilos para os links centrais da navegação */ 
+.container-navegacao { 
+    text-align: center; /* Centraliza os links */ 
+    padding: 10px; /* Adiciona espaçamento interno */ 
+} 
+
+.container-navegacao a { 
+    font-size: 0.95rem; /* Aumenta o tamanho da fonte dos links */ 
+    margin: 0px 30px; /* Adiciona espaçamento horizontal entre os links */ 
+    text-decoration: none; /* Remove o sublinhado padrão */ 
+    color: #0b2545; /* Define a cor dos links */ 
+    font-weight: 500;           /* Deixa a letra ligeiramente mais grossa */
+    text-transform: uppercase;  /* Coloca o menu em MAIÚSCULAS */
+    transition: color 0.2s ease;/* Faz a transição de cor do rato ser suave */
+} 
+.container-navegacao a:hover { 
+    color: #0096a6; /* Muda a cor ao passar o mouse */ 
+} 
+ 
+/* Estilos para o botão da Área Cliente */ 
+.nav-cliente a { 
+    color: #0b2545; /* Cor do texto */ 
+    text-decoration: none; /* Remove sublinhado */ 
+    font-size: 0.95rem; /* Tamanho da fonte */ 
+    font-weight: 500;           /* Deixa a letra ligeiramente mais grossa */
+    text-transform: uppercase;  /* Coloca o menu em MAIÚSCULAS */
+    transition: color 0.2s ease;/* Faz a transição de cor do rato ser suave */
+
+/*Espaçamento e forma do botão*/
+    background-color: #ffffff;      /* Fundo branco da cápsula */
+    border: 2px solid #d3d7d8;      /* A linha cinzenta em torno do botão */
+    padding: 10px; /* Espaçamento interno */ 
+    border-radius: 15px; /* Bordas arredondadas */ 
+}
+
+/* Efeito ao passar o mouse */ 
+.nav-cliente a:hover { 
+    background-color: #e1e7ee; /* Cor de fundo ao passar o mouse */ 
+}
+
+/* Estilos para o Rodapé */ 
+.footer-container { 
+    display: flex; /* Ativa o layout flexível */ 
+    background-color: #0096a6; /* Cor de fundo azul */ 
+    color: white; /* Cor do texto */ 
+    padding: 40px 10px; /* Espaçamento interno */ 
+    flex-wrap: wrap; /* Permite que os itens fiquem responsivos (ecrâs pequenos) */ 
+} 
+ 
+.footer-section { 
+    flex: 1; /* Faz com que as seções tenham tamanhos iguais */ 
+    min-width: 250px; /* Garante que cada seção tenha um tamanho mínimo */ 
+    padding: 10px; /* Espaçamento interno */ 
+    text-align: center; /* Centraliza o texto */ 
+} 
+ 
+.footer-section strong { 
+    font-size: 1.0rem; /* Define o tamanho da fonte dos títulos */ 
+    display: block; /* Faz com que ocupe toda a largura */ 
+    margin-bottom: 10px; /* Adiciona um espaço abaixo do título */ 
+    color: #f8f9fa; /* Cor do texto */ 
+} 
+ 
+.footer-section p { 
+    font-size: 0.95rem; /* Define o tamanho da fonte dos parágrafos */ 
+    color: #d6d6d6; /* Cor do texto mais suave */ 
+    line-height: 1.3;           /* Espaço entre as linhas de texto */
+} 
+
+/*Direitos de Autor na linha de baixo do rodapé*/
+.footer-bottom{
+    flex: 100%;                     /* Força a caixa a ocupar a largura toda da tela */
+    text-align: center;             /* Centra o texto ao meio */
+    margin-top: 20px;               /* Dá um espaço em relação aos 3 blocos de cima */
+    padding-top: 20px;
+}
+.footer-bottom p {
+    font-size: 0.85rem;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Texto Genérico */ 
+.container-texto-generico { 
+display: flex; /* Ativa o layout flexível */ 
+justify-content: center; /* Centraliza os elementos horizontalmente */ 
+flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */ 
+gap: 20px; /* Adiciona espaço entre os elementos */ 
+padding: 40px; /* Espaçamento interno para melhor organização */ 
+text-align: center; /* Centraliza o texto dentro dos artigos */ 
+} 
+
+/* Texto Genérico - Funcionalidades em duas colunas */
+.container-funcionalidades {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px;
+    gap: 40px;
+}
+.container-funcionalidades h2 {
+    width: 100%; /* O título ocupa toda a largura para ficar centralizado acima das colunas */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container-funcionalidades article {
+    width: 45%; /* Cada artigo ocupa 45% da largura, permitindo 2 colunas com espaço entre elas */
+    text-align: justify; /* Justifica o texto */
+}
+
+.container-funcionalidades p strong {
+    color: #343a40;
+}
