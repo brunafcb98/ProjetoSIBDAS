@@ -6,6 +6,11 @@ box-sizing: border-box; /* Garante que a largura e altura dos elementos incluam 
 font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página */ 
 }
 
+/* Para que a barra de navegação não corte o conteúdo da página*/
+section {
+    scroll-margin-top: 80px; /* altura da navbar - padding+img */
+}
+
 /* Estilos para a barra de navegação */
 .bng-navbar { 
     background-color: #ffffff; /* Cor de fundo */
@@ -14,13 +19,15 @@ font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página
     justify-content: space-between;/* Distribui os itens igualmente */ 
     padding: 15px 50px;/* Adiciona espaçamento interno */ 
     border-bottom: 1px solid #0096a6; /* Linha fininha por baixo da barra */
+    position: sticky; /* Faz a barra ficar fixa no topo ao rolar a página */
+    top: 0; /* Define a posição fixa no topo */
 } 
- 
+/* Estilos para os div internos da barra de navegação */ 
 .bng-navbar div { 
-    display: flex; 
-    align-items: center; 
+    display: flex; /* Alinha os elementos em linha */
+    align-items: center; /* Alinha os items verticalmente ao centro*/
 } 
- 
+/* Estilos para o logo da empresa na barra de navegação */
 .bng-navbar img { 
     height: 60px; /* Ajusta a altura do logo */ 
     width: auto; /* Mantém a proporção do logo */
@@ -32,7 +39,7 @@ font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página
     text-align: center; /* Centraliza os links */ 
     padding: 10px; /* Adiciona espaçamento interno */ 
 } 
-
+/* Estilos individuais para cada link da navegação */
 .container-navegacao a { 
     font-size: 0.95rem; /* Aumenta o tamanho da fonte dos links */ 
     margin: 0px 30px; /* Adiciona espaçamento horizontal entre os links */ 
@@ -42,6 +49,7 @@ font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página
     text-transform: uppercase;  /* Coloca o menu em MAIÚSCULAS */
     transition: color 0.2s ease;/* Faz a transição de cor do rato ser suave */
 } 
+/* Efeito ao passar o mouse sobre os links */
 .container-navegacao a:hover { 
     color: #0096a6; /* Muda a cor ao passar o mouse */ 
 } 
@@ -69,7 +77,7 @@ font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página
 
 /* Estilos para o Rodapé */ 
 .footer-container { 
-    display: flex; /* Ativa o layout flexível */ 
+    display: flex; /* Ativa o layout flexível, adaptando automaticamente à largura da página */ 
     background-color: #0096a6; /* Cor de fundo azul */ 
     color: white; /* Cor do texto */ 
     padding: 40px 10px; /* Espaçamento interno */ 
@@ -111,12 +119,13 @@ font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página
 
 /* Texto Genérico */ 
 .container-texto-generico { 
-display: flex; /* Ativa o layout flexível */ 
-justify-content: center; /* Centraliza os elementos horizontalmente */ 
-flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */ 
-gap: 20px; /* Adiciona espaço entre os elementos */ 
-padding: 40px; /* Espaçamento interno para melhor organização */ 
-text-align: center; /* Centraliza o texto dentro dos artigos */ 
+    display: flex; /* Ativa o layout flexível */ 
+    justify-content: center; /* Centraliza os elementos horizontalmente */ 
+    flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */ 
+    gap: 20px; /* Adiciona espaço entre os elementos */ 
+    padding: 60px 40px; /* Espaçamento interno para melhor organização */ 
+    text-align: center; /* Centraliza o texto dentro dos artigos */ 
+    min-height: 85vh; /* Garante uma altura mínima para a janela - seção, mesmo com pouco conteúdo */
 } 
 
 /* Texto Genérico - Funcionalidades em duas colunas */
@@ -124,8 +133,9 @@ text-align: center; /* Centraliza o texto dentro dos artigos */
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 40px;
+    padding: 60px 40px;
     gap: 40px;
+    min-height: 80vh; /* Garante uma altura mínima para a seção, mesmo com pouco conteúdo */
 }
 .container-funcionalidades h2 {
     width: 100%; /* O título ocupa toda a largura para ficar centralizado acima das colunas */
