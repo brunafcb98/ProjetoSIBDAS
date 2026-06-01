@@ -3,7 +3,7 @@
 margin: 0; /*  Remove todas as margens padrão  */ 
 padding: 0; /* Remove os preenchimentos internos padrão */ 
 box-sizing: border-box; /* Garante que a largura e altura dos elementos incluam a borda */ 
-font-family: Arial, Helvetica, sans-serif; /* Define a fonte do texto da página */ 
+font-family: "Montserrat", Arial, Helvetica, sans-serif; /* Define a fonte do texto da página */ 
 }
 
 /* Para que a barra de navegação não corte o conteúdo da página*/
@@ -58,7 +58,7 @@ section {
 .nav-cliente a { 
     color: #0b2545; /* Cor do texto */ 
     text-decoration: none; /* Remove sublinhado */ 
-    font-size: 0.95rem; /* Tamanho da fonte */ 
+    font-size: 0.80rem; /* Tamanho da fonte */ 
     font-weight: 500;           /* Deixa a letra ligeiramente mais grossa */
     text-transform: uppercase;  /* Coloca o menu em MAIÚSCULAS */
     transition: color 0.2s ease;/* Faz a transição de cor do rato ser suave */
