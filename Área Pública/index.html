@@ -21,7 +21,9 @@
     <nav class="bng-navbar">
         <!-- Logo e nome da empresa -->
         <div>
-            <img src="../assets/images/Logo1.png" alt="Logo da empresa">
+            <a href="#home">
+                <img src="../assets/images/Logo1.png" alt="Logo da empresa">
+            </a>
             <!--<h3>EquipFlow | Clinical Systems</h3>-->
         </div>
 
@@ -43,34 +45,51 @@
     <!-- Seção "Conteudo da pagina" --> 
     <!--Secção "Home"-->
     <section class="container-texto-generico" id="home">
-        <article id="home">
-            <h2>Bem-vindo à EquipFlow</h2>
-            <p>Na EquipFlow, transformamos a gestão de equipamentos clínicos. Com a nossa plataforma inovadora, oferecemos soluções inteligentes para otimizar o fluxo de trabalho, melhorar a eficiência e garantir a segurança dos pacientes. Junte-se a nós nesta jornada rumo a um futuro mais conectado e eficiente na área da saúde.</p>
-        </article>
+        <div class="home-content">
+            <h2>Gestão de Equipamentos Clínicos</h2>
+            <img src="../assets/images/Home.png" alt="Imagem de Equipamentos Clínicos">
+            <p>Na EquipFlow, transformamos a gestão de equipamentos clínicos. Com a nossa plataforma inovadora, oferecemos soluções inteligentes para otimizar o fluxo de trabalho, melhorar a eficiência e garantir a segurança dos pacientes.</p>
+            <p>Junte-se a nós nesta jornada rumo a um futuro mais conectado e eficiente na área da saúde.</p>
+            <a href="#demo" class="button">Solicitar Demo</a>
+        </div>
     </section>
 
     <!--Secção "Sobre Nós" -->
-    <section class="container-texto-generico" id="sobre-nos">
-        <article id="sobre-nos">
+    <section class="sobre-nos-container" id="sobre-nos"> 
+        <div class="sobre-nos-titulo"> 
             <h2>Sobre Nós</h2>
             <p>A EquipFlow é uma empresa dedicada à gestão, manutenção e monitorização de equipamentos hospitalares. Fundada por uma equipa de profissionais especializados na área da saúde e tecnologia, trabalhamos lado a lado com instituições de saúde para garantir a fiabilidade dos equipamentos, a segurança dos profissionais e a continuidade dos cuidados ao cliente.</p>
-        </article>
+        </div> 
 
-        <article id="sobre-nos">
-            <h2>Visão</h2>
-            <p>Ser referência nacional na gestão de equipamentos hospitalares, contribuindo para um sistema de saúde mais eficiente e seguro.</p>
-        </article>
+        <div class="sobre-nos-cards">
+            <div class="sobre-card">
+                <div class="sobre-card-texto">
+                    <h3>Visão</h3>
+                    <p>Ser referência nacional na gestão de equipamentos hospitalares, contribuindo para um sistema de saúde mais eficiente e seguro.</p>
+                </div>
+                <img src="https://picsum.photos/id/1048/300" alt="Visão"> 
+            </div>
 
-        <article id="sobre-nos">
-            <h2>Missão</h2>
-            <p>Garantir o funcionamento contínuo e seguro dos equipamentos médicos, através de uma gestão rigorosa e de um serviço técnico de excelência.</p>
-        </article>
+            <div class="sobre-card">
+                <div class="sobre-card-texto">
+                    <h3>Missão</h3>
+                    <p>Garantir o funcionamento contínuo e seguro dos equipamentos médicos, através de uma gestão rigorosa e de um serviço técnico de excelência.</p>
+                </div>
+                <img src="../assets/images/missão.avif" alt="Missão"> 
+            </div>
 
-        <article id="sobre-nos">
-            <h2>Valores</h2>
-            <p>Rigor, responsabilidade, inovação e compromisso com a saúde das pessoas.</p>
-        </article>
+            <div class="sobre-card">
+                <div class="sobre-card-texto">
+                    <h3>Valores</h3>
+                    <p>Rigor, responsabilidade, inovação e compromisso com a saúde das pessoas.</p>
+                </div>
+                <img src="../assets/images/Valores.jpg" alt="Valores">
+            </div>
+        </div>
     </section>
+
+
+
 
      <!--Secção "Conteudo da pagina - Serviços" -->
     <section class="container-texto-generico" id="servicos">
