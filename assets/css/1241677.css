@@ -261,6 +261,78 @@ section {
 }
 
 
+/*Secção "Serviços"*/
+#servicos {
+    background-color: #ffffff; /* Cor de fundo da secção */
+    padding-top: 90px; /* Margem superior antes da barra azul */
+}
+
+/* Barra colorida no topo da secção Serviços */
+.servicos-barra {
+    background-color: #0096a6; /* Cor de fundo da barra */
+    color: white; /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    padding: 80px 120px; /* Espaçamento interno - lateral igual ao texto do Home */
+    max-width: 1500px; /* Largura máxima igual ao Home */
+    margin: 0 auto; /* 0 = cima e baixo | auto = esquerda e direita - centra horizontalmente */
+}
+
+/* Título da barra de serviços */
+.servicos-barra h2 {
+    font-size: 2.3em; /* Tamanho do título */
+    margin-bottom: 10px; /* Espaço abaixo do título */
+    font-weight: 500; /* Espessura do título */
+}
+
+/* Container dos cards de serviços */
+.servicos-container {
+    max-width: 1500px; /* Largura máxima igual ao Home */
+    margin: 0 auto; /* Centra horizontalmente */
+    display: flex; /* Organiza os elementos internos em linha (flexível) */
+    flex-wrap: wrap; /* Permite que os elementos passem para a linha seguinte em ecrãs menores */
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    padding: 60px 40px;
+    align-items: stretch; /* faz todos os cards ter a mesma altura */
+}
+
+/* Estilo individual de cada card */
+.servico {
+    flex: 1; /* Permite que os cards cresçam igualmente para ocupar o espaço disponível */
+    padding: 30px 20px; /* Espaçamento interno dentro de cada cartão */
+    text-align: center; /* Centraliza o conteúdo dentro de cada serviço */
+    border-right: 1px solid #e0e0e0; /* Linha divisória entre cartões */
+    display: flex; /* ativa flex dentro do card */
+    flex-direction: column; /* organiza o conteúdo em coluna */
+    align-items: center; /* centra o conteúdo horizontalmente */
+}
+
+/* Remove a linha do último card */
+.servico:last-child {
+    border-right: none; /* Remove a linha do último cartão */
+}
+
+/* Estilo para os ícones Font Awesome */
+.servico i {
+    color: #0096a6; /* Cor dos ícones */
+    margin-bottom: 60px; /* Espaço abaixo do ícone */
+    display: block; /* Coloca o ícone em linha própria */
+}
+
+/* Estilo para o título de cada card */
+.servico h3 {
+    font-size: 1.2em; /* Tamanho do título */
+    font-weight: 700; /* Negrito */
+    text-transform: uppercase; /* Maiúsculas */
+    margin-bottom: 15px; /* Espaço abaixo do título */
+    color: #0b2545; /* Cor do título */
+}
+
+/* Estilo para o texto de cada card */
+.servico p {
+    font-size: 0.95em; /* Tamanho do texto */
+    color: #343a40; /* Cor do texto */
+    line-height: 1.5; /* Espaço entre linhas */
+}
 
 
 
