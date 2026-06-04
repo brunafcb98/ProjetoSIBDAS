@@ -444,3 +444,58 @@ section {
 .container-funcionalidades p strong {
     color: #343a40;
 }
+
+/* Secção Contacto */
+#contacto {
+    background-color: #f8f9fa;    /* Cor de fundo da secção */
+    padding: 60px 40px;             /* Espaçamento interno */
+    text-align: center;
+}
+/* Estilo para o título da secção Contacto */
+#contacto h2 {
+    font-size: 2em;     /* Mesmo tamanho que os títulos das outras secções */
+    font-weight: 500;
+    color: #0096a6;
+    margin-bottom: 10px;
+}
+/* Estilo para o parágrafo de introdução da secção Contacto */
+#contacto p {
+    color: #343a40;
+    margin-bottom: 30px;
+}
+/* Estilo para o formulário de contacto */
+#contacto form {
+    display: flex;
+    flex-direction: column;  /* Organiza os elementos na vertical */
+    max-width: 500px;        /* Limita a largura do formulário */ 
+    margin: 0 auto;     /* Centraliza o formulário horizontalmente */
+}
+/* Estilo para os rótulos e campos do formulário */
+#contacto label {
+    margin-top: 10px;       /* Espaço acima de cada rótulo */
+    text-align: center;
+}
+/* Estilo para os campos de entrada e textarea do formulário */
+#contacto input, #contacto textarea {
+    padding: 10px;              /* Espaço interno (dentro do campo) */ 
+    margin-bottom: 15px;        /* Espaço abaixo de cada campo */ 
+    border: 1px solid #ddd;     /* Borda cinza clara para os campos */
+    border-radius: 5px;       /* Bordas arredondadas para os campos */
+}
+
+/* Estilo para o botão de envio do formulário */
+#contacto button {
+    background-color: #0095a6d8;    /* Cor de fundo do botão azul */
+    color: #fff;                    /* Cor do texto do botão branco */
+    padding: 10px 20px;         /* Espaçamento interno do botão (vertical x horizontal) */
+    border: none;                     /* Remove a borda padrão do botão */
+    border-radius: 15px;             /* Bordas arredondadas para o botão */
+    cursor: pointer;                 /* Cursor de mão ao passar o mouse sobre o botão */
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+#contacto button:hover {
+    background-color: #4dbcc9;
+}
