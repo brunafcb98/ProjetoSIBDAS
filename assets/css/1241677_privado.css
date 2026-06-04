@@ -3,7 +3,7 @@
     margin: 0;                        /* Remove margens externas padrão */ 
     padding: 0;                       /* Remove preenchimentos internos padrão */ 
     box-sizing: border-box;          /* Inclui bordas e preenchimento no cálculo da largura/altura */ 
-    font-family: Arial, Helvetica, sans-serif; /* Define a fonte principal usada no site */ 
+    font-family: "Montserrat", Arial, Helvetica, sans-serif; /* Define a fonte principal usada no site */ 
 }
 
 /* Para que a barra de navegação não corte o conteúdo da página*/
