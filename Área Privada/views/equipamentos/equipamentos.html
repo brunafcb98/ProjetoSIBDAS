@@ -46,12 +46,48 @@
 </aside> 
 
 <!-- Conteúdo Principal --> 
-<main class="content"> 
-    <section> 
-        <h2>Equipamentos</h2> 
-        <p>Gerir equipamentos da instituição.</p> 
-    </section> 
-</main> 
+<div class="content"> 
+    <div class="actions-top"> 
+        <h2><strong><i class="fa-solid fa-stethoscope"></i> Listagem de Equipamentos </strong></h2> 
+        <a href="novo.html"><i class="fa-solid fa-plus me-2"></i> Novo equipamento</a> 
+    </div> 
+    <br> 
+    <hr> 
+    <p>Não existem equipamentos registados.</p> 
+    <table> 
+        <thead> 
+            <tr> 
+                <th>Código</th> 
+                <th>Designação</th> 
+                <th>Marca</th> 
+                <th>Modelo</th> 
+                <th>Estado</th> 
+                <th>Criticidade</th>
+                <th>Localização</th> 
+                <th></th> 
+            </tr> 
+        </thead> 
+        <tbody> 
+            <tr> 
+                <td>[codigo_interno]</td> 
+                <td>[designação]</td> 
+                <td>[marca]</td> 
+                <td>[modelo]</td> 
+                <td>[estado]</td> 
+                <td>[criticidade]</td> 
+                <td>[localização]</td>
+                <td> 
+                    <a href="detalhes.html"><i class="fa-solid fa-eye me-2"></i> Consultar</a> 
+                    <span>|</span> 
+                    <a href="editar.html"><i class="fa-regular fa-pen-to-square me-2"></i> Editar</a> 
+                    <span>|</span> 
+                    <a href="apagar.html"><i class="fa-solid fa-trash-can me-2"></i> Eliminar</a> 
+                </td> 
+            </tr> 
+        </tbody> 
+    </table> 
+</div> 
+
 
 
 </body>
