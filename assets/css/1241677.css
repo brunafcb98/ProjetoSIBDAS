@@ -320,7 +320,7 @@ section {
 
 /* Estilo para o título de cada card */
 .servico h3 {
-    font-size: 1.2em; /* Tamanho do título */
+    font-size: 1.1em; /* Tamanho do título */
     font-weight: 700; /* Negrito */
     text-transform: uppercase; /* Maiúsculas */
     margin-bottom: 15px; /* Espaço abaixo do título */
@@ -332,39 +332,115 @@ section {
     font-size: 0.95em; /* Tamanho do texto */
     color: #343a40; /* Cor do texto */
     line-height: 1.5; /* Espaço entre linhas */
+    padding-bottom: 15px; /* Espaço abaixo do texto */
 }
 
 
+/* Secção Vantagens */
+#vantagens {
+    padding-top: 100px; /* Margem superior antes do container */
+    padding-bottom: 90px; /* Espaço depois do container */
+    background-color: white; /* Cor de fundo branca */
+}
+
+/* Container principal da secção Vantagens */
+.vantagens-container {
+    background-color: #dce8e9; /* Cor de fundo*/
+    max-width: 1500px; /* Largura máxima igual às outras secções */
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 80px 80px; /* Espaçamento interno */
+    text-align: center; /* Centraliza o conteúdo */
+    display: flex; /* Organiza os elementos em linha */
+    flex-wrap: wrap; /* Permite que os elementos passem para a linha seguinte em ecrãs menores */
+    justify-content: center; /* Centraliza os elementos horizontalmente */
+    gap: 40px; /* Espaço entre os cards */
+}
+
+/* Título da secção Vantagens */
+.vantagens-container h2 {
+    width: 100%; /* Ocupa toda a largura para ficar acima dos cards */
+    font-size: 2em; /* Tamanho do título */
+    font-weight: 500; /* Espessura do título */
+    color: #0096a6; /* Cor do título */
+    margin-bottom: 60px; /* Espaço abaixo do título */
+    text-transform: uppercase; /* Maiúsculas */
+}
+
+/* Estilo individual de cada card */
+.vantagem {
+    width: 280px; /* Largura de cada card */
+    text-align: center; /* Centraliza o conteúdo */
+}
+
+/* Círculo do ícone */
+.vantagem-icone {
+    width: 100px; /* Largura do círculo */
+    height: 100px; /* Altura do círculo */
+    border-radius: 50%; /* Transforma em círculo */
+    border: 2px solid rgba(135, 124, 124, 0.6); /* Linha cinza em volta do círculo */
+    display: flex; /* Centra o ícone dentro do círculo */
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    margin: 0 auto 40px; /* Centra o círculo e adiciona espaço abaixo */
+}
+
+/* Estilo para os ícones Font Awesome */
+.vantagem-icone i {
+    color: rgb(95, 87, 87); /* Cor do ícone */
+}
+
+/* Título de cada vantagem */
+.vantagem h3 {
+    font-size: 1em; /* Tamanho do título */
+    font-weight: 700; /* Negrito */
+    text-transform: uppercase; /* Maiúsculas */
+    margin-bottom: 25px; /* Espaço abaixo do título */
+    color: #0096a6; /* Cor do título */
+}
+
+/* Texto de cada vantagem */
+.vantagem p {
+    font-size: 0.95em; /* Tamanho do texto */
+    color: rgba(42, 37, 37, 0.883); /* cor do texto */
+    line-height: 1.5; /* Espaço entre linhas */
+}
 
 
-
-
-
-
-
-
-
-
-/* Texto Genérico - Funcionalidades em duas colunas */
+/*Secção Funcionalidades*/
+#funcionalidades {
+    background-color: #ffffff; /* Cor de fundo da secção */
+}
 .container-funcionalidades {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 60px 40px;
+    padding: 80px 40px;
     gap: 40px;
     min-height: 80vh; /* Garante uma altura mínima para a seção, mesmo com pouco conteúdo */
 }
 .container-funcionalidades h2 {
-    width: 100%; /* O título ocupa toda a largura para ficar centralizado acima das colunas */
+    width: 100%; /* O título ocupa toda a largura para ficar centrado acima das colunas */
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-size: 2em;
+    font-weight: 500;
+    color: #0096a6;
 }
 
 .container-funcionalidades article {
     width: 45%; /* Cada artigo ocupa 45% da largura, permitindo 2 colunas com espaço entre elas */
     text-align: justify; /* Justifica o texto */
+    font-size: 1.0em; /* Mesmo tamanho que o texto das outras secções */
+    line-height: 1.5; /* Mesmo espaço entre linhas que as outras secções */
 }
 
+/* Estilo para o ícone de cada funcionalidade */
+.container-funcionalidades p i {
+    color: #0096a6; /* Cor do ícone */
+    margin-right: 5px; /* Espaço entre o ícone e o texto */
+}
+
+/*Estilo para subtitulo a negrito dentro dos artigos*/
 .container-funcionalidades p strong {
     color: #343a40;
 }
