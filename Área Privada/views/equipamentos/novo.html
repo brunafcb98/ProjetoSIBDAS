@@ -46,12 +46,134 @@
 </aside> 
 
 <!-- Conteúdo Principal --> 
-<main class="content"> 
-    <section> 
-        <h2>Equipamentos</h2> 
-        <p>Gerir equipamentos da instituição.</p> 
-    </section> 
-</main> 
+<div class="form-wrapper">
+    <h2><strong><i class="fa-solid fa-stethoscope"></i> Inserir novo equipamento</strong></h2>
+    <hr>
+    <br>
+
+    <form action="#" method="post" novalidate>
+
+        <!-- Identificação do equipamento -->
+        <div class="form-group">
+            <label for="texto_codigo">Código Interno de Inventário</label>
+            <input type="text" name="codigo_equipamento" id="texto_codigo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_designacao">Designação do Equipamento</label>
+            <input type="text" name="designacao_equipamento" id="texto_designacao" required>
+        </div>
+
+        <div class="form-group">
+            <label for="select_categoria">Categoria</label>
+            <select name="categoria_equipamento" id="select_categoria">
+                <option selected>Escolha uma opção</option>
+                <option value="monitorizacao">Monitorização</option>
+                <option value="suporte_vida">Suporte de Vida</option>
+                <option value="terapia">Terapia</option>
+                <option value="diagnostico">Diagnóstico</option>
+                <option value="laboratorio">Laboratório</option>
+                <option value="esterilizacao">Esterilização</option>
+                <option value="reabilitacao">Reabilitação</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_marca">Marca</label>
+            <input type="text" name="marca_equipamento" id="texto_marca" required>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_modelo">Modelo</label>
+            <input type="text" name="modelo_equipamento" id="texto_modelo" required>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_nserie">Número de Série</label>
+            <input type="text" name="nserie_equipamento" id="texto_nserie" required>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_fabricante">Fabricante</label>
+            <input type="text" name="fabricante_equipamento" id="texto_fabricante" list="fabricantes">
+            <datalist id="fabricantes">
+                <option value="Philips">
+                <option value="B. Braun">
+                <option value="Siemens">
+                <option value="Dräger">
+                <option value="Medtronic">
+                <option value="Baxter">
+            </datalist>
+        </div>
+
+        <!-- Datas e aquisição -->
+        <div class="form-group">
+            <label for="texto_dataquisicao">Data de Aquisição</label>
+            <input type="text" name="dataquisicao_equipamento" id="texto_dataquisicao" required>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_anofabrico">Ano de Fabrico</label>
+            <input type="text" name="anofabrico_equipamento" id="texto_anofabrico">
+        </div>
+
+        <div class="form-group">
+            <label for="texto_custo">Custo de Aquisição <small>(€)</small></label>
+            <input type="text" name="custo_equipamento" id="texto_custo">
+        </div>
+
+        <div class="form-group">
+            <label for="select_tipoentrada">Tipo de Entrada</label>
+            <select name="tipoentrada_equipamento" id="select_tipoentrada">
+                <option selected>Escolha uma opção</option>
+                <option value="compra">Compra</option>
+                <option value="doacao">Doação</option>
+                <option value="aluguer">Aluguer</option>
+                <option value="emprestimo">Empréstimo</option>
+            </select>
+        </div>
+
+        <!-- Estado e criticidade -->
+        <div class="form-group">
+            <label for="select_estado">Estado</label>
+            <select name="estado_equipamento" id="select_estado">
+                <option selected>Escolha uma opção</option>
+                <option value="ativo">Ativo</option>
+                <option value="manutencao">Em Manutenção</option>
+                <option value="inativo">Inativo</option>
+                <option value="calibracao">Em Calibração</option>
+                <option value="quarentena">Em Quarentena</option>
+                <option value="abatido">Abatido</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="select_criticidade">Criticidade</label>
+            <select name="criticidade_equipamento" id="select_criticidade">
+                <option selected>Escolha uma opção</option>
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+                <option value="suporte_vida">Suporte de Vida</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_observacoes">Observações</label>
+            <input type="text" name="observacoes_equipamento" id="texto_observacoes">
+        </div>
+
+        <!-- Botões -->
+        <div class="form-buttons">
+            <a href="equipamentos.html"><i class="fa-solid fa-xmark"></i> Cancelar</a>
+            <button type="submit"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
+        </div>
+        <!-- Mensagem de erro -->
+        <div class="alert text-center">
+            Erro simples
+        </div>
+    </form>
+</div>
 
 
 </body>
