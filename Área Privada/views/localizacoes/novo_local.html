@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquipFlow | Clinical Systems</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../../assets/images/icone1.png" type="image/png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!--Font Awesome (local)-->
+    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
+
+    <!-- CSS - estilos da pagina -->
+    <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
+</head>
+<body>
+<!-- Navbar --> 
+<header class="bng-navbar">
+    <!-- Logo e nome da empresa -->
+   <div>
+        <a href="../../dashboard.html">
+            <img src="../../../assets/images/Logo1.png" alt="Logo da empresa">
+        </a>
+        <!--<h3>EquipFlow | Clinical Systems</h3>-->
+    </div>
+    <div>
+        <button>Utilizador</button>
+    </div>
+</header>
+
+<!-- Sidebar --> 
+<aside class="sidebar"> 
+    <h4>Menu</h4> 
+    <nav> 
+        <a href="../../dashboard.html"><i class="fas fa-home"></i> &ensp; Dashboard</a> 
+        <a href="../equipamentos/equipamentos.html"><i class="fas fa-stethoscope"></i> &ensp; Equipamentos</a> 
+        <a href="localizacoes.html"><i class="fas fa-map-marker-alt"></i> &ensp; Localizações</a> 
+        <a href="../fornecedores/fornecedores.html"><i class="fas fa-truck"></i> &ensp; Fornecedores</a> 
+    </nav> 
+</aside> 
+
+<!-- Conteúdo Principal --> 
+<div class="form-wrapper">
+    <h2><strong><i class="fa-solid fa-map-marker-alt"></i> Inserir nova localização</strong></h2>
+    <hr>
+    <br>
+
+    <form action="#" method="post" novalidate>
+
+        <div class="form-group">
+            <label for="texto_edificio">Edifício</label>
+            <input type="text" name="edificio_localizacao" id="texto_edificio" list="edificios" required>
+            <datalist id="edificios">
+                <option value="Edifício Principal">
+                <option value="Edifício A">
+                <option value="Edifício B">
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_piso">Piso</label>
+            <input type="text" name="piso_localizacao" id="texto_piso" list="pisos" required>
+            <datalist id="pisos">
+                <option value="Piso 0">
+                <option value="Piso 1">
+                <option value="Piso 2">
+                <option value="Piso 3">
+                <option value="Piso 4">
+                <option value="Piso 5">
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_servico">Serviço</label>
+            <input type="text" name="servico_localizacao" id="texto_servico" list="servicos" required>
+            <datalist id="servicos">
+                <option value="Unidade de Cuidados Intensivos">
+                <option value="Unidade de Cuidados Intermédios">
+                <option value="Urgência">
+                <option value="Serviço de Medicina">
+                <option value="Serviço de Cirurgia">
+                <option value="Pediatria">
+                <option value="Bloco Operatório">
+                <option value="Imagiologia">
+                <option value="Gastroenterologia">
+                <option value="Laboratório">
+                <option value="Farmácia">
+                <option value="Administração">
+
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label for="texto_sala">Internamento / Sala / Gabinete</label>
+            <input type="text" name="sala_localizacao" id="texto_sala">
+        </div>
+
+        <!-- Botões -->
+        <div class="form-buttons text-center">
+            <a href="localizacoes.html"><i class="fa-solid fa-xmark"></i> Cancelar</a>
+            <button type="submit"><i class="fa-regular fa-floppy-disk"></i> Guardar</button>
+        </div>
+
+        <div class="alert text-center">
+            Erro simples
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

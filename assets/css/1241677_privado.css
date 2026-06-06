@@ -83,7 +83,7 @@ section {
     padding: 10px 70px;          /* Espaçamento interno para melhor leitura */ 
 }
 
-/* Estilos Equipamentos - lista */
+/* Estilos Equipamentos, Localizações e Fornecedores */
 /* Define o estilo geral da tabela */ 
 table { 
     width: 100%;                      /* Ocupa toda a largura do contêiner */ 
@@ -141,7 +141,7 @@ td span {
 } 
 
 /* Estilização dos Botões Superiores */ 
-/* Contentor superior que contém o título e o botão de novo cliente */ 
+/* Contentor superior que contém o título e o botão de novo */ 
 .actions-top { 
     display: flex;                    /* Utiliza o layout flexível */ 
     justify-content: space-between;   /* Distribui os elementos aos extremos */ 
@@ -156,7 +156,7 @@ td span {
     color: #0096a6; /* Cor do título */ 
 } 
  
-/* Estilização do link (botão) de novo cliente */ 
+/* Estilização do link (botão) de novo */ 
 .actions-top a { 
     display: inline-block;            /* Exibe como bloco em linha */ 
     padding: 8px 12px;                /* Espaçamento interno para o botão */ 
@@ -168,12 +168,12 @@ td span {
     transition: background 0.3s;      /* Transição suave para mudança de fundo */ 
 } 
  
-/* Efeito hover para o botão de novo cliente */ 
+/* Efeito hover para o botão de novo */ 
 .actions-top a:hover { 
     background-color: #8a9aa9;        /* Fundo mais claro ao passar o rato */ 
 }
 
-/* Estilos Formulário - novo */
+/* Estilos Formulário */
 /* Contém todo o formulário com largura fixa, centrado e com aspeto de caixa */ 
 .form-wrapper { 
     width: 700px;                /* Largura do formulário */ 
