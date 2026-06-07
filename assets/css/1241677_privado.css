@@ -321,3 +321,41 @@ td span {
 .me-2 {
     margin-right: 0.5rem;
 }
+
+/* Cards do dashboard */
+.home-wrapper {
+    max-width: 1000px;              /* Largura máxima da área */
+    margin: 30px auto;              /* Margem superior/inferior e centralização */
+    text-align: center;             /* Centraliza o conteúdo */
+    padding-left: 210px;           /* Compensa a largura da sidebar */
+}
+
+.home-row {
+    display: flex;                  /* Layout flexível */
+    justify-content: center;        /* Centraliza os cards */
+    gap: 30px;                      /* Espaço entre os cards */
+    margin-bottom: 30px;            /* Espaço entre linhas */
+}
+
+.home-option {
+    background-color: #dce8e9;      /* Fundo teal claro */
+    width: 200px;                   /* Largura do card */
+    height: 120px;                  /* Altura do card */
+    border-radius: 10px;            /* Cantos arredondados */
+    padding: 20px;                  /* Espaçamento interno */
+    transition: background-color 0.3s; /* Transição suave */
+    display: flex;                      /* Layout flexível dentro do card */
+    flex-direction: column;             /* Organiza em coluna */
+    justify-content: center;            /* Centra verticalmente */
+    align-items: center;                /* Centra horizontalmente */
+}
+
+.home-option:hover {
+    background-color: #0096a6;      /* Fundo teal escuro ao passar o rato */
+    color: #fff;                    /* Texto branco no hover */
+}
+
+.home-option h3 {
+    margin-bottom: 10px;            /* Espaço abaixo do ícone e número */
+    font-size: 1.3em;               /* Tamanho do texto */
+}
