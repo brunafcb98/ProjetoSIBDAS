@@ -31,94 +31,79 @@ main h2 {
 }
 
 /* Estilos Equipamentos, Localizações e Fornecedores */
-/* Define o estilo geral da tabela */ 
-table { 
-    width: 100%;                      /* Ocupa toda a largura do contêiner */ 
-    border-collapse: collapse;        /* Elimina espaços entre as células */ 
-    margin-top: 20px;                 /* Espaço acima da tabela */ 
-    background-color: #fff;           /* Fundo branco para a tabela */ 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil para dar profundidade */ 
-} 
-
-/* Estilização do cabeçalho da tabela */ 
-thead { 
-    background-color: #0096a6;        /* Fundo azul para o cabeçalho */ 
-    color: #ffffff;                   /* Cor do texto em branco */ 
-    text-align: left;                 /* Alinha o texto à esquerda */ 
-} 
- 
-/* Define o espaçamento e estilo dos cabeçalhos de coluna */ 
-thead th { 
-    padding: 14px;                    /* Espaçamento interno em cada célula do cabeçalho */ 
-    font-size: 14px;                  /* Tamanho da fonte */ 
-    text-transform: capitalize;       /* Transforma o texto para iniciar com letra maiúscula */ 
-    letter-spacing: 0.05em;           /* Espaçamento entre letras */ 
-} 
-
-/* Estilização do corpo da tabela (células de dados) */ 
-tbody td { 
-    padding: 10px 14px;               /* Espaçamento interno nas células */ 
-    border-bottom: 1px solid #dce8e9;  /* Linha inferior para separar as linhas */ 
-    font-size: 14px;                  /* Tamanho da fonte para os dados */ 
-    color: #343a40;                   /* Cor do texto em tom escuro */ 
-} 
- 
-/* Efeito de hover nas linhas da tabela */ 
-tbody tr:hover { 
-    background-color: #dce8e9;        /* Fundo levemente cinza ao passar o rato sobre uma linha 
-*/ 
-} 
-
-/* Estilização dos links dentro das células da tabela */ 
-td a { 
-    color: #0096a6;                   /* Cor azul para os links */ 
-    text-decoration: none;            /* Remove sublinhado padrão */ 
-    font-weight: bold;                /* Aplica negrito aos links */ 
-} 
- 
-/* Efeito hover nos links da tabela */ 
-td a:hover { 
-    text-decoration: underline;       /* Sublinha o link ao passar o rato */ 
-} 
- 
-/* Estilização dos separadores (span) dentro das células */ 
-td span { 
-    color: #6c757d;                   /* Cor em tom de cinza para os separadores */ 
-    margin: 0 5px;                    /* Espaço à esquerda e direita dos separadores */ 
-} 
-
-/* Estilização dos Botões Superiores */ 
-/* Contentor superior que contém o título e o botão de novo */ 
-.actions-top { 
-    display: flex;                    /* Utiliza o layout flexível */ 
-    justify-content: space-between;   /* Distribui os elementos aos extremos */ 
-    align-items: center;              /* Alinha os elementos verticalmente */ 
-    margin-bottom: 10px;              /* Espaço abaixo do container */ 
-} 
- 
-/* Estilização do título na seção de ações */ 
-.actions-top h2 { 
-    font-size: 1.8em; /* Tamanho do título */
-    font-weight: 500; /* Espessura do título */
-    color: #0096a6; /* Cor do título */ 
-} 
- 
-/* Estilização do link (botão) de novo */ 
-.actions-top a { 
-    display: inline-block;            /* Exibe como bloco em linha */ 
-    padding: 8px 12px;                /* Espaçamento interno para o botão */ 
-    background-color: #565c62;        /* Fundo escuro para o botão */ 
-    color: #fff;                      /* Texto em branco */ 
-    border-radius: 5px;               /* Bordas arredondadas */ 
-    text-decoration: none;            /* Sem sublinhado */ 
-    font-size: 14px;                  /* Tamanho da fonte */ 
-    transition: background 0.3s;      /* Transição suave para mudança de fundo */ 
-} 
- 
-/* Efeito hover para o botão de novo */ 
-.actions-top a:hover { 
-    background-color: #8a9aa9;        /* Fundo mais claro ao passar o rato */ 
+/* Define o estilo geral da tabela */
+table {
+    width: 100%;                            /* Ocupa toda a largura do contêiner */
+    border-collapse: collapse;              /* Elimina espaços entre as células */
+    margin-top: 20px;                       /* Espaço acima da tabela */
+    background-color: #fff;                 /* Fundo branco para a tabela */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil para dar profundidade */
 }
+
+/* Estilização do cabeçalho da tabela */
+thead {
+    background-color: #0096a6 !important;   /* Fundo teal para o cabeçalho */
+    color: #ffffff;                         /* Cor do texto em branco */
+    text-align: left;                       /* Alinha o texto à esquerda */
+}
+
+/* Define o espaçamento e estilo dos cabeçalhos de coluna */
+thead th {
+    padding: 14px;                          /* Espaçamento interno em cada célula do cabeçalho */
+    font-size: 14px;                        /* Tamanho da fonte */
+    text-transform: capitalize;             /* Transforma o texto para iniciar com letra maiúscula */
+    letter-spacing: 0.05em;                 /* Espaçamento entre letras */
+    background-color: #0096a6 !important;   /* Garante cor teal em cada célula */
+    color: #ffffff !important;              /* Garante texto branco */
+}
+
+/* Estilização do corpo da tabela (células de dados) */
+tbody td {
+    padding: 10px 14px;                     /* Espaçamento interno nas células */
+    border-bottom: 1px solid #dce8e9;       /* Linha inferior para separar as linhas */
+    font-size: 14px;                        /* Tamanho da fonte para os dados */
+    color: #343a40;                         /* Cor do texto em tom escuro */
+}
+
+/* Efeito de hover nas linhas da tabela */
+tbody tr:hover {
+    background-color: #dce8e9;              /* Fundo teal claro ao passar o rato */
+}
+
+/* Estilização dos links dentro das células da tabela */
+td a {
+    color: #0096a6;                         /* Cor teal para os links */
+    text-decoration: none;                  /* Remove sublinhado padrão */
+    font-weight: bold;                      /* Aplica negrito aos links */
+}
+
+/* Efeito hover nos links da tabela */
+td a:hover {
+    text-decoration: underline;             /* Sublinha o link ao passar o rato */
+}
+
+/* Estilização dos separadores (span) dentro das células */
+td span {
+    color: #6c757d;                         /* Cor em tom de cinza para os separadores */
+    margin: 0 5px;                          /* Espaço à esquerda e direita dos separadores */
+}
+
+/* Título das páginas */
+.col-md-9 h2, .col-lg-10 h2 {
+    color: #0096a6;                         /* Cor para os títulos */
+}
+
+/* Botão Adicionar Novo - equipamentos, fornecedores, localizações */
+.btn-success {
+    background-color: #0096a6 !important;
+    border-color: #0096a6 !important;
+}
+
+.btn-success:hover {
+    background-color: #007a87 !important;
+    border-color: #007a87 !important;
+}
+
 
 /* Estilos Formulário */
 /* Contém todo o formulário com largura fixa, centrado e com aspeto de caixa */ 
