@@ -256,13 +256,16 @@ td span {
 
 /* Cards do dashboard após bootstrap */
 .card {
-    background-color: #dce8e9;
     border: none;
     border-radius: 10px;
     transition: background-color 0.3s;
 }
 
-.card:hover {
+.home-card {
+    background-color: #dce8e9;      /* Fundo claro apenas nos cards do dashboard */
+}
+
+.home-card:hover {
     background-color: #0096a6;
     color: #fff;
 }
