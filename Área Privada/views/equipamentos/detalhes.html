@@ -16,106 +16,164 @@
     <!--Font Awesome (local)-->
     <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
+
     <!-- CSS - estilos da pagina -->
     <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
 </head>
 <body>
-<!-- Navbar --> 
-<header class="bng-navbar">
-    <!-- Logo e nome da empresa -->
-    <div>
-        <a href="../../dashboard.html">
-            <img src="../../../assets/images/Logo1.png" alt="Logo da empresa">
-        </a>
-        <!--<h3>EquipFlow | Clinical Systems</h3>-->
-    </div>
-    <div>
-        <button>Utilizador</button>
+
+<!-- Navbar -->
+<header class="container-fluid bg-dark text-white">
+    <div class="row align-items-center">
+        <div class="col-6 d-flex align-items-center p-3">
+            <a href="../../dashboard.html">
+                <img src="../../../assets/images/Logo1.png" alt="Logo da empresa" height="80" class="me-3">
+            </a>
+        </div>
+        <div class="col-6 text-end p-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-regular fa-user me-2"></i> Utilizador
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </header>
 
-<!-- Sidebar --> 
-<aside class="sidebar"> 
-    <h4>Menu</h4> 
-    <nav> 
-        <a href="../../dashboard.html"><i class="fas fa-home"></i> &ensp; Dashboard</a> 
-        <a href="equipamentos.html"><i class="fas fa-stethoscope"></i> &ensp; Equipamentos</a> 
-        <a href="../localizacoes/localizacoes.html"><i class="fas fa-map-marker-alt"></i> &ensp; Localizações</a> 
-        <a href="../fornecedores/fornecedores.html"><i class="fas fa-truck"></i> &ensp; Fornecedores</a> 
-    </nav> 
-</aside> 
+<div class="container-fluid">
+    <div class="row">
 
-<!-- Conteúdo Principal --> 
-<div class="form-wrapper">
-    <h2><strong><i class="fa-solid fa-stethoscope"></i> Detalhes do Equipamento</strong></h2>
-    <hr>
-    <br>
-    <div class="form-group">
-        <label>Código Interno de Inventário</label>
-        <div class="form-control-static">EQ-2022-001</div>
-    </div>
-    <div class="form-group">
-        <label>Designação do Equipamento</label>
-        <div class="form-control-static">Monitor Multiparamétrico</div>
-    </div>
-    <div class="form-group">
-        <label>Categoria</label>
-        <div class="form-control-static">Monitorização</div>
-    </div>
-    <div class="form-group">
-        <label>Marca</label>
-        <div class="form-control-static">Philips</div>
-    </div>
-    <div class="form-group">
-        <label>Modelo</label>
-        <div class="form-control-static">IntelliVue MP5</div>
-    </div>
-    <div class="form-group">
-        <label>Número de Série</label>
-        <div class="form-control-static">MP5-2022-45873</div>
-    </div>
-    <div class="form-group">
-        <label>Fabricante</label>
-        <div class="form-control-static">Philips</div>
-    </div>
-    <div class="form-group">
-        <label>Data de Aquisição</label>
-        <div class="form-control-static">2022-03-15</div>
-    </div>
-    <div class="form-group">
-        <label>Ano de Fabrico</label>
-        <div class="form-control-static">2022</div>
-    </div>
-    <div class="form-group">
-        <label>Custo de Aquisição</label>
-        <div class="form-control-static">12 500 €</div>
-    </div>
-    <div class="form-group">
-        <label>Tipo de Entrada</label>
-        <div class="form-control-static">Compra</div>
-    </div>
-    <div class="form-group">
-        <label>Estado</label>
-        <div class="form-control-static">Ativo</div>
-    </div>
-    <div class="form-group">
-        <label>Criticidade</label>
-        <div class="form-control-static">Suporte de Vida</div>
-    </div>
-    <div class="form-group">
-        <label>Localização</label>
-        <div class="form-control-static">[Localização 1]</div>
-    </div>
-    <div class="form-group">
-        <label>Observações</label>
-        <div class="form-control-static">Equipamento em bom estado de funcionamento.</div>
-    </div>
+        <!-- Sidebar -->
+        <aside class="col-md-3 col-lg-2 bg-secondary text-white p-3 min-vh-100">
+            <h4>Menu</h4>
+            <nav>
+                <a href="../../dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+                <a href="equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-stethoscope me-2"></i> Equipamentos
+                </a>
+                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-map-marker-alt me-2"></i> Localizações
+                </a>
+                <a href="../fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-truck me-2"></i> Fornecedores
+                </a>
+            </nav>
+        </aside>
 
-    <div class="form-buttons">
-        <a href="equipamentos.html"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+        <!-- Conteúdo Principal -->
+        <main class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-center mt-4">
+                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                    <div class="card-body">
+                        <h2 class="mb-4">
+                            <strong><i class="fa-solid fa-stethoscope me-2"></i> Detalhes do Equipamento</strong>
+                        </h2>
+                        <hr>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Código Interno de Inventário</label>
+                            <p class="form-control-plaintext">EQ-2022-001</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Designação do Equipamento</label>
+                            <p class="form-control-plaintext">Monitor Multiparamétrico</p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Categoria</label>
+                                <p class="form-control-plaintext">Monitorização</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Marca</label>
+                                <p class="form-control-plaintext">Philips</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Modelo</label>
+                                <p class="form-control-plaintext">IntelliVue MP5</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Número de Série</label>
+                                <p class="form-control-plaintext">MP5-2022-45873</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Fabricante</label>
+                                <p class="form-control-plaintext">Philips</p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Data de Aquisição</label>
+                                <p class="form-control-plaintext">2022-03-15</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Ano de Fabrico</label>
+                                <p class="form-control-plaintext">2022</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Custo de Aquisição</label>
+                                <p class="form-control-plaintext">12 500 €</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Tipo de Entrada</label>
+                                <p class="form-control-plaintext">Compra</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Estado</label>
+                                <p class="form-control-plaintext">Ativo</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Criticidade</label>
+                                <p class="form-control-plaintext">Suporte de Vida</p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Localização</label>
+                                <p class="form-control-plaintext">[Localização 1]</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Observações</label>
+                            <p class="form-control-plaintext">Equipamento em bom estado de funcionamento.</p>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <a href="equipamentos.html" class="btn btn-outline-secondary">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Voltar
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
     </div>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
