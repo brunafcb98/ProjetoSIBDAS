@@ -16,79 +16,123 @@
     <!--Font Awesome (local)-->
     <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+
     <!-- CSS - estilos da pagina -->
     <link rel="stylesheet" href="../assets/css/1241677_privado.css">
 </head>
 <body>
 <!-- Navbar --> 
-<header class="bng-navbar">
+<header class="container-fluid bg-dark text-white">
     <!-- Logo e nome da empresa -->
-    <div>
-        <a href="dashboard.html">
-            <img src="../assets/images/Logo1.png" alt="Logo da empresa">
-        </a>
-        <!--<h3>EquipFlow | Clinical Systems</h3>-->
-    </div>
-    <div>
-        <button>Utilizador</button>
-    </div>
+    <div class="row align-items-center" >
+        <div class="col-6 d-flex align-items-center p-3">
+            <a href="dashboard.html">
+                <img src="../assets/images/Logo1.png" alt="Logo da empresa" height="80"class="me-3">
+            </a>
+            <!--<h3 class="mb-0">EquipFlow | Clinical Systems</h3>-->
+        </div>
+        <div class="col-6 text-end p-3">
+            <div class="dropdown"> 
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> 
+                    <i class="fa-regular fa-user me-2"></i> Utilizador 
+                </button> 
+                <ul class="dropdown-menu dropdown-menu-end"> 
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a> 
+                    </li> 
+                    <li> 
+                        <hr class="dropdown-divider"> 
+                    </li> 
+                    <li><a class="dropdown-item" href="../Área Privada/login/login.html"><i 
+                                class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li> 
+                </ul> 
+            </div> 
+        </div>
 </header>
 
-<!-- Sidebar --> 
-<aside class="sidebar"> 
-    <h4>Menu</h4> 
-    <nav> 
-        <a href="dashboard.html"><i class="fas fa-home"></i> &ensp; Dashboard</a> 
-        <a href="views/equipamentos/equipamentos.html"><i class="fas fa-stethoscope"></i> &ensp; Equipamentos</a>
-        <a href="views/localizacoes/localizacoes.html"><i class="fas fa-map-marker-alt"></i> &ensp; Localizações</a> 
-        <a href="views/fornecedores/fornecedores.html"><i class="fas fa-truck"></i> &ensp; Fornecedores</a> 
-    </nav> 
-</aside> 
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <aside class="col-md-3 col-lg-2 bg-secondary text-white p-3 min-vh-100">
+            <h4>Menu</h4>
+            <nav>
+                <a href="dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="views/equipamentos/equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-stethoscope"></i> Equipamentos
+                </a>
+                <a href="views/localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-map-marker-alt"></i> Localizações
+                </a>
+                <a href="views/fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-truck"></i> Fornecedores
+                </a>
+            </nav>
+        </aside>
 
-<!-- Conteúdo Principal --> 
-<main class="content"> 
-    <section> 
-        <div class="actions-top">
-            <h2><strong><i class="fa-solid fa-house"></i> Dashboard</strong></h2>
-        </div>
-    </section> 
-</main> 
+        <!-- Conteúdo Principal -->
+        <main class="col-md-9 col-lg-10 p-4">
+            <section>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="mb-0"><strong><i class="fa-solid fa-house"></i> Dashboard</strong></h2>
+                </div>
+                <hr>
+            </section>
 
-<div class="home-wrapper">
+            <!-- Linha 1 -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-stethoscope"></i> <span id="total">0</span></h3>
+                        <p>Total de Equipamentos</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-circle-check"></i> <span id="ativos">0</span></h3>
+                        <p>Ativos</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-wrench"></i> <span id="manutencao">0</span></h3>
+                        <p>Em Manutenção</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-circle-xmark"></i> <span id="inativos">0</span></h3>
+                        <p>Inativos</p>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Linha 1 -->
-    <div class="home-row">
-        <div class="home-option">
-            <h3><i class="fa-solid fa-stethoscope"></i> <span id="total">0</span></h3>
-            <p>Total de Equipamentos</p>
-        </div>
-        <div class="home-option">
-            <h3><i class="fa-solid fa-circle-check"></i> <span id="ativos">0</span></h3>
-            <p>Ativos</p>
-        </div>
-        <div class="home-option">
-            <h3><i class="fa-solid fa-wrench"></i> <span id="manutencao">0</span></h3>
-            <p>Em Manutenção</p>
-        </div>
-        <div class="home-option">
-            <h3><i class="fa-solid fa-circle-xmark"></i> <span id="inativos">0</span></h3>
-            <p>Inativos</p>
-        </div>
+            <!-- Linha 2 -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> <span id="criticos">0</span></h3>
+                        <p>Criticidade Elevada</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3">
+                        <h3><i class="fa-solid fa-heart-pulse"></i> <span id="suporte">0</span></h3>
+                        <p>Suporte de Vida</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
     </div>
-
-    <!-- Linha 2 -->
-    <div class="home-row">
-        <div class="home-option">
-            <h3><i class="fa-solid fa-triangle-exclamation"></i> <span id="criticos">0</span></h3>
-            <p>Criticidade Elevada</p>
-        </div>
-        <div class="home-option">
-            <h3><i class="fa-solid fa-heart-pulse"></i> <span id="suporte">0</span></h3>
-            <p>Suporte de Vida</p>
-        </div>
-    </div>
-
 </div>
+
+
+<!-- Bootstrap JS -->
+<script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
 <script src="../assets/js/1241677.js"></script>
 
