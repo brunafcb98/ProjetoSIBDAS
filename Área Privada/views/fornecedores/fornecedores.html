@@ -11,83 +11,120 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!--Font Awesome (local)-->
     <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
 
     <!-- CSS - estilos da pagina -->
     <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
 </head>
 <body>
 <!-- Navbar --> 
-<header class="bng-navbar">
-    <!-- Logo e nome da empresa -->
-    <div>
-        <a href="../../dashboard.html">
-            <img src="../../../assets/images/Logo1.png" alt="Logo da empresa">
-        </a>
-        <!--<h3>EquipFlow | Clinical Systems</h3>-->
-    </div>
-    <div>
-        <button>Utilizador</button>
+<header class="container-fluid text-dark">
+    <div class="row align-items-center">
+        <div class="col-6 d-flex align-items-center p-3">
+            <a href="../../dashboard.html">
+                <img src="../../../assets/images/Logo1.png" alt="Logo da empresa" height="80" class="me-3">
+            </a>
+            <!--<h3>EquipFlow | Clinical Systems</h3>-->
+        </div>
+        <div class="col-6 text-end p-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-regular fa-user me-2"></i> Utilizador
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </header>
 
-<!-- Sidebar --> 
-<aside class="sidebar"> 
-    <h4>Menu</h4> 
-    <nav> 
-        <a href="../../dashboard.html"><i class="fas fa-home"></i> &ensp; Dashboard</a> 
-        <a href="../equipamentos/equipamentos.html"><i class="fas fa-stethoscope"></i> &ensp; Equipamentos</a> 
-        <a href="../localizacoes/localizacoes.html"><i class="fas fa-map-marker-alt"></i> &ensp; Localizações</a> 
-        <a href="fornecedores.html"><i class="fas fa-truck"></i> &ensp; Fornecedores</a> 
-    </nav> 
-</aside> 
+<div class="container-fluid">
+    <div class="row">
 
-<!-- Conteúdo Principal --> 
-<div class="content">
-    <div class="actions-top">
-        <h2><strong><i class="fa-solid fa-truck"></i> Listagem de Fornecedores</strong></h2>
-        <a href="novo_f.html"><i class="fa-solid fa-plus me-2"></i> Novo fornecedor</a>
+        <!-- Sidebar --> 
+        <aside class="col-md-3 col-lg-2 text-white p-3 min-vh-100"> 
+            <h4>Menu</h4> 
+            <nav>
+                <a href="../../dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+                <a href="../equipamentos/equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-stethoscope me-2"></i> Equipamentos
+                </a>
+                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-map-marker-alt me-2"></i> Localizações
+                </a>
+                <a href="fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-truck me-2"></i> Fornecedores
+                </a>
+            </nav>
+        </aside> 
+
+        <!-- Conteúdo Principal --> 
+        <div class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">
+                    <i class="fa-solid fa-truck me-2"></i> 
+                    <strong>Listagem de Fornecedores</strong>
+                </h2>
+                <a href="novo_f.html" class="btn btn-success">
+                    <i class="fa-solid fa-plus me-1"></i> Novo fornecedor
+                </a>
+            </div>
+            <hr>
+            <p class="text-muted">Não existem fornecedores registados.</p>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Contacto</th>
+                            <th>Email</th>
+                            <th>Pessoa de Contacto</th>
+                            <th>Telefone</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[nome_empresa]</td>
+                            <td>[tipo_fornecedor]</td>
+                            <td>[contacto]</td>
+                            <td>[email]</td>
+                            <td>[pessoa_contacto]</td>
+                            <td>[nº_pessoa_contacto]</td>
+                            <td class="text-center">
+                                <a href="detalhes_f.html" class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a href="editar_f.html" class="btn btn-sm btn-outline-warning me-1">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                                <a href="apagar_f.html" class="btn btn-sm btn-outline-danger">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <br>
-    <hr>
-    <p>Não existem fornecedores registados.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Contacto</th>
-                <th>Email</th>
-                <th>Pessoa de Contacto</th>
-                <th>Telefone</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>[nome_empresa]</td>
-                <td>[tipo_fornecedor]</td>
-                <td>[contacto]</td>
-                <td>[email]</td>
-                <td>[pessoa_contacto]</td>
-                <td>[nº_pessoa_contacto]</td>
-                <td>
-                    <a href="detalhes_f.html"><i class="fa-solid fa-eye me-2"></i> Consultar</a>
-                    <span>|</span>
-                    <a href="editar_f.html"><i class="fa-regular fa-pen-to-square me-2"></i> Editar</a>
-                    <span>|</span>
-                    <a href="apagar_f.html"><i class="fa-solid fa-trash-can me-2"></i> Eliminar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

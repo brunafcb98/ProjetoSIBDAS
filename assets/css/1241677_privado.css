@@ -1,53 +1,40 @@
-/* Seletor universal - aplica-se a todos os elementos da página */ 
-* { 
-    margin: 0;                        /* Remove margens externas padrão */ 
-    padding: 0;                       /* Remove preenchimentos internos padrão */ 
-    box-sizing: border-box;          /* Inclui bordas e preenchimento no cálculo da largura/altura */ 
-    font-family: "Montserrat", Arial, Helvetica, sans-serif; /* Define a fonte principal usada no site */ 
-}
-
-/* Para que a barra de navegação não corte o conteúdo da página*/
-section {
-    scroll-margin-top: 80px; /* altura da navbar - padding+img */
+/* Estilos globais para a Área Privada do EquipFlow */
+* {
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 /* Navbar */
 header.container-fluid {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
     border-bottom: 1px solid #0096a6;
 }
 
 /* Sidebar */
 aside.col-md-3 {
-    background-color: rgba(0, 150, 166, 0.9) !important;
+    background-color: rgba(0, 150, 166, 0.9);
 }
 aside h4 {
     margin-bottom: 20px;
 }
+aside nav a i {
+    width: 20px;
+    text-align: center;
+}
+aside nav a:hover {
+    background-color: rgba(0, 150, 166, 1);
+    border-radius: 5px;
+}
 
-/* Título Dashboard */
-main h2 {
+/* Título Páginas */
+main h2,
+.col-md-9 h2,
+.col-lg-10 h2 {
     color: #0096a6;
 }
 
 /* Estilos Equipamentos, Localizações e Fornecedores */
-/* Define o estilo geral da tabela */
-table {
-    width: 100%;                            /* Ocupa toda a largura do contêiner */
-    border-collapse: collapse;              /* Elimina espaços entre as células */
-    margin-top: 20px;                       /* Espaço acima da tabela */
-    background-color: #fff;                 /* Fundo branco para a tabela */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil para dar profundidade */
-}
-
-/* Estilização do cabeçalho da tabela */
-thead {
-    background-color: #0096a6 !important;   /* Fundo teal para o cabeçalho */
-    color: #ffffff;                         /* Cor do texto em branco */
-    text-align: left;                       /* Alinha o texto à esquerda */
-}
-
-/* Define o espaçamento e estilo dos cabeçalhos de coluna */
+/* Define Tabela */
 thead th {
     padding: 14px;                          /* Espaçamento interno em cada célula do cabeçalho */
     font-size: 14px;                        /* Tamanho da fonte */
@@ -70,40 +57,16 @@ tbody tr:hover {
     background-color: #dce8e9;              /* Fundo teal claro ao passar o rato */
 }
 
-/* Estilização dos links dentro das células da tabela */
-td a {
-    color: #0096a6;                         /* Cor teal para os links */
-    text-decoration: none;                  /* Remove sublinhado padrão */
-    font-weight: bold;                      /* Aplica negrito aos links */
-}
-
-/* Efeito hover nos links da tabela */
-td a:hover {
-    text-decoration: underline;             /* Sublinha o link ao passar o rato */
-}
-
-/* Estilização dos separadores (span) dentro das células */
-td span {
-    color: #6c757d;                         /* Cor em tom de cinza para os separadores */
-    margin: 0 5px;                          /* Espaço à esquerda e direita dos separadores */
-}
-
-/* Título das páginas */
-.col-md-9 h2, .col-lg-10 h2 {
-    color: #0096a6;                         /* Cor para os títulos */
-}
-
 /* Botão Adicionar Novo - equipamentos, fornecedores, localizações */
 .btn-success {
-    background-color: #0096a6 !important;
-    border-color: #0096a6 !important;
+    background-color: #0096a6;
+    border-color: #0096a6;
 }
 
 .btn-success:hover {
-    background-color: #007a87 !important;
-    border-color: #007a87 !important;
+    background-color: #007a87;
+    border-color: #007a87;
 }
-
 
 /* Cards do dashboard após bootstrap */
 .card {
