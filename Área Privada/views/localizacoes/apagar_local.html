@@ -11,59 +11,100 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!--Font Awesome (local)-->
+    <!-- Font Awesome (local) -->
     <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
 
     <!-- CSS - estilos da pagina -->
     <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
 </head>
 <body>
-<!-- Navbar --> 
-<header class="bng-navbar">
-    <!-- Logo e nome da empresa -->
-   <div>
-        <a href="../../dashboard.html">
-            <img src="../../../assets/images/Logo1.png" alt="Logo da empresa">
-        </a>
-        <!--<h3>EquipFlow | Clinical Systems</h3>-->
-    </div>
-    <div>
-        <button>Utilizador</button>
+
+<!-- Navbar -->
+<header class="container-fluid text-dark">
+    <div class="row align-items-center">
+        <div class="col-6 d-flex align-items-center p-3">
+            <a href="../../dashboard.html">
+                <img src="../../../assets/images/Logo1.png" alt="Logo da empresa" height="80" class="me-3">
+            </a>
+        </div>
+        <div class="col-6 text-end p-3">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-regular fa-user me-2"></i> Utilizador
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </header>
 
-<!-- Sidebar --> 
-<aside class="sidebar"> 
-    <h4>Menu</h4> 
-    <nav> 
-        <a href="../../dashboard.html"><i class="fas fa-home"></i> &ensp; Dashboard</a> 
-        <a href="../equipamentos/equipamentos.html"><i class="fas fa-stethoscope"></i> &ensp; Equipamentos</a> 
-        <a href="localizacoes.html"><i class="fas fa-map-marker-alt"></i> &ensp; Localizações</a> 
-        <a href="../fornecedores/fornecedores.html"><i class="fas fa-truck"></i> &ensp; Fornecedores</a> 
-    </nav> 
-</aside> 
+<div class="container-fluid">
+    <div class="row">
 
+        <!-- Sidebar -->
+        <aside class="col-md-3 col-lg-2 text-white p-3 min-vh-100">
+            <h4>Menu</h4>
+            <nav>
+                <a href="../../dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-home me-2"></i> Dashboard
+                </a>
+                <a href="../equipamentos/equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-stethoscope me-2"></i> Equipamentos
+                </a>
+                <a href="localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-map-marker-alt me-2"></i> Localizações
+                </a>
+                <a href="../fornecedores/fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
+                    <i class="fas fa-truck me-2"></i> Fornecedores
+                </a>
+            </nav>
+        </aside>
 
-<!-- Conteúdo Principal -->
-<div class="caixa-apagar">
-    <h1 class="icone-alerta"><i class="fa-solid fa-triangle-exclamation"></i></h1>
-    <p>Deseja eliminar a localização?</p>
-    <h4><strong>Serviço de Medicina</strong></h4>
-    <div class="info-equipamento">
-        <span><i class="fa-solid fa-building me-2"></i>Edifício: <strong>Edifício Principal</strong></span>
-        <span style="display: inline-block; width: 40px;"></span>
-        <span><i class="fa-solid fa-layer-group me-2"></i>Piso: <strong>Piso 3</strong></span>
-        <br><br>
-        <span><i class="fa-solid fa-door-open me-2"></i>Internamento / Sala / Gabinete: <strong>Internamento A</strong></span>
-    </div>
-    <div class="botoes">
-        <a href="localizacoes.html" class="botao-cancelar"><i class="fa-solid fa-xmark me-2"></i>Não</a>
-        <a href="#" class="botao-confirmar"><i class="fa-solid fa-check me-2"></i>Sim</a>
+        <!-- Conteúdo Principal -->
+        <main class="col-md-9 col-lg-10 p-4">
+            <div class="d-flex justify-content-center mt-4">
+                <div class="card w-100 shadow rounded text-center p-4" style="max-width: 700px;">
+
+                    <div class="text-warning display-4 mb-3">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <p class="mb-2 fs-5">Deseja eliminar a localização?</p>
+                    <h4 class="mb-4"><strong>Serviço de Medicina</strong></h4>
+
+                    <div class="mb-4">
+                        <span class="d-block mb-1"><i class="fa-solid fa-building me-2"></i>Edifício: <strong>Edifício Principal</strong></span>
+                        <span class="d-block mb-1"><i class="fa-solid fa-layer-group me-2"></i>Piso: <strong>Piso 3</strong></span>
+                        <span class="d-block"><i class="fa-solid fa-door-open me-2"></i>Internamento / Sala / Gabinete: <strong>Internamento A</strong></span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="localizacoes.html" class="btn btn-outline-secondary px-4">
+                            <i class="fa-solid fa-xmark me-2"></i>Não
+                        </a>
+                        <a href="#" class="btn btn-danger px-4">
+                            <i class="fa-solid fa-check me-2"></i>Sim
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
     </div>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
