@@ -1,80 +1,18 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EquipFlow | Clinical Systems</title>
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../../assets/images/icone1.png" type="image/png">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <!--Font Awesome (local)-->
-    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
-
-    <!-- CSS - estilos da pagina -->
-    <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
-</head>
-<body>
-<!-- Navbar --> 
-<header class="container-fluid text-dark">
-    <div class="row align-items-center">
-        <div class="col-6 d-flex align-items-center p-3">
-            <a href="../../dashboard.html">
-                <img src="../../../assets/images/Logo1.png" alt="Logo da empresa" height="80" class="me-3">
-            </a>
-        </div>
-        <div class="col-6 text-end p-3">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="fa-regular fa-user me-2"></i> Utilizador
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/nav.php'; ?>
 
 <div class="container-fluid">
     <div class="row">
 
         <!-- Sidebar --> 
-        <aside class="col-md-3 col-lg-2 text-white p-3 min-vh-100"> 
-            <h4>Menu</h4> 
-            <nav>
-                <a href="../../dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-home me-2"></i> Dashboard
-                </a>
-                <a href="../equipamentos/equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-stethoscope me-2"></i> Equipamentos
-                </a>
-                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-map-marker-alt me-2"></i> Localizações
-                </a>
-                <a href="fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-truck me-2"></i> Fornecedores
-                </a>
-            </nav>
-        </aside> 
+        <?php include '../../includes/sidebar.php'; ?>
 
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
                 <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
-                        <h2 class="mb-4"><strong><i class="fa-solid fa-truck me-2"></i> Inserir novo fornecedor</strong></h2>
+                        <h2 class="mb-4"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Atualização de Dados - Fornecedor</strong></h2>
                         <hr>
 
                         <form action="#" method="post" novalidate>
@@ -83,12 +21,12 @@
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_nome" class="form-label">Nome da Empresa</label>
-                                    <input type="text" class="form-control" name="nome_fornecedor" id="texto_nome" list="empresas" required>
+                                    <input type="text" class="form-control" name="nome_fornecedor" id="texto_nome" value="Philips Healthcare" list="empresas" required>
                                     <datalist id="empresas">
                                         <option value="Philips Healthcare">
                                         <option value="Dräger">
                                         <option value="B. Braun">
-                                        <option value="Siemens">
+                                        <option value="Siemens Healthineers">
                                         <option value="Zoll Medical">
                                         <option value="Medtronic">
                                         <option value="Pentax Medical">
@@ -100,16 +38,16 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="texto_nif" class="form-label">NIF</label>
-                                    <input type="text" class="form-control" name="nif_fornecedor" id="texto_nif" required>
+                                    <input type="text" class="form-control" name="nif_fornecedor" id="texto_nif" value="500123456" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="select_tipo" class="form-label">Tipo de Fornecedor</label>
                                     <select class="form-select" name="tipo_fornecedor" id="select_tipo">
-                                        <option selected>Escolha uma opção</option>
-                                        <option value="fabricante">Fabricante</option>
+                                        <option>Escolha uma opção</option>
+                                        <option value="fabricante" selected>Fabricante</option>
                                         <option value="distribuidor">Distribuidor / Fornecedor Comercial</option>
                                         <option value="assistencia">Empresa de Assistência Técnica</option>
-                                        <option value="consumiveis">Fornecedor de Consumíveis / Acessórios</option>
+                                        <option value="consumiveis">Fornecedor de Consumíveis</option>
                                     </select>
                                 </div>
                             </div>
@@ -117,25 +55,25 @@
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_morada" class="form-label">Morada <small>(Nº Porta, Andar)</small></label>
-                                    <input type="text" class="form-control" name="morada_fornecedor" id="texto_morada">
+                                    <input type="text" class="form-control" name="morada_fornecedor" id="texto_morada" value="Rua da Saúde, nº25, Lisboa">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="texto_telefone" class="form-label">Telefone</label>
-                                    <input type="text" class="form-control" name="telefone_fornecedor" id="texto_telefone" required>
+                                    <input type="text" class="form-control" name="telefone_fornecedor" id="texto_telefone" value="213456789" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="texto_email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email_fornecedor" id="texto_email" required>
+                                    <input type="email" class="form-control" name="email_fornecedor" id="texto_email" value="geral@philips-healthcare.pt" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_website" class="form-label">Website</label>
-                                    <input type="text" class="form-control" name="website_fornecedor" id="texto_website">
+                                    <input type="text" class="form-control" name="website_fornecedor" id="texto_website" value="www.philips.com/healthcare">
                                 </div>
                             </div>
 
@@ -143,24 +81,24 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="texto_pessoa_contacto" class="form-label">Pessoa de Contacto</label>
-                                    <input type="text" class="form-control" name="pessoa_contacto_fornecedor" id="texto_pessoa_contacto">
+                                    <input type="text" class="form-control" name="pessoa_contacto_fornecedor" id="texto_pessoa_contacto" value="João Ferreira">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="texto_telefone_contacto" class="form-label">Telefone da Pessoa de Contacto</label>
-                                    <input type="text" class="form-control" name="telefone_contacto_fornecedor" id="texto_telefone_contacto">
+                                    <input type="text" class="form-control" name="telefone_contacto_fornecedor" id="texto_telefone_contacto" value="912345678">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_observacoes" class="form-label">Observações</label>
-                                    <input type="text" class="form-control" name="observacoes_fornecedor" id="texto_observacoes">
+                                    <input type="text" class="form-control" name="observacoes_fornecedor" id="texto_observacoes" value="Fornecedor principal de equipamentos de monitorização.">
                                 </div>
                             </div>
 
                             <!-- Botões -->
                             <div class="d-flex justify-content-end gap-2 mb-4">
-                                <a href="fornecedores.html" class="btn btn-outline-secondary">
+                                <a href="fornecedores.php" class="btn btn-outline-secondary">
                                     <i class="fa-solid fa-xmark me-1"></i> Cancelar
                                 </a>
                                 <button type="submit" class="btn btn-primary">
@@ -181,8 +119,4 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?php include '../../includes/footer.php'; ?>

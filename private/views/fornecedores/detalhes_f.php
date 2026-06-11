@@ -1,73 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EquipFlow | Clinical Systems</title>
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../../assets/images/icone1.png" type="image/png">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome (local) -->
-    <link rel="stylesheet" href="../../../assets/fontawesome/all.min.css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap.min.css">
-
-    <!-- CSS - estilos da pagina -->
-    <link rel="stylesheet" href="../../../assets/css/1241677_privado.css">
-</head>
-<body>
-
-<!-- Navbar -->
-<header class="container-fluid text-dark">
-    <div class="row align-items-center">
-        <div class="col-6 d-flex align-items-center p-3">
-            <a href="../../dashboard.html">
-                <img src="../../../assets/images/Logo1.png" alt="Logo da empresa" height="80" class="me-3">
-            </a>
-        </div>
-        <div class="col-6 text-end p-3">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-regular fa-user me-2"></i> Utilizador
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../../login/login.html"><i class="fa-solid fa-right-from-bracket me-2"></i>Sair</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
+<?php include '../../includes/header.php'; ?>
+<?php include '../../includes/nav.php'; ?>
 
 <div class="container-fluid">
     <div class="row">
 
         <!-- Sidebar -->
-        <aside class="col-md-3 col-lg-2 text-white p-3 min-vh-100">
-            <h4>Menu</h4>
-            <nav>
-                <a href="../../dashboard.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-home me-2"></i> Dashboard
-                </a>
-                <a href="../equipamentos/equipamentos.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-stethoscope me-2"></i> Equipamentos
-                </a>
-                <a href="../localizacoes/localizacoes.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-map-marker-alt me-2"></i> Localizações
-                </a>
-                <a href="fornecedores.html" class="nav-link text-white px-0 mb-2 d-block">
-                    <i class="fas fa-truck me-2"></i> Fornecedores
-                </a>
-            </nav>
-        </aside>
+        <?php include '../../includes/sidebar.php'; ?>
 
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
@@ -130,7 +68,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end">
-                            <a href="fornecedores.html" class="btn btn-outline-secondary">
+                            <a href="fornecedores.php" class="btn btn-outline-secondary">
                                 <i class="fa-solid fa-arrow-left me-1"></i> Voltar
                             </a>
                         </div>
@@ -143,8 +81,4 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="../../../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?php include '../../includes/footer.php'; ?> 
