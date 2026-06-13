@@ -1,26 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EquipFlow | Clinical Systems</title>
+<?php 
+// Inicia a sessão (necessário para usar $_SESSION) 
+session_start(); 
+ 
+// Inicializa a variável que irá conter os erros de validação 
+$validation_errors = []; 
+ 
+// -------------------------------------------------------------------- 
+// RECOLHA DE MENSAGENS TEMPORÁRIAS DA SESSÃO  
+// -------------------------------------------------------------------- 
+ 
+// Verifica se existem erros de validação guardados na sessão (preenchimento incorreto do formulário)
+if (!empty($_SESSION['validation_errors'])) { 
+    // Se existirem, copia-os para a variável local 
+    $validation_errors = $_SESSION['validation_errors']; 
+ 
+    // Remove os erros da sessão para que não apareçam novamente numa recarga de página 
+    unset($_SESSION['validation_errors']); 
+} 
+ 
+// Inicializa a variável que irá conter erros de servidor (exceçoes ou falha na ligaçao à base de dados)
+$server_error = []; 
+ 
+// Verifica se existe algum erro de servidor guardado na sessão 
+if (!empty($_SESSION['server_error'])) { 
+    // Se existir, copia-o para a variável local 
+    $server_error = $_SESSION['server_error']; 
+ 
+    // Remove o erro da sessão após ser lido 
+    unset($_SESSION['server_error']); 
+} 
+?>
 
-    <!-- Bootstrap CSS & custom CSS --> 
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap.min.css"> 
-    <link rel="stylesheet" href="../../assets/css/1241677_privado.css">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../assets/images/icone1.png" type="image/png">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <!--Font Awesome (local)-->
-    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
-</head>
-<body>
+<?php include '../private/includes/header.php'; ?> 
 
 <div class="container-fluid mt-5"> 
     <div class="row justify-content-center"> 
@@ -29,23 +40,23 @@
              <div class="card p-4"> 
                 <div class="d-flex align-items-center justify-content-center my-4"> 
                     <!-- Imagem EquipFlow + texto --> 
-                    <img src="../../assets/images/Logo1.png" alt="Logo EquipFlow" width="300"> 
+                    <img src="/sibdas/1241677/equipflow/assets/images/Logo1.png" alt="Logo EquipFlow" width="300" class="img-fluid me-3"> 
                 </div> 
              
                 <div class="row"> 
                     <div class="col"> 
                         <!-- Formulário --> 
-                        <form action="../dashboard.html" method="post"> 
+                        <form action="../private/processa_login.php" method="post"> 
                             <div class="mb-3"> 
                                 <!-- Utilizador --> 
                                 <label for="email" class="form-label">Utilizador</label>
-                                <input type="email" name="email" id="email" class="form-control">
+                                <input type="email" name="text_username" id="email" class="form-control">
                             </div> 
                         
                             <div class="mb-3"> 
                                 <!-- Password -->
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" name="password" id="password" class="form-control">
+                                <input type="password" name="text_password" id="password" class="form-control">
                             </div> 
                         
                             <div class="mb-3 text-center"> 
@@ -55,11 +66,33 @@
                                 </button>
                             </div> 
                         
-                            <div class="alert alert-danger p-2 text-center">
-                                <!-- Erros --> 
-                                Erro: Utilizador ou password inválidos.
-                            </div> 
-                        
+                            <!-- -------------------------------------------------------------------- --> 
+                            <!-- APRESENTAÇÃO DE MENSAGENS DE ERRO (VALIDAÇÃO E SERVIDOR) --> 
+                            <!-- -------------------------------------------------------------------- --> 
+                            
+                            <!-- Verifica se existem erros de validação --> 
+                            <?php if (!empty($validation_errors)) : ?> 
+                                <!-- Se existirem, apresenta um alerta de erro (vermelho) usando as classes do Bootstrap --> 
+                                <div class="alert alert-danger p-2 text-center"> 
+                            
+                                    <!-- Percorre todos os erros de validação --> 
+                                    <?php foreach ($validation_errors as $error) : ?> 
+                                        <!-- Mostra cada erro dentro de uma <div>, escapando caracteres especiais para segurança --> 
+                                        <div><?= htmlspecialchars($error) ?></div> 
+                                    <?php endforeach; ?> 
+                            
+                                </div> 
+                            <?php endif; ?> 
+                            
+                            <!-- Verifica se existe um erro de servidor --> 
+                            <?php if (!empty($server_error)) : ?> 
+                                <!-- Apresenta também num alerta de erro (vermelho) --> 
+                                <div class="alert alert-danger p-2 text-center"> 
+                                    <!-- Mostra o erro do servidor, também escapado com htmlspecialchars --> 
+                                    <div><?= htmlspecialchars($server_error) ?></div> 
+                                </div> 
+                            <?php endif; ?> 
+
                         </form> 
                     </div> 
                 </div> 
@@ -70,8 +103,4 @@
     </div> 
 </div> 
 
-<!-- Bootstrap JS and custom JS --> 
-    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script> 
-    
-</body>
-</html>
+<?php include '../private/includes/footer.php'; ?> 
