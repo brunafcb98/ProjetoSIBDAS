@@ -1,4 +1,7 @@
 <?php 
+
+define('BASE_URL', '/sibdas/1241677/equipflow');
+
 // Configurações globais da aplicação 
  
 define('APP_NAME', 'EquipFlow | Clinical Systems'); 
