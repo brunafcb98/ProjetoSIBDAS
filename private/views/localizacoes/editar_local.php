@@ -31,21 +31,21 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                                     <label for="select_edificio" class="form-label">Edifício</label>
                                     <select class="form-select" name="edificio_localizacao" id="select_edificio" required>
                                         <option>Escolha uma opção</option>
-                                        <option value="edificio_principal" selected>Edifício Principal</option>
-                                        <option value="edificio_a">Edifício A</option>
-                                        <option value="edificio_b">Edifício B</option>
+                                        <option value="Edifício Principal" selected>Edifício Principal</option>
+                                        <option value="Edifício A">Edifício A</option>
+                                        <option value="Edifício B">Edifício B</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="select_piso" class="form-label">Piso</label>
                                     <select class="form-select" name="piso_localizacao" id="select_piso" required>
                                         <option selected>Escolha uma opção</option>
-                                        <option value="piso_0">Piso 0</option>
-                                        <option value="piso_1">Piso 1</option>
-                                        <option value="piso_2">Piso 2</option>
-                                        <option value="piso_3" selected>Piso 3</option>
-                                        <option value="piso_4">Piso 4</option>
-                                        <option value="piso_5">Piso 5</option>
+                                        <option value="Piso 0">Piso 0</option>
+                                        <option value="Piso 1">Piso 1</option>
+                                        <option value="Piso 2">Piso 2</option>
+                                        <option value="Piso 3" selected>Piso 3</option>
+                                        <option value="Piso 4">Piso 4</option>
+                                        <option value="Piso 5">Piso 5</option>
                                     </select>
                                 </div>
                             </div>

@@ -25,5 +25,13 @@ require_once __DIR__ . '/../../config/config.php';
 
     <!-- CSS - estilos da pagina -->
     <link rel="stylesheet" href="/sibdas/1241677/equipflow/assets/css/1241677_privado.css">
+
+    <!-- jQuery --> 
+    <script src="/sibdas/1241677/equipflow/assets/jquery/jquery-3.6.0.min.js"></script> 
+
+    <!-- DataTables CSS + JS --> 
+    <link rel="stylesheet" href="/sibdas/1241677/equipflow/assets/datatables/datatables.min.css">
+    <script src="/sibdas/1241677/equipflow/assets/datatables/datatables.min.js"></script>
+
 </head>
 <body>

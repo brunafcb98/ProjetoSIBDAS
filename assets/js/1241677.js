@@ -16,10 +16,10 @@ function animarNumero(id, valorFinal) {
 
 // Quando a página termina de carregar, inicia as animações
 document.addEventListener("DOMContentLoaded", function() {
-    animarNumero("total", 148);       // Total de equipamentos
-    animarNumero("ativos", 112);      // Equipamentos ativos
-    animarNumero("manutencao", 18);   // Equipamentos em manutenção
-    animarNumero("inativos", 9);      // Equipamentos inativos
-    animarNumero("criticos", 24);     // Equipamentos de criticidade elevada
-    animarNumero("suporte", 31);      // Equipamentos de suporte de vida
+    if (document.getElementById("total")) animarNumero("total", 148);
+    if (document.getElementById("ativos")) animarNumero("ativos", 112);
+    if (document.getElementById("manutencao")) animarNumero("manutencao", 18);
+    if (document.getElementById("inativos")) animarNumero("inativos", 9);
+    if (document.getElementById("criticos")) animarNumero("criticos", 24);
+    if (document.getElementById("suporte")) animarNumero("suporte", 31);
 });

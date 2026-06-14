@@ -2,7 +2,7 @@
 
 define('BASE_URL', '/sibdas/1241677/equipflow');
 
-/ Configurações da base de dados
+// Configurações da base de dados
 define('MYSQL_HOST',     'vsgate-s1.dei.isep.ipp.pt');
 define('MYSQL_PORT',     '10464');
 define('MYSQL_DATABASE', 'db1241677');
