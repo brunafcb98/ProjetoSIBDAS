@@ -12,7 +12,7 @@ include '../../includes/nav.php';
 // LIGAÇÃO À BASE DE DADOS E EXECUÇÃO DA QUERY
 try { 
     $ligacao = new PDO( 
-        "mysql:host=" . MYSQL_HOST . "; port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8", 
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8", 
         MYSQL_USERNAME, 
         MYSQL_PASSWORD 
     ); 
