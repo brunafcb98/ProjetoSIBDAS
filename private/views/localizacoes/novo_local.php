@@ -5,7 +5,102 @@
 // Caso não exista sessão iniciada, o utilizador será redirecionado para o login.
 require_once __DIR__ . '/../../includes/funcoes.php'; 
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
-?> 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // 1. Recolher dados
+    $edificio    = $_POST["edificio_localizacao"] ?? "";
+    $piso        = $_POST["piso_localizacao"] ?? "";
+    $servico     = $_POST["servico_localizacao"] ?? "";
+    $sala        = $_POST["sala_localizacao"] ?? "";
+
+    // 2. Trim
+    $edificio    = trim($edificio);
+    $piso        = trim($piso);
+    $servico     = trim($servico);
+    $sala        = trim($sala);
+
+    // 3. Validar os dados
+    $erros = [];    //para erros de validação 
+    $erro_sistema = ""; //Para erros de SQL (PDO) 
+
+    if (empty($edificio) || $edificio == "Escolha uma opção") {
+        $erros[] = "O campo Edifício é obrigatório.";
+    }
+
+    if (empty($piso) || $piso == "Escolha uma opção") {
+        $erros[] = "O campo Piso é obrigatório.";
+    }
+
+    if (empty($servico)) {
+        $erros[] = "O campo Serviço é obrigatório.";
+    } elseif (preg_match('/^\d+$/', $servico)) {
+        $erros[] = "O campo Serviço não pode conter apenas números.";
+    }
+
+    if (empty($sala)) {
+        $erros[] = "O campo Sala / Gabinete é obrigatório.";
+    } elseif (strlen($sala) > 100) {
+        $erros[] = "O campo Sala não pode exceder 100 caracteres.";
+    }
+
+    // 4. Normalizar dados
+    if (empty($erros)) {
+        $servico = ucwords(strtolower($servico));
+        $sala    = ucwords(strtolower($sala));
+    }
+
+    // Dados normalizados (para teste)
+    /*
+    echo "<p><strong>Dados normalizados:</strong></p>";
+    echo "<ul>";
+    echo "<li>Edifício: $edificio</li>";
+    echo "<li>Piso: $piso</li>";
+    echo "<li>Serviço: $servico</li>";
+    echo "<li>Sala: $sala</li>";
+    echo "</ul>";
+    */
+
+    // Depuração: mostrar os erros recolhidos
+    /*
+    echo "<pre>";
+    print_r($erros);
+    echo "</pre>";
+    */
+
+    // 5. Se não houver erros, guardar na base de dados
+    if (empty($erros)) {
+        try {
+            $ligacao = new PDO(
+                "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD
+            );
+
+            $sql = "INSERT INTO localizacoes (
+                edificio, piso, servico, sala_internamento_gabinete
+            ) VALUES (
+                :edificio, :piso, :servico, :sala
+            )";
+
+            $stmt = $ligacao->prepare($sql);
+            $stmt->execute([
+                ':edificio' => $edificio,
+                ':piso'     => $piso,
+                ':servico'  => $servico,
+                ':sala'     => $sala
+            ]);
+
+            header('Location: localizacoes.php');
+            exit;
+        } catch (PDOException $err) {
+            $erro_sistema = "Erro ao gravar os dados: " . $err->getMessage();
+        }
+
+        $ligacao = null;
+    }
+}
+?>
 
 <?php include '../../includes/header.php'; ?>
 <?php include '../../includes/nav.php'; ?>
@@ -29,23 +124,23 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="select_edificio" class="form-label">Edifício</label>
-                                    <select class="form-select" name="edificio_localizacao" id="select_edificio" required>
-                                        <option selected>Escolha uma opção</option>
-                                        <option value="Edifício Principal">Edifício Principal</option>
-                                        <option value="Edifício A">Edifício A</option>
-                                        <option value="Edifício B">Edifício B</option>
+                                    <select class="form-select" name="edificio_localizacao" id="select_edificio">
+                                        <option value="" <?= empty($_POST['edificio_localizacao']) ? 'selected' : '' ?>>Escolha uma opção</option>
+                                        <option value="Edifício Principal" <?= (($_POST['edificio_localizacao'] ?? '') == 'Edifício Principal') ? 'selected' : '' ?>>Edifício Principal</option>
+                                        <option value="Edifício A" <?= (($_POST['edificio_localizacao'] ?? '') == 'Edifício A') ? 'selected' : '' ?>>Edifício A</option>
+                                        <option value="Edifício B" <?= (($_POST['edificio_localizacao'] ?? '') == 'Edifício B') ? 'selected' : '' ?>>Edifício B</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="select_piso" class="form-label">Piso</label>
-                                    <select class="form-select" name="piso_localizacao" id="select_piso" required>
-                                        <option selected>Escolha uma opção</option>
-                                        <option value="Piso 0">Piso 0</option>
-                                        <option value="Piso 1">Piso 1</option>
-                                        <option value="Piso 2">Piso 2</option>
-                                        <option value="Piso 3">Piso 3</option>
-                                        <option value="Piso 4">Piso 4</option>
-                                        <option value="Piso 5">Piso 5</option>
+                                    <select class="form-select" name="piso_localizacao" id="select_piso">
+                                        <option value="" <?= empty($_POST['piso_localizacao']) ? 'selected' : '' ?>>Escolha uma opção</option>
+                                        <option value="Piso 0" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 0') ? 'selected' : '' ?>>Piso 0</option>
+                                        <option value="Piso 1" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 1') ? 'selected' : '' ?>>Piso 1</option>
+                                        <option value="Piso 2" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 2') ? 'selected' : '' ?>>Piso 2</option>
+                                        <option value="Piso 3" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 3') ? 'selected' : '' ?>>Piso 3</option>
+                                        <option value="Piso 4" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 4') ? 'selected' : '' ?>>Piso 4</option>
+                                        <option value="Piso 5" <?= (($_POST['piso_localizacao'] ?? '') == 'Piso 5') ? 'selected' : '' ?>>Piso 5</option>
                                     </select>
                                 </div>
                             </div>
@@ -53,7 +148,8 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_servico" class="form-label">Serviço</label>
-                                    <input type="text" class="form-control" name="servico_localizacao" id="texto_servico" list="servicos" required>
+                                    <input type="text" class="form-control" name="servico_localizacao" id="texto_servico" list="servicos"
+                                         value="<?= htmlspecialchars($_POST['servico_localizacao'] ?? '') ?>">
                                     <datalist id="servicos">
                                         <option value="Unidade de Cuidados Intensivos">
                                         <option value="Unidade de Cuidados Intermédios">
@@ -74,7 +170,8 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_sala" class="form-label">Internamento / Sala / Gabinete</label>
-                                    <input type="text" class="form-control" name="sala_localizacao" id="texto_sala">
+                                    <input type="text" class="form-control" name="sala_localizacao" id="texto_sala"
+                                        value="<?= htmlspecialchars($_POST['sala_localizacao'] ?? '') ?>">
                                 </div>
                             </div>
 
@@ -88,10 +185,23 @@ redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o u
                                 </button>
                             </div>
 
-                            <!-- Mensagem de erro -->
-                            <div class="alert alert-danger text-center" role="alert">
-                                Erro simples
-                            </div>
+                            <!-- Área de erros -->
+                            <?php if (!empty($erros)): ?> 
+                                <div class="alert alert-danger" role="alert"> 
+                                    <strong>Foram encontrados os seguintes erros:</strong> 
+                                    <ul class="mb-0"> 
+                                        <?php foreach ($erros as $erro): ?> 
+                                            <li><?= htmlspecialchars($erro) ?></li> 
+                                        <?php endforeach; ?> 
+                                    </ul> 
+                                </div> 
+                            <?php endif; ?> 
+                            <?php if (!empty($erro_sistema)): ?>
+                                <div class="alert alert-danger">
+                                    <strong>Erro:</strong>
+                                    <p><?= htmlspecialchars($erro_sistema) ?></p>
+                                </div>
+                            <?php endif; ?>
 
                         </form>
                     </div>

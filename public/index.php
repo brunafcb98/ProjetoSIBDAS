@@ -42,7 +42,7 @@
 
         <!-- Área de cliente -->
         <div class="nav-cliente">
-            <a href="../area_pessoal/login_form.html" target="_blank">Área de Cliente</a>
+            <a href="login.php">Área de Cliente</a>
         </div>
     </nav>
 

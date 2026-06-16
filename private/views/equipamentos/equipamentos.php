@@ -19,7 +19,12 @@ try {
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
  
-    $resultados = $ligacao->query("SELECT * FROM equipamentos")->fetchAll(PDO::FETCH_OBJ); 
+    $resultados = $ligacao->query("
+        SELECT e.*, l.servico, l.sala_internamento_gabinete 
+        FROM equipamentos e 
+        LEFT JOIN localizacoes l ON e.id_localizacao = l.id
+        WHERE e.apagado = 0
+    ")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
 } catch (PDOException $err) { 
@@ -115,7 +120,7 @@ $ligacao = null;
                                             echo $criticidades[$equipamentos->criticidade] ?? $equipamentos->criticidade;
                                             ?>
                                         </td>
-                                        <td>[localização]</td>
+                                        <td><?= $equipamentos->servico ?> - <?= $equipamentos->sala_internamento_gabinete ?></td>
 
                                         <td class="text-center">
                                             <a href="detalhes.php" class="btn btn-sm btn-outline-primary me-1">
