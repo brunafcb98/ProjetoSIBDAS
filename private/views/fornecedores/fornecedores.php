@@ -95,7 +95,7 @@ $ligacao = null;
                                             <?= $fornecedores->telefone_pessoa_contacto ?> 
                                         </td> 
                                         <td class="text-center">
-                                            <a href="detalhes_f.php" class="btn btn-sm btn-outline-primary me-1">
+                                            <a href="detalhes_f.php?id_fornecedor=<?= aes_encrypt($fornecedores->id) ?>" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                             <a href="editar_f.php?id_fornecedor=<?= aes_encrypt($fornecedores->id) ?>" class="btn btn-sm btn-outline-warning me-1">
