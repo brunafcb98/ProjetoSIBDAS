@@ -5,6 +5,7 @@
 // Caso não exista sessão iniciada, o utilizador será redirecionado para o login.
 require_once __DIR__ . '/../../includes/funcoes.php'; 
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -24,6 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $erros = [];    //para erros de validação 
     $erro_sistema = ""; //Para erros de SQL (PDO) 
 
+    $erros = array_merge(
+        validar_edificio($edificio),
+        validar_piso($piso),
+        validar_servico($servico),
+        validar_sala($sala)
+    );
+
+    /*
     if (empty($edificio) || $edificio == "Escolha uma opção") {
         $erros[] = "O campo Edifício é obrigatório.";
     }
@@ -43,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($sala) > 100) {
         $erros[] = "O campo Sala não pode exceder 100 caracteres.";
     }
-
+    */
     // 4. Normalizar dados
     if (empty($erros)) {
         $servico = ucwords(strtolower($servico));

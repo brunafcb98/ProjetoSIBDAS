@@ -5,6 +5,7 @@
 // Caso não exista sessão iniciada, o utilizador será redirecionado para o login.
 require_once __DIR__ . '/../../includes/funcoes.php'; 
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -36,6 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $erros = [];    //para erros de validação 
     $erro_sistema = ""; //Para erros de SQL (PDO) 
 
+    $erros = array_merge(
+        validar_nome_fornecedor($nome),
+        validar_nif($nif),
+        validar_tipo_fornecedor($tipo),
+        validar_morada_fornecedor($morada),
+        validar_telefone($telefone),
+        validar_email($email),
+        validar_website($website),
+        validar_pessoa_contacto($pessoa_contacto),
+        validar_telefone_contacto($telefone_contacto),
+        validar_observacoes_fornecedor($observacoes)
+    );
+
+    /* 
     if (empty($nome)) {
         $erros[] = "O campo Nome da Empresa é obrigatório.";
     }
@@ -85,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($observacoes) && strlen($observacoes) > 500) {
         $erros[] = "As observações não podem exceder 500 caracteres.";
     }
-
+    */
     // 4. Normalizar dados
     if (empty($erros)) {
         $nome            = ucwords(strtolower($nome));

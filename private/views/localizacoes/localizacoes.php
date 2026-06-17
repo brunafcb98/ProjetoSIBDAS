@@ -20,7 +20,7 @@ try {
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
  
-    $resultados = $ligacao->query("SELECT * FROM localizacoes")->fetchAll(PDO::FETCH_OBJ); 
+    $resultados = $ligacao->query("SELECT * FROM localizacoes WHERE apagado = 0")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
 } catch (PDOException $err) { 
@@ -80,7 +80,7 @@ $ligacao = null;
                                         <td><?= $localizacoes->servico ?></td>
                                         <td><?= $localizacoes->sala_internamento_gabinete ?></td>
                                         <td class="text-center">
-                                            <a href="editar_local.php" class="btn btn-sm btn-outline-warning me-1">
+                                            <a href="editar_local.php?id_localizacao=<?= aes_encrypt($localizacoes->id) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                             <a href="apagar_local.php" class="btn btn-sm btn-outline-danger">

@@ -5,6 +5,7 @@
 // Caso não exista sessão iniciada, o utilizador será redirecionado para o login.
 require_once __DIR__ . '/../../includes/funcoes.php'; 
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
+require_once __DIR__ . '/../../includes/validacoes.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -18,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fabricante   = $_POST["fabricante_equipamento"] ?? "";
     $dataquisicao = $_POST["dataquisicao_equipamento"] ?? "";
     $anofabrico   = $_POST["anofabrico_equipamento"] ?? "";
-    $custo        = $_POST["custo_equipamento"] ?? "";
+    $custo        = $_POST["custo_equipamento"] ?? null;
     $tipoentrada  = $_POST["tipoentrada_equipamento"] ?? "";
     $estado       = $_POST["estado_equipamento"] ?? "";
     $criticidade  = $_POST["criticidade_equipamento"] ?? "";
@@ -41,6 +42,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $erros = [];    //para erros de validação 
     $erro_sistema = ""; //Para erros de SQL (PDO) 
 
+    $erros = array_merge(
+        validar_codigo($codigo),
+        validar_designacao($designacao),
+        validar_categoria($categoria),
+        validar_marca($marca),
+        validar_modelo($modelo),
+        validar_nserie($nserie),
+        validar_fabricante($fabricante),
+        validar_data_aquisicao($dataquisicao, $anofabrico),
+        validar_ano_fabrico($anofabrico),
+        validar_custo($custo),
+        validar_tipo_entrada($tipoentrada),
+        validar_estado($estado),
+        validar_criticidade($criticidade),
+        validar_localizacao($localizacao),
+        validar_observacoes($observacoes)
+    );
+
+    /* 
     if (empty($codigo)) {
         $erros[] = "O campo Código Interno é obrigatório.";
     }   elseif (!preg_match('/^\d+\.\d{3}\.\d{2}$/', $codigo)) {
@@ -126,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($observacoes) && strlen($observacoes) > 500) {
         $erros[] = "As observações não podem exceder 500 caracteres.";
     }
-
+    */
     // 4. Normalizar dados
     if (empty($erros)) {
         $designacao  = ucwords(strtolower($designacao));
@@ -302,7 +322,7 @@ try {
                                 </div>
                                 <div class="col-md-6">
                                     <label for="texto_dataquisicao" class="form-label">Data de Aquisição</label>
-                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="texto_dataquisicao" 
+                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="data_aquisicao" 
                                         value="<?= htmlspecialchars($_POST['dataquisicao_equipamento'] ?? '') ?>" required>
                                 </div>
                             </div>

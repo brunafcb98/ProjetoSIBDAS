@@ -20,7 +20,7 @@ try {
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
  
-    $resultados = $ligacao->query("SELECT * FROM fornecedores")->fetchAll(PDO::FETCH_OBJ); 
+    $resultados = $ligacao->query("SELECT * FROM fornecedores WHERE apagado = 0")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
 } catch (PDOException $err) { 
@@ -98,7 +98,7 @@ $ligacao = null;
                                             <a href="detalhes_f.php" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
-                                            <a href="editar_f.php" class="btn btn-sm btn-outline-warning me-1">
+                                            <a href="editar_f.php?id_fornecedor=<?= aes_encrypt($fornecedores->id) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                             <a href="apagar_f.php" class="btn btn-sm btn-outline-danger">

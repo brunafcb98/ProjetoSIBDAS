@@ -17,3 +17,8 @@ define('APP_VERSION', '1.0.0');
 define('APP_COPYRIGHT', '© 2026 EquipFlow. Todos os direitos reservados.'); 
 
 
+// Segurança – Encriptação com OpenSSL 
+
+define('OPENSSL_METHOD', 'AES-256-CBC'); // Algoritmo simétrico robusto 
+define('OPENSSL_KEY',    'H0SDRQzIGqclX2kbYBk9xspdn9U5f3Wa'); // Chave de 32 caracteres 
+define('OPENSSL_IV',     'BzKAbjuREsHgnw56');                 // Vetor de inicialização (16 caracteres) 
