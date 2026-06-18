@@ -6,6 +6,7 @@
 require_once __DIR__ . '/../../includes/funcoes.php'; 
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
 
+include '../../includes/toast.php';
 
 include '../../includes/header.php'; 
 include '../../includes/nav.php';
@@ -83,7 +84,7 @@ $ligacao = null;
                                             <a href="editar_local.php?id_localizacao=<?= aes_encrypt($localizacoes->id) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
-                                            <a href="apagar_local.php" class="btn btn-sm btn-outline-danger">
+                                            <a href="apagar_local.php?id_localizacao=<?= aes_encrypt($localizacoes->id) ?>" class="btn btn-sm btn-outline-danger">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </a>
                                         </td>
