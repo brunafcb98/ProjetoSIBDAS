@@ -20,8 +20,12 @@ try {
     ); 
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+    // O administrador vê todos os fornecedores (incluindo desativados).
+    // O técnico vê apenas os fornecedores ativos (apagado = 0).
+    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE apagado = 0';
  
-    $resultados = $ligacao->query("SELECT * FROM fornecedores WHERE apagado = 0")->fetchAll(PDO::FETCH_OBJ); 
+    $resultados = $ligacao->query("SELECT * FROM fornecedores $filtroApagado")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
 } catch (PDOException $err) { 
@@ -74,8 +78,13 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $fornecedores) : ?>
-                                    <tr>
-                                        <td><?= $fornecedores->nome_empresa ?></td>
+                                    <tr class="<?= $fornecedores->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
+                                        <td>
+                                            <?= $fornecedores->nome_empresa ?>
+                                            <?php if ($fornecedores->apagado == 1): ?>
+                                                <span class="badge bg-secondary ms-1">Desativado</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td>
                                             <?php
                                             $tipos = [

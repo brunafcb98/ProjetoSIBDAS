@@ -22,6 +22,17 @@ try {
     $stmt->bindParam(':id', $idFornecedor, PDO::PARAM_INT);
     $stmt->execute();
 
+    //logs
+    $stmtUser = $ligacao->prepare("SELECT id FROM utilizadores WHERE email = :email");
+    $stmtUser->execute([':email' => $_SESSION['utilizador']]);
+    $idUtilizador = $stmtUser->fetchColumn();
+
+    $stmtLog = $ligacao->prepare("INSERT INTO logs (id_utilizador, tipo_evento, descricao) VALUES (:id_utilizador, 'fornecedor_desativado', :descricao)");
+    $stmtLog->execute([
+        ':id_utilizador' => $idUtilizador,
+        ':descricao'     => 'Fornecedor desativado (id: ' . $idFornecedor . ')'
+    ]);
+
     // Guarda mensagem de sucesso para o Toast aparecer na lista
     $_SESSION['toast_success'] = 'Fornecedor desativado com sucesso.';
 

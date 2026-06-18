@@ -86,3 +86,27 @@ ALTER TABLE `fornecedores` ADD CONSTRAINT `fk_fornecedores_utilizador` FOREIGN K
 ALTER TABLE `equipamento_fornecedor` ADD CONSTRAINT `fk_equipamento_fornecedor_equipamento` FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id`);
 
 ALTER TABLE `equipamento_fornecedor` ADD CONSTRAINT `fk_equipamento_fornecedor_fornecedor` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id`);
+
+CREATE TABLE logs (
+  id int NOT NULL AUTO_INCREMENT,
+  id_utilizador int,
+  tipo_evento varchar(50) NOT NULL,
+  descricao text,
+  data_hora datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_logs_utilizador FOREIGN KEY (id_utilizador) REFERENCES utilizadores(id),
+  CONSTRAINT chk_logs_tipo_evento CHECK (tipo_evento IN (
+    'login_sucesso', 
+    'login_falhado', 
+    'erro_bd', 
+    'equipamento_criado',
+    'equipamento_editado',
+    'equipamento_desativado', 
+    'fornecedor_criado',
+    'fornecedor_editado',
+    'fornecedor_desativado', 
+    'localizacao_criada',
+    'localizacao_editada',
+    'localizacao_desativada'
+  ))
+);

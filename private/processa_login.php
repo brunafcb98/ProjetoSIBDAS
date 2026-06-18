@@ -60,6 +60,7 @@ if (!empty($validation_errors)) {
     return; 
 }
 
+/*
 // -------------------------------------------------------------------- 
 // SIMULAÇÃO DE RESULTADO DE LOGIN (antes da ligação real à base de dados) 
 // -------------------------------------------------------------------- 
@@ -98,3 +99,59 @@ exit;
 // echo "Utilizador: " . $username . "<br>"; 
 // echo "Password: " . $password; 
 ?> 
+*/
+
+// -------------------------------------------------------------------- 
+// VERIFICAÇÃO REAL DO LOGIN NA BASE DE DADOS 
+// -------------------------------------------------------------------- 
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
+
+    $parametros = [
+        ':u' => $username,
+        ':p' => $password
+    ];
+
+    $comando = $ligacao->prepare("SELECT * FROM utilizadores WHERE email = :u AND password = :p");
+    $comando->execute($parametros);
+    $resultados = $comando->fetchAll(PDO::FETCH_OBJ);
+
+    if (count($resultados) === 0) {
+        // Regista no log a tentativa falhada (não sabemos a quem atribuir, por isso id_utilizador fica a NULL)
+        $logStmt = $ligacao->prepare("INSERT INTO logs (id_utilizador, tipo_evento, descricao) VALUES (NULL, 'login_falhado', :descricao)");
+        $logStmt->execute([':descricao' => 'Tentativa de login falhada para o email: ' . $username]);
+
+        $_SESSION['server_error'] = 'Login inválido';
+        header('Location: ../public/login.php');
+        return;
+    }
+
+    $utilizador = $resultados[0];
+
+    // -------------------------------------------------------------------- 
+    // LOGIN BEM-SUCEDIDO: Guardar o utilizador na sessão 
+    // -------------------------------------------------------------------- 
+    $_SESSION['utilizador'] = $utilizador->email;
+    $_SESSION['profile'] = $utilizador->perfil;
+
+    // Regista no log o login bem-sucedido
+    $logStmt = $ligacao->prepare("INSERT INTO logs (id_utilizador, tipo_evento, descricao) VALUES (:id_utilizador, 'login_sucesso', :descricao)");
+    $logStmt->execute([
+        ':id_utilizador' => $utilizador->id,
+        ':descricao'     => 'Login bem-sucedido: ' . $utilizador->email
+    ]);
+
+} catch (PDOException $e) {
+    $_SESSION['server_error'] = 'Erro ao ligar à base de dados.';
+    header('Location: ../public/login.php');
+    return;
+}
+
+// Redirecionar para a página principal privada 
+header('Location: dashboard.php'); 
+exit;

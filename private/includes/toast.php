@@ -45,7 +45,7 @@ if (!empty($_SESSION['toast_success'])) {
         O Toast em si. A classe "toast" é o componente Bootstrap.
         A cor de fundo (bg-success / bg-danger) é escolhida dinamicamente 
         com base no tipo de mensagem (sucesso ou erro).
-        role="alert" e aria-live ajudam leitores de ecrã a anunciar a mensagem.
+        role="alert" e aria-live ajudam a anunciar a mensagem.
     -->
     <div id="feedbackToast" 
          class="toast align-items-center text-white <?= $toast_type === 'success' ? 'bg-success' : 'bg-danger' ?> border-0" 

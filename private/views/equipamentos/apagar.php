@@ -79,8 +79,8 @@ $estados = [
                     <div class="mb-4">
                         <span class="d-block mb-1"><i class="fa-solid fa-barcode me-2"></i>Código: <strong><?= htmlspecialchars($equipamento['codigo_interno']) ?></strong></span>
                         <span class="d-block mb-1"><i class="fa-solid fa-tag me-2"></i>Marca: <strong><?= htmlspecialchars($equipamento['marca']) ?></strong></span>
-                        <span class="d-block mb-1"><i class="fa-solid fa-circle-info me-2"></i>Estado: <strong><strong><?= htmlspecialchars($estados[$equipamento['estado']]) ?></strong></span>
-                        <span class="d-block"><i class="fa-solid fa-map-marker-alt me-2"></i>Localização: <strong><strong><?= htmlspecialchars($equipamento['servico'] . ' - ' . $equipamento['sala_internamento_gabinete']) ?></strong></span>
+                        <span class="d-block mb-1"><i class="fa-solid fa-circle-info me-2"></i>Estado: <strong><?= htmlspecialchars($estados[$equipamento['estado']]) ?></strong></span>
+                        <span class="d-block"><i class="fa-solid fa-map-marker-alt me-2"></i>Localização: <strong><?= htmlspecialchars($equipamento['servico'] . ' - ' . $equipamento['sala_internamento_gabinete']) ?></strong></span>
                     </div>
 
                     <div class="d-flex justify-content-center gap-3">

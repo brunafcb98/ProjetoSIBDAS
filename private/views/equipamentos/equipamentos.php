@@ -20,12 +20,16 @@ try {
     ); 
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+    // O administrador vê todos os equipamentos (incluindo desativados).
+    // O técnico vê apenas os equipamentos ativos (apagado = 0).
+    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE e.apagado = 0';
  
     $resultados = $ligacao->query("
         SELECT e.*, l.servico, l.sala_internamento_gabinete 
         FROM equipamentos e 
         LEFT JOIN localizacoes l ON e.id_localizacao = l.id
-        WHERE e.apagado = 0
+        $filtroApagado
     ")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
@@ -80,9 +84,14 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $equipamentos) : ?>
-                                    <tr>
+                                    <tr class="<?= $equipamentos->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
                                         <td><?= $equipamentos->codigo_interno ?></td> 
-                                        <td><?= $equipamentos->designacao ?></td>
+                                        <td>
+                                            <?= $equipamentos->designacao ?>
+                                             <?php if ($equipamentos->apagado == 1): ?>
+                                                <span class="badge bg-secondary ms-1">Desativado</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td>
                                             <?php
                                             $categorias = [

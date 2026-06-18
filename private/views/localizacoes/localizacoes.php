@@ -20,8 +20,12 @@ try {
     ); 
  
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+    // O administrador vê todas as localizações (incluindo desativadas).
+    // O técnico vê apenas as localizações ativas (apagado = 0).
+    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE apagado = 0';
  
-    $resultados = $ligacao->query("SELECT * FROM localizacoes WHERE apagado = 0")->fetchAll(PDO::FETCH_OBJ); 
+    $resultados = $ligacao->query("SELECT * FROM localizacoes $filtroApagado")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
  
 } catch (PDOException $err) { 
@@ -72,13 +76,18 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $localizacoes) : ?>
-                                    <tr>
-                                    <!-- Os campos edificio e piso são selects com valores em texto completo na BD (ex: "Edifício Principal", "Piso 0"). -->
-                                    <!-- Os campos servico e sala_internamento_gabinete são texto livre. -->
-                                    <!-- Nenhum campo necessita de conversão. -->
+                                    <tr class="<?= $localizacoes->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
+                                        <!-- Os campos edificio e piso são selects com valores em texto completo na BD (ex: "Edifício Principal", "Piso 0"). -->
+                                        <!-- Os campos servico e sala_internamento_gabinete são texto livre. -->
+                                        <!-- Nenhum campo necessita de conversão. -->
                                         <td><?= $localizacoes->edificio ?></td>
                                         <td><?= $localizacoes->piso ?></td>
-                                        <td><?= $localizacoes->servico ?></td>
+                                        <td>
+                                            <?= $localizacoes->servico ?>
+                                            <?php if ($localizacoes->apagado == 1): ?>
+                                                <span class="badge bg-secondary ms-1">Desativado</span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?= $localizacoes->sala_internamento_gabinete ?></td>
                                         <td class="text-center">
                                             <a href="editar_local.php?id_localizacao=<?= aes_encrypt($localizacoes->id) ?>" class="btn btn-sm btn-outline-warning me-1">

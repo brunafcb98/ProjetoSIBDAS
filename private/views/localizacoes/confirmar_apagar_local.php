@@ -22,6 +22,17 @@ try {
     $stmt->bindParam(':id', $idLocalizacao, PDO::PARAM_INT);
     $stmt->execute();
 
+    //logs
+    $stmtUser = $ligacao->prepare("SELECT id FROM utilizadores WHERE email = :email");
+    $stmtUser->execute([':email' => $_SESSION['utilizador']]);
+    $idUtilizador = $stmtUser->fetchColumn();
+
+    $stmtLog = $ligacao->prepare("INSERT INTO logs (id_utilizador, tipo_evento, descricao) VALUES (:id_utilizador, 'localizacao_desativada', :descricao)");
+    $stmtLog->execute([
+        ':id_utilizador' => $idUtilizador,
+        ':descricao'     => 'Localização desativada (id: ' . $idLocalizacao . ')'
+    ]);
+
     $_SESSION['toast_success'] = 'Localização desativada com sucesso.';
 
     header('Location: ' . BASE_URL . '/private/views/localizacoes/localizacoes.php');

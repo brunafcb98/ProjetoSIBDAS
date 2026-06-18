@@ -46,7 +46,7 @@ if (!empty($_SESSION['server_error'])) {
                 <div class="row"> 
                     <div class="col"> 
                         <!-- Formulário --> 
-                        <form action="../private/processa_login.php" method="post"> 
+                        <form name="formulario" action="../private/processa_login.php" method="post"> 
                             <div class="mb-3"> 
                                 <!-- Utilizador --> 
                                 <label for="email" class="form-label">Utilizador</label>
@@ -65,6 +65,16 @@ if (!empty($_SESSION['server_error'])) {
                                     Iniciar Sessão <i class="fa-solid fa-right-to-bracket ms-2"></i>
                                 </button>
                             </div> 
+
+                            <!-- Botões de preenchimento automático (Fase de Testes) --> 
+                            <div class="mt-2 text-center">
+                                <button type="button" id="preencher_adm" class="btn btn-outline-primary btn-sm me-2">
+                                    Preencher Admin
+                                </button>
+                                <button type="button" id="preencher_tec" class="btn btn-outline-secondary btn-sm">
+                                    Preencher Técnico
+                                </button>
+                            </div>
                         
                             <!-- -------------------------------------------------------------------- --> 
                             <!-- APRESENTAÇÃO DE MENSAGENS DE ERRO (VALIDAÇÃO E SERVIDOR) --> 
@@ -102,5 +112,20 @@ if (!empty($_SESSION['server_error'])) {
         </div> 
     </div> 
 </div> 
+
+<script>
+     // Preenchimento automático para testes
+    document.querySelector("#preencher_adm").addEventListener('click', () => {
+        const formulario = document.forms['formulario'];
+        formulario['text_username'].value = "admin@equipflow.pt";
+        formulario['text_password'].value = "password";
+    });
+
+    document.querySelector("#preencher_tec").addEventListener('click', () => {
+        const formulario = document.forms['formulario'];
+        formulario['text_username'].value = "tecnico1@equipflow.pt";
+        formulario['text_password'].value = "password";
+    });
+</script>
 
 <?php include '../private/includes/footer.php'; ?> 

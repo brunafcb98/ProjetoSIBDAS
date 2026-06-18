@@ -211,6 +211,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':observacoes'  => $observacoes
             ]);
 
+            // Id do equipamento que acabou de ser inserido
+            $idNovoEquipamento = $ligacao->lastInsertId();
+
+            // Vai buscar o id do utilizador autenticado (a sessão só guarda o email)
+            $stmtUser = $ligacao->prepare("SELECT id FROM utilizadores WHERE email = :email");
+            $stmtUser->execute([':email' => $_SESSION['utilizador']]);
+            $idUtilizador = $stmtUser->fetchColumn();
+
+            // Regista o evento na tabela de logs
+            $stmtLog = $ligacao->prepare("INSERT INTO logs (id_utilizador, tipo_evento, descricao) VALUES (:id_utilizador, 'equipamento_criado', :descricao)");
+            $stmtLog->execute([
+                ':id_utilizador' => $idUtilizador,
+                ':descricao'     => 'Equipamento criado (id: ' . $idNovoEquipamento . ')'
+            ]);
+
             header('Location: equipamentos.php');
             exit;
         } catch (PDOException $err) {
