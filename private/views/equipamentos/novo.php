@@ -226,6 +226,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':descricao'     => 'Equipamento criado (id: ' . $idNovoEquipamento . ')'
             ]);
 
+            // Inserir associações de fornecedores (só se não for "indefinido")
+            $fornecedoresParaInserir = [
+                'fabricante'   => $_POST['fornecedor_fabricante_equipamento'] ?? '',
+                'consumiveis'  => $_POST['fornecedor_consumiveis_equipamento'] ?? '',
+                'distribuidor' => $_POST['fornecedor_distribuidor_equipamento'] ?? '',
+                'assistencia'  => $_POST['fornecedor_assistencia_equipamento'] ?? '',
+            ];
+
+            foreach ($fornecedoresParaInserir as $tipo => $idFornecedor) {
+                if (!empty($idFornecedor) && is_numeric($idFornecedor)) {
+                    $stmtForn = $ligacao->prepare("
+                        INSERT INTO equipamento_fornecedor (id_equipamento, id_fornecedor, tipo)
+                        VALUES (:id_equipamento, :id_fornecedor, :tipo)
+                    ");
+                    $stmtForn->execute([
+                        ':id_equipamento' => $idNovoEquipamento,
+                        ':id_fornecedor'  => $idFornecedor,
+                        ':tipo'           => $tipo
+                    ]);
+                }
+            }
+
+            $_SESSION['toast_success'] = 'Equipamento criado com sucesso.';
+
             header('Location: equipamentos.php');
             exit;
         } catch (PDOException $err) {
@@ -249,6 +273,24 @@ try {
     $ligacao = null;
 } catch (PDOException $e) {
     $localizacoes = [];
+}
+?>
+
+<?php
+// Carregar fornecedores disponíveis por tipo
+try {
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $fabricantes   = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'fabricante'   AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $consumiveis   = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'consumiveis'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $distribuidores = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'distribuidor' AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $assistencias  = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'assistencia'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
+    $ligacao = null;
+} catch (PDOException $e) {
+    $fabricantes = $consumiveis = $distribuidores = $assistencias = [];
 }
 ?>
 
@@ -406,6 +448,60 @@ try {
                                     <label for="texto_observacoes" class="form-label">Observações</label>
                                     <input type="text" class="form-control" name="observacoes_equipamento" id="texto_observacoes" 
                                         value="<?= htmlspecialchars($_POST['observacoes_equipamento'] ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <!-- Fornecedores Associados -->
+                            <hr>
+                            <h5 class="mb-3"><i class="fa-solid fa-truck-medical me-2"></i>Fornecedores Associados</h5>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="select_fornecedor_fabricante" class="form-label">Fabricante</label>
+                                    <select class="form-select" name="fornecedor_fabricante_equipamento" id="select_fornecedor_fabricante">
+                                        <option value="">-- Indefinido --</option>
+                                        <?php foreach ($fabricantes as $fornecedor): ?>
+                                            <option value="<?= $fornecedor['id'] ?>" <?= (($_POST['fornecedor_fabricante_equipamento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="select_fornecedor_consumiveis" class="form-label">Fornecedor de Consumíveis / Acessórios</label>
+                                    <select class="form-select" name="fornecedor_consumiveis_equipamento" id="select_fornecedor_consumiveis">
+                                        <option value="">-- Indefinido --</option>
+                                        <?php foreach ($consumiveis as $fornecedor): ?>
+                                            <option value="<?= $fornecedor['id'] ?>" <?= (($_POST['fornecedor_consumiveis_equipamento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="select_fornecedor_distribuidor" class="form-label">Distribuidor / Fornecedor Comercial</label>
+                                    <select class="form-select" name="fornecedor_distribuidor_equipamento" id="select_fornecedor_distribuidor">
+                                        <option value="">-- Indefinido --</option>
+                                        <?php foreach ($distribuidores as $fornecedor): ?>
+                                            <option value="<?= $fornecedor['id'] ?>" <?= (($_POST['fornecedor_distribuidor_equipamento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="select_fornecedor_assistencia" class="form-label">Empresa de Assistência Técnica</label>
+                                    <select class="form-select" name="fornecedor_assistencia_equipamento" id="select_fornecedor_assistencia">
+                                        <option value="">-- Indefinido --</option>
+                                        <?php foreach ($assistencias as $fornecedor): ?>
+                                            <option value="<?= $fornecedor['id'] ?>" <?= (($_POST['fornecedor_assistencia_equipamento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                             </div>
 

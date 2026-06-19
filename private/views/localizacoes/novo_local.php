@@ -115,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':descricao'     => 'Localização criada (id: ' . $idNovaLocalizacao . ')'
             ]);
 
+            $_SESSION['toast_success'] = 'Localização criada com sucesso.';
 
             header('Location: localizacoes.php');
             exit;

@@ -314,3 +314,157 @@ function validar_sala(string $sala): array {
     }
     return $erros;
 }
+
+// ============================================================
+// Documentos
+// ============================================================
+
+// Validação do Tipo de Documento
+function validar_tipo_documento(string $tipo_documento): array {
+    $erros = [];
+    if (empty($tipo_documento) || $tipo_documento == "Escolha uma opção") {
+        $erros[] = "O campo Tipo de Documento é obrigatório.";
+    }
+    return $erros;
+}
+
+// Validação do Nome do Documento
+function validar_nome_documento(string $nome_documento): array {
+    $erros = [];
+    if (empty(trim($nome_documento))) {
+        $erros[] = "O campo Nome do Documento é obrigatório.";
+    }
+    return $erros;
+}
+
+// Validação da Data do Documento
+function validar_data_documento(string $data_documento): array {
+    $erros = [];
+    if (empty(trim($data_documento))) {
+        $erros[] = "O campo Data do Documento é obrigatório.";
+    } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data_documento)) {
+        $erros[] = "Formato de data inválido. Use AAAA-MM-DD.";
+    } else {
+        $partes = explode('-', $data_documento);
+        if (!checkdate((int)$partes[1], (int)$partes[2], (int)$partes[0])) {
+            $erros[] = "Data do documento inválida.";
+        } elseif ($data_documento > date('Y-m-d')) {
+            $erros[] = "A data do documento não pode ser posterior à data atual.";
+        }
+    }
+    return $erros;
+}
+
+// Validação da Data de Validade (opcional)
+function validar_data_validade(string $data_validade, string $data_documento = ''): array {
+    $erros = [];
+    if (!empty(trim($data_validade))) {
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $data_validade)) {
+            $erros[] = "Formato de data de validade inválido. Use AAAA-MM-DD.";
+        } else {
+            $partes = explode('-', $data_validade);
+            if (!checkdate((int)$partes[1], (int)$partes[2], (int)$partes[0])) {
+                $erros[] = "Data de validade inválida.";
+            } elseif (!empty($data_documento) && $data_validade < $data_documento) {
+                $erros[] = "A data de validade não pode ser anterior à data do documento.";
+            }
+        }
+    }
+    return $erros;
+}
+
+// Validação do Caminho/Localização do Ficheiro
+function validar_caminho_ficheiro(string $caminho_ficheiro): array {
+    $erros = [];
+    if (empty(trim($caminho_ficheiro))) {
+        $erros[] = "O campo Caminho/Localização do Ficheiro é obrigatório.";
+    }
+    return $erros;
+}
+
+// ============================================================
+// Garantias e Contratos
+// ============================================================
+
+// Validação das Datas de Garantia (devem vir ambas ou nenhuma)
+function validar_datas_garantia(string $dataInicio, string $dataFim): array {
+    $erros = [];
+    $dataInicio = trim($dataInicio);
+    $dataFim = trim($dataFim);
+
+    if (empty($dataInicio) && empty($dataFim)) {
+        return $erros; // nenhuma preenchida, ok
+    }
+
+    if (empty($dataInicio) || empty($dataFim)) {
+        $erros[] = "Se preencher uma data de garantia, deve preencher também a outra.";
+        return $erros;
+    }
+
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataInicio)) {
+        $erros[] = "Formato da Data de Início da Garantia inválido. Use AAAA-MM-DD.";
+    }
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataFim)) {
+        $erros[] = "Formato da Data de Fim da Garantia inválido. Use AAAA-MM-DD.";
+    }
+
+    if (empty($erros)) {
+        $partesInicio = explode('-', $dataInicio);
+        $partesFim = explode('-', $dataFim);
+
+        if (!checkdate((int)$partesInicio[1], (int)$partesInicio[2], (int)$partesInicio[0])) {
+            $erros[] = "Data de Início da Garantia inválida.";
+        }
+        if (!checkdate((int)$partesFim[1], (int)$partesFim[2], (int)$partesFim[0])) {
+            $erros[] = "Data de Fim da Garantia inválida.";
+        }
+        if (empty($erros) && $dataFim < $dataInicio) {
+            $erros[] = "A Data de Fim da Garantia não pode ser anterior à Data de Início.";
+        }
+    }
+
+    return $erros;
+}
+
+// Validação do Tipo de Contrato (obrigatório se tem_contrato_manutencao = true; não deve ser preenchido se for false)
+function validar_tipo_contrato(string $tipoContrato, bool $temContrato): array {
+    $erros = [];
+    if ($temContrato && (empty($tipoContrato) || $tipoContrato == "Escolha uma opção")) {
+        $erros[] = "O campo Tipo de Contrato é obrigatório quando existe contrato de manutenção.";
+    } elseif (!$temContrato && !empty($tipoContrato) && $tipoContrato != "Escolha uma opção") {
+        $erros[] = "Não pode preencher o Tipo de Contrato sem marcar 'Existe contrato de manutenção'.";
+    }
+    return $erros;
+}
+
+// Validação da Periodicidade (obrigatória se tem_contrato_manutencao = true; não deve ser preenchida se for false)
+function validar_periodicidade(string $periodicidade, bool $temContrato): array {
+    $erros = [];
+    if ($temContrato && (empty($periodicidade) || $periodicidade == "Escolha uma opção")) {
+        $erros[] = "O campo Periodicidade é obrigatório quando existe contrato de manutenção.";
+    } elseif (!$temContrato && !empty($periodicidade) && $periodicidade != "Escolha uma opção") {
+        $erros[] = "Não pode preencher a Periodicidade sem marcar 'Existe contrato de manutenção'.";
+    }
+    return $erros;
+}
+
+// Validação das Observações da Garantia (opcional)
+function validar_observacoes_garantia(string $observacoes): array {
+    $erros = [];
+    if (!empty($observacoes) && strlen($observacoes) > 500) {
+        $erros[] = "As observações não podem exceder 500 caracteres.";
+    }
+    return $erros;
+}
+
+// Validação: Entidade Responsável só pode ser preenchida se houver garantia ou contrato de manutenção
+function validar_entidade_responsavel(string $entidadeResponsavel, string $dataInicio, string $dataFim, bool $temContrato): array {
+    $erros = [];
+    $temGarantia = !empty(trim($dataInicio)) && !empty(trim($dataFim));
+    $temEntidade = !empty(trim($entidadeResponsavel));
+
+    if ($temEntidade && !$temGarantia && !$temContrato) {
+        $erros[] = "Só pode indicar uma Entidade Responsável se existir garantia ou contrato de manutenção.";
+    }
+    return $erros;
+}

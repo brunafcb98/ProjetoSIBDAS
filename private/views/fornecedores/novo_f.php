@@ -174,6 +174,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':descricao'     => 'Fornecedor criado (id: ' . $idNovoFornecedor . ')'
             ]);
 
+            $_SESSION['toast_success'] = 'Fornecedor criado com sucesso.';
+
             header('Location: fornecedores.php');
             exit;
         } catch (PDOException $err) {

@@ -87,7 +87,11 @@ $ligacao = null;
                                                 'fornecedor_desativado'       => 'Fornecedor desativado',
                                                 'localizacao_criada'          => 'Localização criada',
                                                 'localizacao_editada'         => 'Localização editada',
-                                                'localizacao_desativada'      => 'Localização desativada'
+                                                'localizacao_desativada'      => 'Localização desativada',
+                                                'documento_criado'            => 'Documento criado',
+                                                'documento_desativado'        => 'Documento desativado',
+                                                'garantia_criada'             => 'Garantia/Contrato criado',
+                                                'garantia_desativada'         => 'Garantia/Contrato desativado'
                                             ];
                                             echo htmlspecialchars($tiposEvento[$log->tipo_evento] ?? $log->tipo_evento);
                                             ?>

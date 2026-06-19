@@ -67,10 +67,20 @@ CREATE TABLE `equipamentos` (
   CONSTRAINT chk_equipamentos_data_apagado_aquisicao CHECK (`data_apagado` >= `data_aquisicao`)
 );
 
+/*
 CREATE TABLE `equipamento_fornecedor` (
   `id_equipamento` int NOT NULL,
   `id_fornecedor` int NOT NULL,
   CONSTRAINT pk_equipamento_fornecedor PRIMARY KEY (`id_equipamento`, `id_fornecedor`)
+);
+*/
+
+CREATE TABLE `equipamento_fornecedor` (
+  `id_equipamento` int NOT NULL,
+  `id_fornecedor` int NOT NULL,
+  `tipo` varchar(50) NOT NULL,
+  CONSTRAINT pk_equipamento_fornecedor PRIMARY KEY (`id_equipamento`, `id_fornecedor`),
+  CONSTRAINT chk_equipamento_fornecedor_tipo CHECK (`tipo` IN ('fabricante', 'distribuidor', 'assistencia', 'consumiveis'))
 );
 
 CREATE UNIQUE INDEX `utilizadores_index_0` ON `utilizadores` (`email`);
@@ -109,4 +119,66 @@ CREATE TABLE logs (
     'localizacao_editada',
     'localizacao_desativada'
   ))
+);
+
+ALTER TABLE logs DROP CONSTRAINT chk_logs_tipo_evento;
+
+ALTER TABLE logs ADD CONSTRAINT chk_logs_tipo_evento CHECK (tipo_evento IN (
+    'login_sucesso', 
+    'login_falhado', 
+    'erro_bd', 
+    'equipamento_criado',
+    'equipamento_editado',
+    'equipamento_desativado', 
+    'fornecedor_criado',
+    'fornecedor_editado',
+    'fornecedor_desativado', 
+    'localizacao_criada',
+    'localizacao_editada',
+    'localizacao_desativada',
+    'documento_criado',
+    'documento_desativado',
+    'garantia_criada',
+    'garantia_desativada'
+));
+
+CREATE TABLE `documentos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_equipamento` int NOT NULL,
+  `id_fornecedor` int,
+  `tipo_documento` varchar(50) NOT NULL,
+  `nome_documento` varchar(150) NOT NULL,
+  `data_documento` date NOT NULL,
+  `data_validade` date,
+  `caminho_ficheiro` varchar(255) NOT NULL,
+  `apagado` boolean NOT NULL DEFAULT false,
+  `data_apagado` date,
+  `id_utilizador_apagou` int,
+  CONSTRAINT pk_documentos PRIMARY KEY (`id`),
+  CONSTRAINT fk_documentos_equipamento FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id`),
+  CONSTRAINT fk_documentos_fornecedor FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id`),
+  CONSTRAINT fk_documentos_utilizador FOREIGN KEY (`id_utilizador_apagou`) REFERENCES `utilizadores` (`id`),
+  CONSTRAINT chk_documentos_tipo_documento CHECK (`tipo_documento` IN ('manual', 'certificado_calibracao', 'fatura', 'ficha_tecnica', 'certificado_conformidade', 'outro'))
+);
+
+CREATE TABLE `garantias_contratos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_equipamento` int NOT NULL,
+  `id_fornecedor` int,
+  `data_inicio_garantia` date,
+  `data_fim_garantia` date,
+  `tem_contrato_manutencao` boolean NOT NULL DEFAULT false,
+  `tipo_contrato` varchar(50),
+  `periodicidade` varchar(50),
+  `observacoes` text,
+  `apagado` boolean NOT NULL DEFAULT false,
+  `data_apagado` date,
+  `id_utilizador_apagou` int,
+  CONSTRAINT pk_garantias_contratos PRIMARY KEY (`id`),
+  CONSTRAINT fk_garantias_contratos_equipamento FOREIGN KEY (`id_equipamento`) REFERENCES `equipamentos` (`id`),
+  CONSTRAINT fk_garantias_contratos_fornecedor FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedores` (`id`),
+  CONSTRAINT fk_garantias_contratos_utilizador FOREIGN KEY (`id_utilizador_apagou`) REFERENCES `utilizadores` (`id`),
+  CONSTRAINT chk_garantias_contratos_tipo_contrato CHECK (`tipo_contrato` IN ('garantia_fabricante', 'manutencao_preventiva', 'manutencao_corretiva', 'manutencao_completa', 'outro')),
+  CONSTRAINT chk_garantias_contratos_periodicidade CHECK (`periodicidade` IN ('mensal', 'trimestral', 'semestral', 'anual', 'nao_aplicavel')),
+  CONSTRAINT chk_garantias_contratos_datas CHECK (`data_fim_garantia` >= `data_inicio_garantia`)
 );
