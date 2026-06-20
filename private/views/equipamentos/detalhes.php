@@ -169,7 +169,7 @@ $periodicidades = [
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4">
                             <strong><i class="fa-solid fa-stethoscope me-2"></i> Detalhes do Equipamento</strong>
@@ -220,42 +220,45 @@ $periodicidades = [
                             <div class="tab-pane fade show active" id="detalhes" role="tabpanel">
 
                                 <!-- Grupo: Identificação -->
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Código Interno de Inventário</label>
-                                    <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['codigo_interno']) ?></p>
-                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Código Interno de Inventário</label>
+                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['codigo_interno']) ?></p>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold">Designação do Equipamento</label>
-                                    <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['designacao']) ?></p>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Designação do Equipamento</label>
+                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['designacao']) ?></p>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Categoria</label>
                                         <p class="form-control-plaintext"><?= htmlspecialchars($categorias[$equipamento['categoria']]) ?></p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Marca</label>
                                         <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['marca']) ?></p>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Fabricante</label>
+                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['fabricante']) ?></p>
+                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Modelo</label>
                                         <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['modelo']) ?></p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Número de Série</label>
                                         <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['numero_serie']) ?></p>
                                     </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold">Fabricante</label>
-                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['fabricante']) ?></p>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Ano de Fabrico</label>
+                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['ano_fabrico']) ?></p>
                                     </div>
                                 </div>
 
@@ -263,15 +266,9 @@ $periodicidades = [
 
                                 <!-- Grupo: Aquisição -->
                                 <div class="row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold">Data de Aquisição</label>
                                         <p class="form-control-plaintext"><?= date('d/m/Y', strtotime($equipamento['data_aquisicao'])) ?></p>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold">Ano de Fabrico</label>
-                                        <p class="form-control-plaintext"><?= htmlspecialchars($equipamento['ano_fabrico']) ?></p>
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-bold">Custo de Aquisição</label>
@@ -381,8 +378,16 @@ $periodicidades = [
                                                         <td><?= date('d/m/Y', strtotime($doc['data_documento'])) ?></td>
                                                         <td><?= !empty($doc['data_validade']) ? date('d/m/Y', strtotime($doc['data_validade'])) : '—' ?></td>
                                                         <td><?= htmlspecialchars($doc['nome_empresa'] ?? '—') ?></td>
-                                                        <td><?= htmlspecialchars($doc['caminho_ficheiro']) ?></td>
-                                                        <td class="text-center">
+                                                        <td>
+                                                            <?php if (!empty($doc['caminho_ficheiro'])): ?>
+                                                                <a href="<?= BASE_URL ?>/assets/uploads/<?= htmlspecialchars($doc['caminho_ficheiro']) ?>" target="_blank">
+                                                                    <i class="fa-solid fa-file-arrow-down me-1"></i> Abrir
+                                                                </a>
+                                                            <?php else: ?>
+                                                                —
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td class="text-center text-nowrap">
                                                             <a href="../documentos/editar_doc.php?id_documento=<?= aes_encrypt($doc['id']) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                             </a>
@@ -397,6 +402,7 @@ $periodicidades = [
                                     </div>
                                 <?php endif; ?>
                             </div>
+
 
                             <!-- Aba Garantias / Contratos -->
                             <div class="tab-pane fade" id="garantias" role="tabpanel">
@@ -422,6 +428,7 @@ $periodicidades = [
                                                     <th>Periodicidade</th>
                                                     <th>Entidade Responsável</th>
                                                     <th>Observações</th>
+                                                    <th>Ficheiro</th>
                                                     <th class="text-center">Ações</th>
                                                 </tr>
                                             </thead>
@@ -443,7 +450,17 @@ $periodicidades = [
                                                         <td><?= !empty($gar['periodicidade']) ? htmlspecialchars($periodicidades[$gar['periodicidade']] ?? $gar['periodicidade']) : '—' ?></td>
                                                         <td><?= htmlspecialchars($gar['nome_empresa'] ?? '—') ?></td>
                                                         <td><?= htmlspecialchars($gar['observacoes'] ?? '—') ?></td>
-                                                        <td class="text-center">
+                                                        <td>
+                                                            <?php if (!empty($gar['caminho_ficheiro'])): ?>
+                                                                <a href="<?= BASE_URL ?>/assets/uploads/<?= htmlspecialchars($gar['caminho_ficheiro']) ?>" target="_blank">
+                                                                    <i class="fa-solid fa-file-arrow-down me-1"></i> Abrir
+                                                                </a>
+                                                            <?php else: ?>
+                                                                —
+                                                            <?php endif; ?>
+                                                        </td>
+
+                                                        <td class="text-center text-nowrap">
                                                             <a href="../garantias/editar_gar.php?id_garantia=<?= aes_encrypt($gar['id']) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                             </a>

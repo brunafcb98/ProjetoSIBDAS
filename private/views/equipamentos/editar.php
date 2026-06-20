@@ -251,15 +251,13 @@ try {
 
                             <!-- Identificação do equipamento -->
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-4">
                                     <label for="texto_codigo" class="form-label">Código Interno de Inventário</label>
                                     <input type="text" class="form-control" name="codigo_equipamento" id="texto_codigo" 
                                         value="<?= htmlspecialchars($equipamento->codigo_interno) ?>" required> 
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-12">
+                            
+                                <div class="col-md-8">
                                     <label for="texto_designacao" class="form-label">Designação do Equipamento</label>
                                     <input type="text" class="form-control" name="designacao_equipamento" id="texto_designacao" 
                                         value="<?= htmlspecialchars($equipamento->designacao) ?>" required> 
@@ -267,7 +265,7 @@ try {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_categoria" class="form-label">Categoria</label>
                                     <select class="form-select" name="categoria_equipamento" id="select_categoria">
                                        <option value="" <?= empty($equipamento->categoria) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -280,28 +278,12 @@ try {
                                         <option value="reabilitacao" <?= $equipamento->categoria == 'reabilitacao' ? 'selected' : '' ?>>Reabilitação</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_marca" class="form-label">Marca</label>
                                     <input type="text" class="form-control" name="marca_equipamento" id="texto_marca" 
                                         value="<?= htmlspecialchars($equipamento->marca) ?>">
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="texto_modelo" class="form-label">Modelo</label>
-                                    <input type="text" class="form-control" name="modelo_equipamento" id="texto_modelo" 
-                                        value="<?= htmlspecialchars($equipamento->modelo) ?>">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="texto_nserie" class="form-label">Número de Série</label>
-                                    <input type="text" class="form-control" name="nserie_equipamento" id="texto_nserie" 
-                                        value="<?= htmlspecialchars($equipamento->numero_serie) ?>">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_fabricante" class="form-label">Fabricante</label>
                                     <input type="text" class="form-control" name="fabricante_equipamento" id="texto_fabricante" list="fabricantes"
                                         value="<?= htmlspecialchars($equipamento->fabricante) ?>">
@@ -313,18 +295,31 @@ try {
                                         <option value="Siemens">
                                     </datalist>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="texto_dataquisicao" class="form-label">Data de Aquisição</label>
-                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="data_aquisicao" 
-                                        value="<?= htmlspecialchars($equipamento->data_aquisicao) ?>" required>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="texto_modelo" class="form-label">Modelo</label>
+                                    <input type="text" class="form-control" name="modelo_equipamento" id="texto_modelo" 
+                                        value="<?= htmlspecialchars($equipamento->modelo) ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="texto_nserie" class="form-label">Número de Série</label>
+                                    <input type="text" class="form-control" name="nserie_equipamento" id="texto_nserie" 
+                                        value="<?= htmlspecialchars($equipamento->numero_serie) ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="texto_anofabrico" class="form-label">Ano de Fabrico</label>
+                                    <input type="text" class="form-control" name="anofabrico_equipamento" id="texto_anofabrico" 
+                                        value="<?= htmlspecialchars($equipamento->ano_fabrico) ?>">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="texto_anofabrico" class="form-label">Ano de Fabrico</label>
-                                    <input type="text" class="form-control" name="anofabrico_equipamento" id="texto_anofabrico" 
-                                        value="<?= htmlspecialchars($equipamento->ano_fabrico) ?>">
+                                    <label for="texto_dataquisicao" class="form-label">Data de Aquisição</label>
+                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="data_aquisicao" 
+                                        value="<?= htmlspecialchars($equipamento->data_aquisicao) ?>" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="texto_custo" class="form-label">Custo de Aquisição <small>(€)</small></label>

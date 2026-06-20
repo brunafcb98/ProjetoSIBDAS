@@ -20,7 +20,7 @@ $nome = $_SESSION['utilizador'];
     <div class="row align-items-center" >
         <div class="col-6 d-flex align-items-center p-3">
             <a href="/sibdas/1241677/equipflow/private/dashboard.php">
-                <img src="/sibdas/1241677/equipflow/assets/images/Logo1.png" alt="Logo da empresa" height="80"class="me-3">
+                <img src="/sibdas/1241677/equipflow/assets/images/Logo1.png" alt="Logo da empresa" class="img-fluid me-3" style="max-height: 80px;">
             </a>
             <!--<h3 class="mb-0">EquipFlow | Clinical Systems</h3>-->
         </div>
@@ -47,4 +47,5 @@ $nome = $_SESSION['utilizador'];
                 </ul> 
             </div> 
         </div>
+    </div>
 </header>

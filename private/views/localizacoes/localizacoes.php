@@ -89,7 +89,7 @@ $ligacao = null;
                                             <?php endif; ?>
                                         </td>
                                         <td><?= $localizacoes->sala_internamento_gabinete ?></td>
-                                        <td class="text-center">
+                                        <td class="text-center text-nowrap">
                                             <a href="editar_local.php?id_localizacao=<?= aes_encrypt($localizacoes->id) ?>" class="btn btn-sm btn-outline-warning me-1">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>

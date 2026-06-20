@@ -27,12 +27,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novaEntidadeResponsavel   = $_POST['entidade_responsavel'] ?? '';
     $novasObservacoesGarantia  = $_POST['observacoes_garantia'] ?? '';
 
+   // Por defeito, mantém o ficheiro que já existia
+    $novoCaminhoFicheiroGarantia = $_POST['caminho_ficheiro_atual'] ?? '';
+
+    // Processar o upload do ficheiro (só a parte de MOVER, sem repetir validação)
+    if (empty(validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)) && !empty($_FILES['ficheiro_garantia']['name'])) {
+        $pastaDestino = __DIR__ . '/../../../assets/uploads/';
+
+        // Apaga o ficheiro antigo, se existir
+        if (!empty($novoCaminhoFicheiroGarantia) && file_exists($pastaDestino . $novoCaminhoFicheiroGarantia)) {
+            unlink($pastaDestino . $novoCaminhoFicheiroGarantia);
+        }
+
+        $extensao = strtolower(pathinfo($_FILES['ficheiro_garantia']['name'], PATHINFO_EXTENSION));
+        $novoCaminhoFicheiroGarantia = uniqid('gar_') . '.' . $extensao;
+        move_uploaded_file($_FILES['ficheiro_garantia']['tmp_name'], $pastaDestino . $novoCaminhoFicheiroGarantia);
+    }
+
     $erros = array_merge(
         validar_datas_garantia($novaDataInicioGarantia, $novaDataFimGarantia),
         validar_tipo_contrato($novoTipoContrato, $novoTemContratoManutencao),
         validar_periodicidade($novaPeriodicidade, $novoTemContratoManutencao),
         validar_observacoes_garantia($novasObservacoesGarantia),
-        validar_entidade_responsavel($novaEntidadeResponsavel, $novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao)
+        validar_entidade_responsavel($novaEntidadeResponsavel, $novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao),
+        validar_contexto_garantia($novaEntidadeResponsavel, $_FILES['ficheiro_garantia'], $novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao),
+        validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)
     );
 
     if (empty($erros)) {
@@ -59,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     tipo_contrato           = :tipo_contrato,
                     periodicidade           = :periodicidade,
                     id_fornecedor           = :id_fornecedor,
-                    observacoes             = :observacoes
+                    observacoes             = :observacoes,
+                    caminho_ficheiro        = :caminho_ficheiro
                 WHERE id = :id AND apagado = 0
             ");
 
@@ -70,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':periodicidade',           $periodicidadeParam,          PDO::PARAM_STR);
             $stmt->bindParam(':id_fornecedor',           $idFornecedorParam,           PDO::PARAM_INT);
             $stmt->bindParam(':observacoes',             $novasObservacoesGarantia,    PDO::PARAM_STR);
+            $stmt->bindParam(':caminho_ficheiro',        $novoCaminhoFicheiroGarantia, PDO::PARAM_STR);
             $stmt->bindParam(':id',                      $idGarantia,                  PDO::PARAM_INT);
 
             $stmt->execute();
@@ -137,20 +158,20 @@ $idEquipamentoEncrypted = aes_encrypt($garantia->id_equipamento);
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Editar Garantia / Contrato</strong></h2>
                         <hr>
-                        <form action="editar_gar.php?id_garantia=<?= $idGarantiaEncrypted ?>" method="post" novalidate>
+                        <form action="editar_gar.php?id_garantia=<?= $idGarantiaEncrypted ?>" method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="data_inicio_garantia" class="form-label">Data de Início da Garantia <small>(opcional)</small></label>
+                                    <label for="data_inicio_garantia" class="form-label">Data de Início da Garantia </label>
                                     <input type="text" class="form-control" name="data_inicio_garantia" id="data_inicio_garantia" 
                                         value="<?= htmlspecialchars($garantia->data_inicio_garantia ?? '') ?>">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="data_fim_garantia" class="form-label">Data de Fim da Garantia <small>(opcional)</small></label>
+                                    <label for="data_fim_garantia" class="form-label">Data de Fim da Garantia </label>
                                     <input type="text" class="form-control" name="data_fim_garantia" id="data_fim_garantia" 
                                         value="<?= htmlspecialchars($garantia->data_fim_garantia ?? '') ?>">
                                 </div>
@@ -195,7 +216,7 @@ $idEquipamentoEncrypted = aes_encrypt($garantia->id_equipamento);
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="select_entidade_responsavel" class="form-label">Entidade Responsável <small>(opcional)</small></label>
+                                    <label for="select_entidade_responsavel" class="form-label">Entidade Responsável </label>
                                     <select class="form-select" name="entidade_responsavel" id="select_entidade_responsavel">
                                         <option value="">-- Nenhuma --</option>
                                         <?php foreach ($fornecedoresDisponiveis as $fornecedor): ?>
@@ -205,8 +226,22 @@ $idEquipamentoEncrypted = aes_encrypt($garantia->id_equipamento);
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <div class="col-md-6">
+                                    <label for="ficheiro_garantia" class="form-label">Ficheiro</label>
+                                    <input type="file" class="form-control" name="ficheiro_garantia" id="ficheiro_garantia" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                    <?php if (!empty($garantia->caminho_ficheiro)): ?>
+                                        <small class="text-muted">
+                                            Ficheiro atual: 
+                                            <a href="<?= BASE_URL ?>/assets/uploads/<?= htmlspecialchars($garantia->caminho_ficheiro) ?>" target="_blank">
+                                                <?= htmlspecialchars($garantia->caminho_ficheiro) ?>
+                                            </a>
+                                            (deixa em branco para manter)
+                                        </small>
+                                    <?php endif; ?>
+                                    <input type="hidden" name="caminho_ficheiro_atual" value="<?= htmlspecialchars($garantia->caminho_ficheiro ?? '') ?>">
+                                </div>
                             </div>
-
+                            
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <label for="texto_observacoes_garantia" class="form-label">Observações</label>

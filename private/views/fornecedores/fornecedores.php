@@ -104,7 +104,7 @@ $ligacao = null;
                                         <td class="text-center"> 
                                             <?= $fornecedores->telefone_pessoa_contacto ?> 
                                         </td> 
-                                        <td class="text-center">
+                                        <td class="text-center text-nowrap">
                                             <a href="detalhes_f.php?id_fornecedor=<?= aes_encrypt($fornecedores->id) ?>" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>

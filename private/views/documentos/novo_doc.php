@@ -20,13 +20,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dataDocumento     = $_POST["data_documento"] ?? "";
     $dataValidade      = $_POST["data_validade"] ?? "";
     $fornecedorDoc     = $_POST["fornecedor_documento"] ?? "";
-    $caminhoFicheiro   = $_POST["caminho_documento"] ?? "";
 
     // 2. Trim
     $nomeDocumento   = trim($nomeDocumento);
     $dataDocumento   = trim($dataDocumento);
     $dataValidade    = trim($dataValidade);
-    $caminhoFicheiro = trim($caminhoFicheiro);
+
+    // 2.5 Processar o upload do ficheiro (só a parte de MOVER, sem repetir validação)
+    $caminhoFicheiro = "";
+    if (empty(validar_ficheiro_upload($_FILES['ficheiro_documento'], true)) && !empty($_FILES['ficheiro_documento']['name'])) {
+        $pastaDestino = __DIR__ . '/../../../assets/uploads/';
+        $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'], PATHINFO_EXTENSION));
+        $caminhoFicheiro = uniqid('doc_') . '.' . $extensao;
+        move_uploaded_file($_FILES['ficheiro_documento']['tmp_name'], $pastaDestino . $caminhoFicheiro);
+    }
 
     // 3. Validar os dados
     $erros = [];
@@ -37,8 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         validar_nome_documento($nomeDocumento),
         validar_data_documento($dataDocumento),
         validar_data_validade($dataValidade, $dataDocumento),
-        validar_caminho_ficheiro($caminhoFicheiro)
+        validar_ficheiro_upload($_FILES['ficheiro_documento'], true)
     );
+
 
     // 4. Se não houver erros, guardar na base de dados
     if (empty($erros)) {
@@ -129,11 +137,11 @@ try {
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4"><strong><i class="fa-solid fa-file me-2"></i> Adicionar Documento</strong></h2>
                         <hr>
-                        <form action="#" method="post" novalidate>
+                        <form action="#" method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -181,9 +189,8 @@ try {
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="texto_caminho_documento" class="form-label">Caminho / Localização do Ficheiro</label>
-                                    <input type="text" class="form-control" name="caminho_documento" id="texto_caminho_documento" 
-                                        value="<?= htmlspecialchars($_POST['caminho_documento'] ?? '') ?>">
+                                    <label for="ficheiro_documento" class="form-label">Ficheiro</label>
+                                    <input type="file" class="form-control" name="ficheiro_documento" id="ficheiro_documento" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
                                 </div>
                             </div>
 

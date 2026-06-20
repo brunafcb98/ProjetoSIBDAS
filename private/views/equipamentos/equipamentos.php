@@ -133,7 +133,7 @@ $ligacao = null;
                                         </td>
                                         <td><?= $equipamentos->servico ?> - <?= $equipamentos->sala_internamento_gabinete ?></td>
 
-                                        <td class="text-center">
+                                        <td class="text-center text-nowrap">
                                             <a href="detalhes.php?id_equipamento=<?= aes_encrypt($equipamentos->id) ?>" class="btn btn-sm btn-outline-primary me-1">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>

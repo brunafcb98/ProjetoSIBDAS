@@ -24,16 +24,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novaDataDocumento   = $_POST['data_documento'] ?? '';
     $novaDataValidade    = $_POST['data_validade'] ?? '';
     $novoFornecedorDoc   = $_POST['fornecedor_documento'] ?? '';
-    $novoCaminhoFicheiro = $_POST['caminho_documento'] ?? '';
+
+   // Por defeito, mantém o ficheiro que já existia
+    $novoCaminhoFicheiro = $_POST['caminho_ficheiro_atual'] ?? '';
+
+    // Processar o upload do ficheiro (só a parte de MOVER, sem repetir validação)
+    if (empty(validar_ficheiro_upload($_FILES['ficheiro_documento'], false)) && !empty($_FILES['ficheiro_documento']['name'])) {
+        $pastaDestino = __DIR__ . '/../../../assets/uploads/';
+
+        // Apaga o ficheiro antigo, se existir
+        if (!empty($novoCaminhoFicheiro) && file_exists($pastaDestino . $novoCaminhoFicheiro)) {
+            unlink($pastaDestino . $novoCaminhoFicheiro);
+        }
+
+        $extensao = strtolower(pathinfo($_FILES['ficheiro_documento']['name'], PATHINFO_EXTENSION));
+        $novoCaminhoFicheiro = uniqid('doc_') . '.' . $extensao;
+        move_uploaded_file($_FILES['ficheiro_documento']['tmp_name'], $pastaDestino . $novoCaminhoFicheiro);
+    }
 
     $erros = array_merge(
         validar_tipo_documento($novoTipoDocumento),
         validar_nome_documento($novoNomeDocumento),
         validar_data_documento($novaDataDocumento),
         validar_data_validade($novaDataValidade, $novaDataDocumento),
-        validar_caminho_ficheiro($novoCaminhoFicheiro)
+        validar_ficheiro_upload($_FILES['ficheiro_documento'], false)
     );
 
+    
     if (empty($erros)) {
         try {
             $ligacao = new PDO(
@@ -131,11 +148,11 @@ $idEquipamentoEncrypted = aes_encrypt($documento->id_equipamento);
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Editar Documento</strong></h2>
                         <hr>
-                        <form action="editar_doc.php?id_documento=<?= $idDocumentoEncrypted ?>" method="post" novalidate>
+                        <form action="editar_doc.php?id_documento=<?= $idDocumentoEncrypted ?>" method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -183,9 +200,18 @@ $idEquipamentoEncrypted = aes_encrypt($documento->id_equipamento);
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="texto_caminho_documento" class="form-label">Caminho / Localização do Ficheiro</label>
-                                    <input type="text" class="form-control" name="caminho_documento" id="texto_caminho_documento" 
-                                        value="<?= htmlspecialchars($documento->caminho_ficheiro) ?>">
+                                    <label for="ficheiro_documento" class="form-label">Ficheiro</label>
+                                    <input type="file" class="form-control" name="ficheiro_documento" id="ficheiro_documento" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                    <?php if (!empty($documento->caminho_ficheiro)): ?>
+                                        <small class="text-muted">
+                                            Ficheiro atual: 
+                                            <a href="<?= BASE_URL ?>/assets/uploads/<?= htmlspecialchars($documento->caminho_ficheiro) ?>" target="_blank">
+                                                <?= htmlspecialchars($documento->caminho_ficheiro) ?>
+                                            </a>
+                                            (deixa em branco para manter)
+                                        </small>
+                                    <?php endif; ?>
+                                    <input type="hidden" name="caminho_ficheiro_atual" value="<?= htmlspecialchars($documento->caminho_ficheiro) ?>">
                                 </div>
                             </div>
 

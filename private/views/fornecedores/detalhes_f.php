@@ -62,61 +62,66 @@ $tipos = [
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4">
                             <strong><i class="fa-solid fa-truck me-2"></i> Detalhes do Fornecedor</strong>
                         </h2>
                         <hr>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Nome da Empresa</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['nome_empresa']) ?></p>
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Nome da Empresa</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['nome_empresa']) ?></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Tipo de Fornecedor</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($tipos[$fornecedor['tipo']]) ?></p>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">NIF</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['nif']) ?></p>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">NIF</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['nif']) ?></p>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold">Morada</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['morada'] ?? '—') ?></p>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Morada</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['morada'] ?? '—') ?></p>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Telefone</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['telefone']) ?></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Email</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['email']) ?></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Website</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['website'] ?? '—') ?></p>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Telefone</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['telefone']) ?></p>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Pessoa de Contacto</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['pessoa_contacto'] ?? '—') ?></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Telefone da Pessoa de Contacto</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['telefone_pessoa_contacto'] ?? '—') ?></p>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Email</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['email']) ?></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Website</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['website'] ?? '—') ?></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Tipo de Fornecedor</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($tipos[$fornecedor['tipo']]) ?></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Pessoa de Contacto</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['pessoa_contacto'] ?? '—') ?></p>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Telefone da Pessoa de Contacto</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['telefone_pessoa_contacto'] ?? '—') ?></p>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Observações</label>
-                            <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['observacoes'] ?? '—') ?></p>
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Observações</label>
+                                <p class="form-control-plaintext"><?= htmlspecialchars($fornecedor['observacoes'] ?? '—') ?></p>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-end">

@@ -152,7 +152,7 @@ echo $idFornecedor;
 
                             <!-- Dados da empresa -->
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-8">
                                     <label for="texto_nome" class="form-label">Nome da Empresa</label>
                                     <input type="text" class="form-control" name="nome_fornecedor" id="texto_nome" 
                                         value="<?= htmlspecialchars($fornecedor->nome_empresa) ?>" list="empresas" required>
@@ -167,15 +167,7 @@ echo $idFornecedor;
                                         <option value="Fresenius Medical Care">
                                     </datalist>
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="texto_nif" class="form-label">NIF</label>
-                                    <input type="text" class="form-control" name="nif_fornecedor" id="texto_nif" 
-                                        value="<?= htmlspecialchars($fornecedor->nif) ?>" required>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_tipo" class="form-label">Tipo de Fornecedor</label>
                                     <select class="form-select" name="tipo_fornecedor" id="select_tipo">
                                         <option value="" <?= empty($fornecedor->tipo) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -188,7 +180,12 @@ echo $idFornecedor;
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-4">
+                                    <label for="texto_nif" class="form-label">NIF</label>
+                                    <input type="text" class="form-control" name="nif_fornecedor" id="texto_nif" 
+                                        value="<?= htmlspecialchars($fornecedor->nif) ?>" required>
+                                </div>
+                                <div class="col-md-8">
                                     <label for="texto_morada" class="form-label">Morada <small>(Nº Porta, Andar)</small></label>
                                     <input type="text" class="form-control" name="morada_fornecedor" id="texto_morada" 
                                         value="<?= htmlspecialchars($fornecedor->morada ?? '') ?>">
@@ -196,20 +193,17 @@ echo $idFornecedor;
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_telefone" class="form-label">Telefone</label>
                                     <input type="text" class="form-control" name="telefone_fornecedor" id="texto_telefone" 
                                         value="<?= htmlspecialchars($fornecedor->telefone) ?>" required>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_email" class="form-label">Email</label>
                                     <input type="email" class="form-control" name="email_fornecedor" id="texto_email" 
                                         value="<?= htmlspecialchars($fornecedor->email) ?>" required>
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-4">
                                     <label for="texto_website" class="form-label">Website</label>
                                     <input type="text" class="form-control" name="website_fornecedor" id="texto_website" 
                                         value="<?= htmlspecialchars($fornecedor->website ?? '') ?>">

@@ -314,15 +314,12 @@ try {
 
                             <!-- Identificação do equipamento -->
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-4">
                                     <label for="texto_codigo" class="form-label">Código Interno de Inventário</label>
                                     <input type="text" class="form-control" name="codigo_equipamento" id="texto_codigo" 
                                         value="<?= htmlspecialchars($_POST['codigo_equipamento'] ?? '') ?>">
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-8">
                                     <label for="texto_designacao" class="form-label">Designação do Equipamento</label>
                                     <input type="text" class="form-control" name="designacao_equipamento" id="texto_designacao"
                                         value="<?= htmlspecialchars($_POST['designacao_equipamento'] ?? '') ?>">
@@ -330,7 +327,7 @@ try {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_categoria" class="form-label">Categoria</label>
                                     <select class="form-select" name="categoria_equipamento" id="select_categoria">
                                         <option value="" <?= empty($_POST['categoria_equipamento']) ? 'selected' : '' ?>>Escolha uma opção</option>
@@ -343,28 +340,12 @@ try {
                                         <option value="reabilitacao" <?= (($_POST['categoria_equipamento'] ?? '') == 'reabilitacao') ? 'selected' : '' ?>>Reabilitação</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_marca" class="form-label">Marca</label>
                                     <input type="text" class="form-control" name="marca_equipamento" id="texto_marca" 
                                         value="<?= htmlspecialchars($_POST['marca_equipamento'] ?? '') ?>">
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="texto_modelo" class="form-label">Modelo</label>
-                                    <input type="text" class="form-control" name="modelo_equipamento" id="texto_modelo" 
-                                        value="<?= htmlspecialchars($_POST['modelo_equipamento'] ?? '') ?>">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="texto_nserie" class="form-label">Número de Série</label>
-                                    <input type="text" class="form-control" name="nserie_equipamento" id="texto_nserie" 
-                                        value="<?= htmlspecialchars($_POST['nserie_equipamento'] ?? '') ?>">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="texto_fabricante" class="form-label">Fabricante</label>
                                     <input type="text" class="form-control" name="fabricante_equipamento" id="texto_fabricante" list="fabricantes"
                                         value="<?= htmlspecialchars($_POST['fabricante_equipamento'] ?? '') ?>">
@@ -377,18 +358,31 @@ try {
                                         <option value="Baxter">
                                     </datalist>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="texto_dataquisicao" class="form-label">Data de Aquisição</label>
-                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="data_aquisicao" 
-                                        value="<?= htmlspecialchars($_POST['dataquisicao_equipamento'] ?? '') ?>" required>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="texto_modelo" class="form-label">Modelo</label>
+                                    <input type="text" class="form-control" name="modelo_equipamento" id="texto_modelo" 
+                                        value="<?= htmlspecialchars($_POST['modelo_equipamento'] ?? '') ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="texto_nserie" class="form-label">Número de Série</label>
+                                    <input type="text" class="form-control" name="nserie_equipamento" id="texto_nserie" 
+                                        value="<?= htmlspecialchars($_POST['nserie_equipamento'] ?? '') ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="texto_anofabrico" class="form-label">Ano de Fabrico</label>
+                                    <input type="text" class="form-control" name="anofabrico_equipamento" id="texto_anofabrico" 
+                                        value="<?= htmlspecialchars($_POST['anofabrico_equipamento'] ?? '') ?>">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="texto_anofabrico" class="form-label">Ano de Fabrico</label>
-                                    <input type="text" class="form-control" name="anofabrico_equipamento" id="texto_anofabrico" 
-                                        value="<?= htmlspecialchars($_POST['anofabrico_equipamento'] ?? '') ?>">
+                                    <label for="texto_dataquisicao" class="form-label">Data de Aquisição</label>
+                                    <input type="text" class="form-control" name="dataquisicao_equipamento" id="data_aquisicao" 
+                                        value="<?= htmlspecialchars($_POST['dataquisicao_equipamento'] ?? '') ?>" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="texto_custo" class="form-label">Custo de Aquisição <small>(€)</small></label>

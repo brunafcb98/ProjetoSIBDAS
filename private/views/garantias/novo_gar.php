@@ -30,6 +30,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dataFimGarantia     = trim($dataFimGarantia);
     $observacoesGarantia = trim($observacoesGarantia);
 
+    // 2.5 Processar o upload do ficheiro (só a parte de MOVER, sem repetir validação)
+    $caminhoFicheiroGarantia = "";
+    if (empty(validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)) && !empty($_FILES['ficheiro_garantia']['name'])) {
+        $pastaDestino = __DIR__ . '/../../../assets/uploads/';
+        $extensao = strtolower(pathinfo($_FILES['ficheiro_garantia']['name'], PATHINFO_EXTENSION));
+        $caminhoFicheiroGarantia = uniqid('gar_') . '.' . $extensao;
+        move_uploaded_file($_FILES['ficheiro_garantia']['tmp_name'], $pastaDestino . $caminhoFicheiroGarantia);
+    }
+
     // 3. Validar os dados
     $erros = [];
     $erro_sistema = "";
@@ -39,7 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         validar_tipo_contrato($tipoContrato, $temContratoManutencao),
         validar_periodicidade($periodicidade, $temContratoManutencao),
         validar_observacoes_garantia($observacoesGarantia),
-        validar_entidade_responsavel($entidadeResponsavel, $dataInicioGarantia, $dataFimGarantia, $temContratoManutencao)
+        validar_entidade_responsavel($entidadeResponsavel, $dataInicioGarantia, $dataFimGarantia, $temContratoManutencao),
+        validar_contexto_garantia($entidadeResponsavel, $_FILES['ficheiro_garantia'], $dataInicioGarantia, $dataFimGarantia, $temContratoManutencao),
+        validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)
     );
 
     // 4. Se não houver erros, guardar na base de dados
@@ -60,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $tipoContratoParam  = $temContratoManutencao && !empty($tipoContrato) ? $tipoContrato : null;
             $periodicidadeParam = $temContratoManutencao && !empty($periodicidade) ? $periodicidade : null;
 
-            $sql = "INSERT INTO garantias_contratos (
+           $sql = "INSERT INTO garantias_contratos (
                 id_equipamento, id_fornecedor, data_inicio_garantia, data_fim_garantia,
-                tem_contrato_manutencao, tipo_contrato, periodicidade, observacoes
+                tem_contrato_manutencao, tipo_contrato, periodicidade, observacoes, caminho_ficheiro
             ) VALUES (
                 :id_equipamento, :id_fornecedor, :data_inicio_garantia, :data_fim_garantia,
-                :tem_contrato_manutencao, :tipo_contrato, :periodicidade, :observacoes
+                :tem_contrato_manutencao, :tipo_contrato, :periodicidade, :observacoes, :caminho_ficheiro
             )";
 
             $stmt = $ligacao->prepare($sql);
@@ -77,7 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':tem_contrato_manutencao' => $temContratoManutencao,
                 ':tipo_contrato'           => $tipoContratoParam,
                 ':periodicidade'           => $periodicidadeParam,
-                ':observacoes'             => $observacoesGarantia
+                ':observacoes'             => $observacoesGarantia,
+                ':caminho_ficheiro'        => !empty($caminhoFicheiroGarantia) ? $caminhoFicheiroGarantia : null
             ]);
 
             $idNovaGarantia = $ligacao->lastInsertId();
@@ -136,20 +148,20 @@ try {
         <!-- Conteúdo Principal -->
         <main class="col-md-9 col-lg-10 p-4">
             <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow rounded" style="max-width: 900px;">
+                <div class="card w-100 shadow rounded" style="max-width: 1200px;">
                     <div class="card-body">
                         <h2 class="mb-4"><strong><i class="fa-solid fa-shield-halved me-2"></i> Adicionar Garantia / Contrato</strong></h2>
                         <hr>
-                        <form action="#" method="post" novalidate>
+                        <form action="#" method="post" enctype="multipart/form-data" novalidate>
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="data_inicio_garantia" class="form-label">Data de Início da Garantia <small>(opcional)</small></label>
+                                    <label for="data_inicio_garantia" class="form-label">Data de Início da Garantia </label>
                                     <input type="text" class="form-control" name="data_inicio_garantia" id="data_inicio_garantia" 
                                         value="<?= htmlspecialchars($_POST['data_inicio_garantia'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="data_fim_garantia" class="form-label">Data de Fim da Garantia <small>(opcional)</small></label>
+                                    <label for="data_fim_garantia" class="form-label">Data de Fim da Garantia </label>
                                     <input type="text" class="form-control" name="data_fim_garantia" id="data_fim_garantia" 
                                         value="<?= htmlspecialchars($_POST['data_fim_garantia'] ?? '') ?>">
                                 </div>
@@ -194,7 +206,7 @@ try {
 
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="select_entidade_responsavel" class="form-label">Entidade Responsável <small>(opcional)</small></label>
+                                    <label for="select_entidade_responsavel" class="form-label">Entidade Responsável </label>
                                     <select class="form-select" name="entidade_responsavel" id="select_entidade_responsavel">
                                         <option value="">-- Nenhuma --</option>
                                         <?php foreach ($fornecedoresDisponiveis as $fornecedor): ?>
@@ -203,6 +215,10 @@ try {
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="ficheiro_garantia" class="form-label">Ficheiro </label>
+                                    <input type="file" class="form-control" name="ficheiro_garantia" id="ficheiro_garantia" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
                                 </div>
                             </div>
 

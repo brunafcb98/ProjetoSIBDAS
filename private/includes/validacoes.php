@@ -373,12 +373,26 @@ function validar_data_validade(string $data_validade, string $data_documento = '
     return $erros;
 }
 
-// Validação do Caminho/Localização do Ficheiro
-function validar_caminho_ficheiro(string $caminho_ficheiro): array {
+// Validação do Ficheiro carregado (upload)
+function validar_ficheiro_upload(array $ficheiro, bool $obrigatorio = false): array {
     $erros = [];
-    if (empty(trim($caminho_ficheiro))) {
-        $erros[] = "O campo Caminho/Localização do Ficheiro é obrigatório.";
+    $extensoesPermitidas = ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx'];
+
+    if (empty($ficheiro['name'])) {
+        if ($obrigatorio) {
+            $erros[] = "É obrigatório selecionar um ficheiro.";
+        }
+        return $erros;
     }
+
+    $extensao = strtolower(pathinfo($ficheiro['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($extensao, $extensoesPermitidas)) {
+        $erros[] = "O tipo de ficheiro não é permitido. Use PDF, JPG, PNG, DOC ou DOCX.";
+    } elseif ($ficheiro['size'] > 10 * 1024 * 1024) {
+        $erros[] = "O ficheiro não pode exceder 10MB.";
+    }
+
     return $erros;
 }
 
@@ -421,6 +435,16 @@ function validar_datas_garantia(string $dataInicio, string $dataFim): array {
         if (empty($erros) && $dataFim < $dataInicio) {
             $erros[] = "A Data de Fim da Garantia não pode ser anterior à Data de Início.";
         }
+        if (empty($erros)) {
+            $inicio = new DateTime($dataInicio);
+            $fim = new DateTime($dataFim);
+            $diferenca = $inicio->diff($fim);
+            $mesesTotais = ($diferenca->y * 12) + $diferenca->m;
+
+            if ($mesesTotais < 6) {
+                $erros[] = "A garantia deve ter uma duração mínima de 6 meses.";
+            }
+        }
     }
 
     return $erros;
@@ -457,7 +481,8 @@ function validar_observacoes_garantia(string $observacoes): array {
     return $erros;
 }
 
-// Validação: Entidade Responsável só pode ser preenchida se houver garantia ou contrato de manutenção
+// Validação: Entidade Responsável é obrigatória se houver garantia ou contrato de manutenção;
+// e só pode ser preenchida nesses casos
 function validar_entidade_responsavel(string $entidadeResponsavel, string $dataInicio, string $dataFim, bool $temContrato): array {
     $erros = [];
     $temGarantia = !empty(trim($dataInicio)) && !empty(trim($dataFim));
@@ -466,5 +491,30 @@ function validar_entidade_responsavel(string $entidadeResponsavel, string $dataI
     if ($temEntidade && !$temGarantia && !$temContrato) {
         $erros[] = "Só pode indicar uma Entidade Responsável se existir garantia ou contrato de manutenção.";
     }
+
+    if (!$temEntidade && ($temGarantia || $temContrato)) {
+        $erros[] = "A Entidade Responsável é obrigatória quando existe garantia ou contrato de manutenção.";
+    }
+
+    return $erros;
+}
+
+// Validação: o registo de garantia/contrato precisa de ter um mínimo de contexto válido.
+// É obrigatório indicar Entidade Responsável OU anexar um ficheiro,
+// e em qualquer dos casos deve existir garantia (datas) ou contrato de manutenção associado.
+function validar_contexto_garantia(string $entidadeResponsavel, array $ficheiro, string $dataInicio, string $dataFim, bool $temContrato): array {
+    $erros = [];
+    $temEntidade = !empty(trim($entidadeResponsavel));
+    $temFicheiro = !empty($ficheiro['name']);
+    $temGarantia = !empty(trim($dataInicio)) && !empty(trim($dataFim));
+
+    if (!$temEntidade && !$temFicheiro) {
+        $erros[] = "Deve indicar uma Entidade Responsável ou anexar um ficheiro.";
+    }
+
+    if (!$temGarantia && !$temContrato) {
+        $erros[] = "Deve preencher as Datas de Garantia ou marcar 'Existe contrato de manutenção'.";
+    }
+
     return $erros;
 }

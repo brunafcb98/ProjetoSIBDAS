@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-6">
                                     <label for="texto_servico" class="form-label">Serviço</label>
                                     <input type="text" class="form-control" name="servico_localizacao" id="texto_servico" list="servicos"
                                          value="<?= htmlspecialchars($_POST['servico_localizacao'] ?? '') ?>">
@@ -191,10 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <option value="Administração">
                                     </datalist>
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-md-6">
                                     <label for="texto_sala" class="form-label">Internamento / Sala / Gabinete</label>
                                     <input type="text" class="form-control" name="sala_localizacao" id="texto_sala"
                                         value="<?= htmlspecialchars($_POST['sala_localizacao'] ?? '') ?>">
