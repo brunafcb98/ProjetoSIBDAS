@@ -229,7 +229,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Inserir associações de fornecedores (só se não for "indefinido")
             $fornecedoresParaInserir = [
                 'fabricante'   => $_POST['fornecedor_fabricante_equipamento'] ?? '',
-                'consumiveis'  => $_POST['fornecedor_consumiveis_equipamento'] ?? '',
                 'distribuidor' => $_POST['fornecedor_distribuidor_equipamento'] ?? '',
                 'assistencia'  => $_POST['fornecedor_assistencia_equipamento'] ?? '',
             ];
@@ -285,12 +284,11 @@ try {
         MYSQL_PASSWORD
     );
     $fabricantes   = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'fabricante'   AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
-    $consumiveis   = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'consumiveis'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
     $distribuidores = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'distribuidor' AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
     $assistencias  = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'assistencia'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
     $ligacao = null;
 } catch (PDOException $e) {
-    $fabricantes = $consumiveis = $distribuidores = $assistencias = [];
+    $fabricantes = $distribuidores = $assistencias = [];
 }
 ?>
 
@@ -347,16 +345,10 @@ try {
                                 </div>
                                 <div class="col-md-4">
                                     <label for="texto_fabricante" class="form-label">Fabricante</label>
-                                    <input type="text" class="form-control" name="fabricante_equipamento" id="texto_fabricante" list="fabricantes"
+                                    <input type="text" class="form-control" id="texto_fabricante" 
                                         value="<?= htmlspecialchars($_POST['fabricante_equipamento'] ?? '') ?>">
-                                    <datalist id="fabricantes">
-                                        <option value="Philips">
-                                        <option value="B. Braun">
-                                        <option value="Siemens">
-                                        <option value="Dräger">
-                                        <option value="Medtronic">
-                                        <option value="Baxter">
-                                    </datalist>
+                                    <input type="hidden" name="fabricante_equipamento" id="hidden_fabricante" 
+                                        value="<?= htmlspecialchars($_POST['fabricante_equipamento'] ?? '') ?>">
                                 </div>
                             </div>
 
@@ -450,7 +442,7 @@ try {
                             <h5 class="mb-3"><i class="fa-solid fa-truck-medical me-2"></i>Fornecedores Associados</h5>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_fabricante" class="form-label">Fabricante</label>
                                     <select class="form-select" name="fornecedor_fabricante_equipamento" id="select_fornecedor_fabricante">
                                         <option value="">-- Indefinido --</option>
@@ -461,21 +453,8 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="select_fornecedor_consumiveis" class="form-label">Fornecedor de Consumíveis / Acessórios</label>
-                                    <select class="form-select" name="fornecedor_consumiveis_equipamento" id="select_fornecedor_consumiveis">
-                                        <option value="">-- Indefinido --</option>
-                                        <?php foreach ($consumiveis as $fornecedor): ?>
-                                            <option value="<?= $fornecedor['id'] ?>" <?= (($_POST['fornecedor_consumiveis_equipamento'] ?? '') == $fornecedor['id']) ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                                
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_distribuidor" class="form-label">Distribuidor / Fornecedor Comercial</label>
                                     <select class="form-select" name="fornecedor_distribuidor_equipamento" id="select_fornecedor_distribuidor">
                                         <option value="">-- Indefinido --</option>
@@ -486,7 +465,7 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_assistencia" class="form-label">Empresa de Assistência Técnica</label>
                                     <select class="form-select" name="fornecedor_assistencia_equipamento" id="select_fornecedor_assistencia">
                                         <option value="">-- Indefinido --</option>
@@ -539,6 +518,41 @@ try {
 <script>
 flatpickr("#data_aquisicao", {
     dateFormat: "Y-m-d"
+});
+
+// Sincroniza o campo "Fabricante" (texto) com o select de Fornecedor Fabricante
+document.addEventListener('DOMContentLoaded', function () {
+    const selectFabricante = document.getElementById('select_fornecedor_fabricante');
+    const campoTextoFabricante = document.getElementById('texto_fabricante');
+    const campoHiddenFabricante = document.getElementById('hidden_fabricante');
+
+    function atualizarFabricante() {
+        const valorSelecionado = selectFabricante.value;
+        const textoSelecionado = selectFabricante.options[selectFabricante.selectedIndex].text;
+
+        if (valorSelecionado !== '') {
+            // Um fornecedor foi escolhido → preenche e bloqueia o campo de texto
+            campoTextoFabricante.value = textoSelecionado;
+            campoTextoFabricante.disabled = true;
+            campoHiddenFabricante.value = textoSelecionado;
+        } else {
+            // Indefinido → liberta o campo para edição manual
+            campoTextoFabricante.disabled = false;
+            campoTextoFabricante.value = '';
+            campoHiddenFabricante.value = '';
+        }
+    }
+
+    // Atualiza sempre que o select mudar
+    selectFabricante.addEventListener('change', atualizarFabricante);
+
+    // Mantém o campo hidden sincronizado se o utilizador escrever manualmente (caso Indefinido)
+    campoTextoFabricante.addEventListener('input', function () {
+        campoHiddenFabricante.value = campoTextoFabricante.value;
+    });
+
+    // Corre uma vez ao carregar a página, para o caso de já existir um valor pré-selecionado
+    atualizarFabricante();
 });
 </script>
 

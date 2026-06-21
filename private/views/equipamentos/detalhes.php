@@ -83,6 +83,32 @@ try {
     $stmtGarantias->execute();
     $garantiasEquipamento = $stmtGarantias->fetchAll(PDO::FETCH_ASSOC);
 
+    // Ir buscar os acessórios associados a este equipamento
+    $filtroApagadoAcess = ($_SESSION['profile'] === 'administrador') ? '' : 'AND apagado = 0';
+
+    $stmtAcessorios = $ligacao->prepare("
+        SELECT * FROM acessorios
+        WHERE id_equipamento_pai = :id $filtroApagadoAcess
+        ORDER BY codigo
+    ");
+    $stmtAcessorios->bindParam(':id', $idEquipamento, PDO::PARAM_INT);
+    $stmtAcessorios->execute();
+    $acessoriosEquipamento = $stmtAcessorios->fetchAll(PDO::FETCH_ASSOC);
+
+    // Ir buscar os consumíveis associados a este equipamento
+    $filtroApagadoCons = ($_SESSION['profile'] === 'administrador') ? '' : 'AND c.apagado = 0';
+
+    $stmtConsumiveis = $ligacao->prepare("
+        SELECT c.*, f.nome_empresa
+        FROM consumiveis c
+        LEFT JOIN fornecedores f ON c.id_fornecedor = f.id
+        WHERE c.id_equipamento_pai = :id $filtroApagadoCons
+        ORDER BY c.codigo
+    ");
+    $stmtConsumiveis->bindParam(':id', $idEquipamento, PDO::PARAM_INT);
+    $stmtConsumiveis->execute();
+    $consumiveisEquipamento = $stmtConsumiveis->fetchAll(PDO::FETCH_ASSOC);
+
     if (!$equipamento) {
         header('Location: ' . BASE_URL . '/private/views/equipamentos/equipamentos.php');
         exit;
@@ -211,6 +237,16 @@ $periodicidades = [
                                     <i class="fa-solid fa-shield-halved me-1"></i> Garantias / Contratos
                                 </button>
                             </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="acessorios-tab" data-bs-toggle="tab" data-bs-target="#acessorios" type="button" role="tab">
+                                    <i class="fa-solid fa-puzzle-piece me-1"></i> Acessórios
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="consumiveis-tab" data-bs-toggle="tab" data-bs-target="#consumiveis" type="button" role="tab">
+                                    <i class="fa-solid fa-boxes-stacked me-1"></i> Consumíveis
+                                </button>
+                            </li>
                         </ul>
 
                         <!-- Conteúdo das abas -->
@@ -312,12 +348,11 @@ $periodicidades = [
                                     <?php
                                     $papeis = [
                                         'fabricante'   => ['label' => 'Fabricante',                             'icon' => 'fa-industry'],
-                                        'consumiveis'  => ['label' => 'Fornecedor de Consumíveis / Acessórios',  'icon' => 'fa-box-open'],
                                         'distribuidor' => ['label' => 'Distribuidor / Fornecedor Comercial',     'icon' => 'fa-truck'],
                                         'assistencia'  => ['label' => 'Empresa de Assistência Técnica',          'icon' => 'fa-screwdriver-wrench'],
                                     ];
                                     foreach ($papeis as $tipo => $info): ?>
-                                        <div class="col-md-6 mb-4">
+                                        <div class="col-md-4 mb-4">
                                             <div class="card h-100 border-0 bg-light">
                                                 <div class="card-body">
                                                     <h6 class="card-title fw-bold">
@@ -465,6 +500,122 @@ $periodicidades = [
                                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                             </a>
                                                             <a href="../garantias/apagar_gar.php?id_garantia=<?= aes_encrypt($gar['id']) ?>" class="btn btn-sm btn-outline-danger">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Aba Acessórios -->
+                            <div class="tab-pane fade" id="acessorios" role="tabpanel">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <a href="../acessorios/novo_acessorio.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
+                                        <i class="fa-solid fa-plus me-1"></i> Adicionar Acessório
+                                    </a>
+                                </div>
+
+                                <?php if (count($acessoriosEquipamento) == 0): ?>
+                                    <div class="text-center text-muted py-5">
+                                        <i class="fa-solid fa-puzzle-piece fa-2x mb-3"></i>
+                                        <p>Sem acessórios associados.</p>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>Marca</th>
+                                                    <th>Fabricante</th>
+                                                    <th>Modelo</th>
+                                                    <th>Nº Série</th>
+                                                    <th>Estado</th>
+                                                    <th>Observações</th>
+                                                    <th class="text-center">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($acessoriosEquipamento as $acessorio): ?>
+                                                    <tr class="<?= $acessorio['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                        <td><?= htmlspecialchars($acessorio['codigo']) ?></td>
+                                                        <td>
+                                                            <?= htmlspecialchars($acessorio['nome']) ?>
+                                                            <?php if ($acessorio['apagado'] == 1): ?>
+                                                                <span class="badge bg-secondary ms-1">Desativado</span>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td><?= htmlspecialchars($acessorio['marca'] ?? '—') ?></td>
+                                                        <td><?= htmlspecialchars($acessorio['fabricante'] ?? '—') ?></td>
+                                                        <td><?= htmlspecialchars($acessorio['modelo'] ?? '—') ?></td>
+                                                        <td><?= htmlspecialchars($acessorio['numero_serie'] ?? '—') ?></td>
+                                                        <td><?= htmlspecialchars($estados[$acessorio['estado']] ?? $acessorio['estado']) ?></td>
+                                                        <td><?= htmlspecialchars($acessorio['observacoes'] ?? '—') ?></td>
+                                                        <td class="text-center text-nowrap">
+                                                            <a href="../acessorios/editar_acessorio.php?id_acessorio=<?= aes_encrypt($acessorio['id']) ?>" class="btn btn-sm btn-outline-warning me-1">
+                                                                <i class="fa-regular fa-pen-to-square"></i>
+                                                            </a>
+                                                            <a href="../acessorios/apagar_acessorio.php?id_acessorio=<?= aes_encrypt($acessorio['id']) ?>" class="btn btn-sm btn-outline-danger">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Aba Consumíveis -->
+                            <div class="tab-pane fade" id="consumiveis" role="tabpanel">
+                                <div class="d-flex justify-content-end mb-3">
+                                    <a href="../consumiveis/novo_consumivel.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
+                                        <i class="fa-solid fa-plus me-1"></i> Adicionar Consumível
+                                    </a>
+                                </div>
+
+                                <?php if (count($consumiveisEquipamento) == 0): ?>
+                                    <div class="text-center text-muted py-5">
+                                        <i class="fa-solid fa-boxes-stacked fa-2x mb-3"></i>
+                                        <p>Sem consumíveis associados.</p>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Código</th>
+                                                    <th>Nome</th>
+                                                    <th>Quantidade</th>
+                                                    <th>Fornecedor</th>
+                                                    <th>Observações</th>
+                                                    <th class="text-center">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($consumiveisEquipamento as $consumivel): ?>
+                                                    <tr class="<?= $consumivel['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                        <td><?= htmlspecialchars($consumivel['codigo']) ?></td>
+                                                        <td>
+                                                            <?= htmlspecialchars($consumivel['nome']) ?>
+                                                            <?php if ($consumivel['apagado'] == 1): ?>
+                                                                <span class="badge bg-secondary ms-1">Desativado</span>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        <td><?= htmlspecialchars($consumivel['quantidade']) ?></td>
+                                                        <td><?= htmlspecialchars($consumivel['nome_empresa'] ?? '—') ?></td>
+                                                        <td><?= htmlspecialchars($consumivel['observacoes'] ?? '—') ?></td>
+                                                        <td class="text-center text-nowrap">
+                                                            <a href="../consumiveis/editar_consumivel.php?id_consumivel=<?= aes_encrypt($consumivel['id']) ?>" class="btn btn-sm btn-outline-warning me-1">
+                                                                <i class="fa-regular fa-pen-to-square"></i>
+                                                            </a>
+                                                            <a href="../consumiveis/apagar_consumivel.php?id_consumivel=<?= aes_encrypt($consumivel['id']) ?>" class="btn btn-sm btn-outline-danger">
                                                                 <i class="fa-solid fa-trash-can"></i>
                                                             </a>
                                                         </td>

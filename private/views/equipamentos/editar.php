@@ -107,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Gerir associações de fornecedores
             $fornecedoresParaGuardar = [
                 'fabricante'   => $_POST['fornecedor_fabricante_equipamento'] ?? '',
-                'consumiveis'  => $_POST['fornecedor_consumiveis_equipamento'] ?? '',
                 'distribuidor' => $_POST['fornecedor_distribuidor_equipamento'] ?? '',
                 'assistencia'  => $_POST['fornecedor_assistencia_equipamento'] ?? '',
             ];
@@ -184,7 +183,6 @@ try {
 
    // Carregar fornecedores disponíveis por tipo
     $fabricantes    = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'fabricante'   AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
-    $consumiveis    = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'consumiveis'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
     $distribuidores = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'distribuidor' AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
     $assistencias   = $ligacao->query("SELECT id, nome_empresa FROM fornecedores WHERE tipo = 'assistencia'  AND apagado = 0 ORDER BY nome_empresa ASC")->fetchAll(PDO::FETCH_ASSOC);
    
@@ -204,7 +202,7 @@ try {
     $erro = "Erro na ligação à base de dados.";
     $equipamento = null;
     $fornecedoresAssociados = [];
-    $fabricantes = $consumiveis = $distribuidores = $assistencias = [];
+    $fabricantes = $distribuidores = $assistencias = [];
 }
 
 // Fecha a ligação
@@ -285,15 +283,11 @@ try {
                                 </div>
                                 <div class="col-md-4">
                                     <label for="texto_fabricante" class="form-label">Fabricante</label>
-                                    <input type="text" class="form-control" name="fabricante_equipamento" id="texto_fabricante" list="fabricantes"
+                                    <input type="text" class="form-control" id="texto_fabricante" 
+                                        value="<?= htmlspecialchars($equipamento->fabricante) ?>"
+                                        <?= !empty($fornecedoresAssociados['fabricante']) ? 'disabled' : '' ?>>
+                                    <input type="hidden" name="fabricante_equipamento" id="hidden_fabricante" 
                                         value="<?= htmlspecialchars($equipamento->fabricante) ?>">
-                                    <datalist id="fabricantes">
-                                        <option value="Philips">
-                                        <option value="Dräger">
-                                        <option value="B. Braun">
-                                        <option value="Zoll">
-                                        <option value="Siemens">
-                                    </datalist>
                                 </div>
                             </div>
 
@@ -387,7 +381,7 @@ try {
                             <h5 class="mb-3"><i class="fa-solid fa-truck-medical me-2"></i>Fornecedores Associados</h5>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_fabricante" class="form-label">Fabricante</label>
                                     <select class="form-select" name="fornecedor_fabricante_equipamento" id="select_fornecedor_fabricante">
                                         <option value="">-- Indefinido --</option>
@@ -398,21 +392,8 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="select_fornecedor_consumiveis" class="form-label">Fornecedor de Consumíveis / Acessórios</label>
-                                    <select class="form-select" name="fornecedor_consumiveis_equipamento" id="select_fornecedor_consumiveis">
-                                        <option value="">-- Indefinido --</option>
-                                        <?php foreach ($consumiveis as $fornecedor): ?>
-                                            <option value="<?= $fornecedor['id'] ?>" <?= ($fornecedoresAssociados['consumiveis'] ?? '') == $fornecedor['id'] ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($fornecedor['nome_empresa']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                                
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_distribuidor" class="form-label">Distribuidor / Fornecedor Comercial</label>
                                     <select class="form-select" name="fornecedor_distribuidor_equipamento" id="select_fornecedor_distribuidor">
                                         <option value="">-- Indefinido --</option>
@@ -423,7 +404,7 @@ try {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="select_fornecedor_assistencia" class="form-label">Empresa de Assistência Técnica</label>
                                     <select class="form-select" name="fornecedor_assistencia_equipamento" id="select_fornecedor_assistencia">
                                         <option value="">-- Indefinido --</option>
@@ -467,6 +448,34 @@ try {
 <script>
 flatpickr("#data_aquisicao", {
     dateFormat: "Y-m-d"
+});
+
+// Sincroniza o campo "Fabricante" (texto) com o select de Fornecedor Fabricante
+document.addEventListener('DOMContentLoaded', function () {
+    const selectFabricante = document.getElementById('select_fornecedor_fabricante');
+    const campoTextoFabricante = document.getElementById('texto_fabricante');
+    const campoHiddenFabricante = document.getElementById('hidden_fabricante');
+
+    function atualizarFabricante() {
+        const valorSelecionado = selectFabricante.value;
+        const textoSelecionado = selectFabricante.options[selectFabricante.selectedIndex].text;
+
+        if (valorSelecionado !== '') {
+            campoTextoFabricante.value = textoSelecionado;
+            campoTextoFabricante.disabled = true;
+            campoHiddenFabricante.value = textoSelecionado;
+        } else {
+            campoTextoFabricante.disabled = false;
+            campoTextoFabricante.value = '';
+            campoHiddenFabricante.value = '';
+        }
+    }
+
+    selectFabricante.addEventListener('change', atualizarFabricante);
+
+    campoTextoFabricante.addEventListener('input', function () {
+        campoHiddenFabricante.value = campoTextoFabricante.value;
+    });
 });
 </script>
 

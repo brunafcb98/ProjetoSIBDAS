@@ -182,3 +182,38 @@ CREATE TABLE `garantias_contratos` (
   CONSTRAINT chk_garantias_contratos_periodicidade CHECK (`periodicidade` IN ('mensal', 'trimestral', 'semestral', 'anual', 'nao_aplicavel')),
   CONSTRAINT chk_garantias_contratos_datas CHECK (`data_fim_garantia` >= `data_inicio_garantia`)
 );
+
+CREATE TABLE acessorios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_equipamento_pai INT NOT NULL,
+  codigo VARCHAR(30) NOT NULL,
+  nome VARCHAR(150) NOT NULL,
+  marca VARCHAR(100) NULL,
+  fabricante VARCHAR(100) NULL,
+  modelo VARCHAR(100) NULL,
+  numero_serie VARCHAR(100) NULL,
+  estado VARCHAR(20) NOT NULL DEFAULT 'ativo',
+  observacoes TEXT NULL,
+  apagado TINYINT(1) NOT NULL DEFAULT 0,
+  data_apagado DATETIME NULL,
+  id_utilizador_apagou INT NULL,
+  CONSTRAINT fk_acessorio_pai FOREIGN KEY (id_equipamento_pai) REFERENCES equipamentos(id),
+  CONSTRAINT fk_acessorio_utilizador FOREIGN KEY (id_utilizador_apagou) REFERENCES utilizadores(id)
+);
+
+-- tem um único fornecedor (regra de negócio: 1 fornecedor por consumível)
+-- =====================================================
+CREATE TABLE consumiveis (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_equipamento_pai INT NOT NULL,
+  codigo VARCHAR(30) NOT NULL,
+  nome VARCHAR(150) NOT NULL,
+  quantidade INT NOT NULL DEFAULT 0,
+  id_fornecedor INT NOT NULL,
+  observacoes TEXT NULL,
+  apagado TINYINT(1) NOT NULL DEFAULT 0,
+  data_apagado DATETIME NULL,
+  id_utilizador_apagou INT NULL,
+  CONSTRAINT fk_consumivel_pai FOREIGN KEY (id_equipamento_pai) REFERENCES equipamentos(id),
+  CONSTRAINT fk_consumivel_fornecedor FOREIGN KEY (id_fornecedor) REFERENCES fornecedores(id)
+);

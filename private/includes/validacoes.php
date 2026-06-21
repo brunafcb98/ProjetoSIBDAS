@@ -1,7 +1,7 @@
 <?php
 
 // ============================================================
-// Equipamentos
+// Equipamentos (e acess - designaçao, modelo, nrserie, estado, obs + cons - desig e obs)
 // ============================================================
 
 // Validação do Código Interno
@@ -516,5 +516,32 @@ function validar_contexto_garantia(string $entidadeResponsavel, array $ficheiro,
         $erros[] = "Deve preencher as Datas de Garantia ou marcar 'Existe contrato de manutenção'.";
     }
 
+    return $erros;
+}
+
+// ============================================================
+// Consumíveis
+// ============================================================
+
+// Validação da Quantidade
+function validar_quantidade(string $quantidade): array {
+    $erros = [];
+    if (empty(trim($quantidade))) {
+        $erros[] = "O campo Quantidade é obrigatório.";
+    } elseif (!preg_match('/^-?\d+$/', $quantidade)) {
+        // Aceita o regex (incluindo negativos) só para conseguir distinguir "não é número" de "é negativo"
+        $erros[] = "A Quantidade deve ser um número inteiro.";
+    } elseif ((int)$quantidade <= 0) {
+        $erros[] = "A Quantidade deve ser maior que 0.";
+    }
+    return $erros;
+}
+
+// Validação do Fornecedor (obrigatório para consumíveis)
+function validar_fornecedor_consumivel(string $idFornecedor): array {
+    $erros = [];
+    if (empty($idFornecedor) || !is_numeric($idFornecedor)) {
+        $erros[] = "O campo Fornecedor é obrigatório.";
+    }
     return $erros;
 }

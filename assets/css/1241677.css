@@ -416,7 +416,7 @@ section {
     flex-wrap: wrap;
     padding: 80px 40px;
     gap: 40px;
-    min-height: 80vh; /* Garante uma altura mínima para a seção, mesmo com pouco conteúdo */
+    min-height: 90vh; /* Garante uma altura mínima para a seção, mesmo com pouco conteúdo */
 }
 .container-funcionalidades h2 {
     width: 100%; /* O título ocupa toda a largura para ficar centrado acima das colunas */
