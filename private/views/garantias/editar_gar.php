@@ -17,6 +17,27 @@ if (!$idGarantia || !is_numeric($idGarantia)) {
     exit;
 }
 
+//Para ir buscar a data de aquisiçao do equip, de modo a assegurar que a data de inicio de garantia é posterior
+try {
+    $ligacaoTemp = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $stmtTemp = $ligacaoTemp->prepare("
+        SELECT e.data_aquisicao 
+        FROM equipamentos e
+        INNER JOIN garantias_contratos g ON g.id_equipamento = e.id
+        WHERE g.id = :id_garantia
+    ");
+    $stmtTemp->bindParam(':id_garantia', $idGarantia, PDO::PARAM_INT);
+    $stmtTemp->execute();
+    $dataAquisicaoEquipamento = $stmtTemp->fetchColumn();
+    $ligacaoTemp = null;
+} catch (PDOException $e) {
+    $dataAquisicaoEquipamento = '';
+}
+
 //Detetar submissao via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novaDataInicioGarantia    = $_POST['data_inicio_garantia'] ?? '';
@@ -46,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $erros = array_merge(
         validar_datas_garantia($novaDataInicioGarantia, $novaDataFimGarantia),
+        validar_data_inicio_vs_aquisicao($novaDataInicioGarantia, $dataAquisicaoEquipamento),
         validar_tipo_contrato($novoTipoContrato, $novoTemContratoManutencao),
         validar_periodicidade($novaPeriodicidade, $novoTemContratoManutencao),
         validar_observacoes_garantia($novasObservacoesGarantia),
@@ -194,7 +216,6 @@ $idEquipamentoEncrypted = aes_encrypt($garantia->id_equipamento);
                                     <label for="select_tipo_contrato" class="form-label">Tipo de Contrato</label>
                                     <select class="form-select" name="tipo_contrato" id="select_tipo_contrato">
                                         <option value="" <?= empty($garantia->tipo_contrato) ? 'selected' : '' ?>>Escolha uma opção</option>
-                                        <option value="garantia_fabricante" <?= $garantia->tipo_contrato == 'garantia_fabricante' ? 'selected' : '' ?>>Garantia de Fabricante</option>
                                         <option value="manutencao_preventiva" <?= $garantia->tipo_contrato == 'manutencao_preventiva' ? 'selected' : '' ?>>Manutenção Preventiva</option>
                                         <option value="manutencao_corretiva" <?= $garantia->tipo_contrato == 'manutencao_corretiva' ? 'selected' : '' ?>>Manutenção Corretiva</option>
                                         <option value="manutencao_completa" <?= $garantia->tipo_contrato == 'manutencao_completa' ? 'selected' : '' ?>>Manutenção Completa (Preventiva + Corretiva)</option>

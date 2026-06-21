@@ -11,6 +11,7 @@ include '../../includes/toast.php';
 include '../../includes/header.php'; 
 include '../../includes/nav.php';
 
+$verDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver']) && $_GET['ver'] === 'desativados';
 // LIGAÇÃO À BASE DE DADOS E EXECUÇÃO DA QUERY
 try { 
     $ligacao = new PDO( 
@@ -23,7 +24,7 @@ try {
 
     // O administrador vê todas as localizações (incluindo desativadas).
     // O técnico vê apenas as localizações ativas (apagado = 0).
-    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE apagado = 0';
+    $filtroApagado = $verDesativados ? 'WHERE apagado = 1' : 'WHERE apagado = 0';
  
     $resultados = $ligacao->query("SELECT * FROM localizacoes $filtroApagado")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
@@ -49,12 +50,40 @@ $ligacao = null;
                 <h2 class="mb-0">
                     <i class="fa-solid fa-map-marker-alt me-2"></i>
                     <strong>Listagem de Localizações</strong>
+                    <?php if ($verDesativados) : ?>
+                        <span class="badge bg-secondary ms-2">Desativados</span>
+                    <?php endif; ?>
                 </h2>
                 <a href="novo_local.php" class="btn btn-success">
                     <i class="fa-solid fa-plus me-1"></i> Nova localização
                 </a>
             </div>
             <hr>
+
+            <div class="text-end mb-2">
+                <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                    <?php if ($verDesativados) : ?>
+                        <a href="localizacoes.php" class="btn btn-sm btn-outline-secondary">
+                            <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                        </a>
+                    <?php else : ?>
+                        <a href="localizacoes.php?ver=desativados" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <div class="dropdown d-inline-block">
+                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-file-export me-1"></i> Exportar
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=localizacoes&formato=csv">CSV</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=localizacoes&formato=json">JSON</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=localizacoes&formato=pdf">PDF</a></li>
+                    </ul>
+                </div>
+            </div>
 
             <?php if (!empty($erro)) : ?> 
                 <p class="text-center text-danger"><?= $erro ?></p> 
@@ -76,7 +105,7 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $localizacoes) : ?>
-                                    <tr class="<?= $localizacoes->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
+                                    <tr>
                                         <!-- Os campos edificio e piso são selects com valores em texto completo na BD (ex: "Edifício Principal", "Piso 0"). -->
                                         <!-- Os campos servico e sala_internamento_gabinete são texto livre. -->
                                         <!-- Nenhum campo necessita de conversão. -->
@@ -84,9 +113,6 @@ $ligacao = null;
                                         <td><?= $localizacoes->piso ?></td>
                                         <td>
                                             <?= $localizacoes->servico ?>
-                                            <?php if ($localizacoes->apagado == 1): ?>
-                                                <span class="badge bg-secondary ms-1">Desativado</span>
-                                            <?php endif; ?>
                                         </td>
                                         <td><?= $localizacoes->sala_internamento_gabinete ?></td>
                                         <td class="text-center text-nowrap">

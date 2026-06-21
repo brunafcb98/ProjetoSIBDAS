@@ -12,6 +12,22 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
     exit;
 }
 
+// Vai buscar a data de aquisição do equipamento, para validar a data de garantia
+try {
+    $ligacaoTemp = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $stmtTemp = $ligacaoTemp->prepare("SELECT data_aquisicao FROM equipamentos WHERE id = :id");
+    $stmtTemp->bindParam(':id', $idEquipamento, PDO::PARAM_INT);
+    $stmtTemp->execute();
+    $dataAquisicaoEquipamento = $stmtTemp->fetchColumn();
+    $ligacaoTemp = null;
+} catch (PDOException $e) {
+    $dataAquisicaoEquipamento = '';
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Recolher dados
@@ -45,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $erros = array_merge(
         validar_datas_garantia($dataInicioGarantia, $dataFimGarantia),
+        validar_data_inicio_vs_aquisicao($dataInicioGarantia, $dataAquisicaoEquipamento),
         validar_tipo_contrato($tipoContrato, $temContratoManutencao),
         validar_periodicidade($periodicidade, $temContratoManutencao),
         validar_observacoes_garantia($observacoesGarantia),
@@ -184,7 +201,6 @@ try {
                                     <label for="select_tipo_contrato" class="form-label">Tipo de Contrato</label>
                                     <select class="form-select" name="tipo_contrato" id="select_tipo_contrato">
                                         <option value="" <?= empty($_POST['tipo_contrato']) ? 'selected' : '' ?>>Escolha uma opção</option>
-                                        <option value="garantia_fabricante" <?= (($_POST['tipo_contrato'] ?? '') == 'garantia_fabricante') ? 'selected' : '' ?>>Garantia de Fabricante</option>
                                         <option value="manutencao_preventiva" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_preventiva') ? 'selected' : '' ?>>Manutenção Preventiva</option>
                                         <option value="manutencao_corretiva" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_corretiva') ? 'selected' : '' ?>>Manutenção Corretiva</option>
                                         <option value="manutencao_completa" <?= (($_POST['tipo_contrato'] ?? '') == 'manutencao_completa') ? 'selected' : '' ?>>Manutenção Completa (Preventiva + Corretiva)</option>

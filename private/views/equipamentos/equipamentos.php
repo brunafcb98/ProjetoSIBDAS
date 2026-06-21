@@ -11,6 +11,7 @@ include '../../includes/toast.php';
 include '../../includes/header.php'; 
 include '../../includes/nav.php'; 
 
+$verDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver']) && $_GET['ver'] === 'desativados';
 // LIGAÇÃO À BASE DE DADOS E EXECUÇÃO DA QUERY
 try { 
     $ligacao = new PDO( 
@@ -23,7 +24,7 @@ try {
 
     // O administrador vê todos os equipamentos (incluindo desativados).
     // O técnico vê apenas os equipamentos ativos (apagado = 0).
-    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE e.apagado = 0';
+    $filtroApagado = $verDesativados ? 'WHERE e.apagado = 1' : 'WHERE e.apagado = 0';
  
     $resultados = $ligacao->query("
         SELECT e.*, l.servico, l.sala_internamento_gabinete 
@@ -54,12 +55,41 @@ $ligacao = null;
                 <h2 class="mb-0">
                     <i class="fa-solid fa-stethoscope me-2"></i>
                     <strong>Listagem de Equipamentos</strong>
+                    <?php if ($verDesativados) : ?>
+                        <span class="badge bg-secondary ms-2">Desativados</span>
+                    <?php endif; ?>
                 </h2>
-                <a href="novo.php" class="btn btn-success">
-                    <i class="fa-solid fa-plus me-1"></i> Novo equipamento
-                </a>
+                <div>
+                    <a href="novo.php" class="btn btn-success">
+                        <i class="fa-solid fa-plus me-1"></i> Novo equipamento
+                    </a>
+                </div>
             </div>
             <hr>
+            <div class="text-end mb-2">
+                <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                    <?php if ($verDesativados) : ?>
+                        <a href="equipamentos.php" class="btn btn-sm btn-outline-secondary">
+                            <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                        </a>
+                    <?php else : ?>
+                        <a href="equipamentos.php?ver=desativados" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <div class="dropdown d-inline-block">
+                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-file-export me-1"></i> Exportar
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=equipamentos&formato=csv">CSV</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=equipamentos&formato=json">JSON</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=equipamentos&formato=pdf">PDF</a></li>
+                    </ul>
+                </div>
+            </div>
 
             <?php if (!empty($erro)) : ?> 
                 <p class="text-center text-danger"><?= $erro ?></p> 
@@ -84,13 +114,10 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $equipamentos) : ?>
-                                    <tr class="<?= $equipamentos->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
+                                    <tr>
                                         <td><?= $equipamentos->codigo_interno ?></td> 
                                         <td>
                                             <?= $equipamentos->designacao ?>
-                                             <?php if ($equipamentos->apagado == 1): ?>
-                                                <span class="badge bg-secondary ms-1">Desativado</span>
-                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php

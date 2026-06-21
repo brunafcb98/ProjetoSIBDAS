@@ -15,6 +15,10 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
     exit;
 }
 
+$verDocDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver_doc']) && $_GET['ver_doc'] === 'desativados';
+$verGarDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver_gar']) && $_GET['ver_gar'] === 'desativados';
+$verAcessDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver_acess']) && $_GET['ver_acess'] === 'desativados';
+$verConsDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver_cons']) && $_GET['ver_cons'] === 'desativados';
 // Ligação à base de dados e obtenção dos dados do equipamento
 try {
     $ligacao = new PDO(
@@ -54,7 +58,7 @@ try {
     // Ir buscar os documentos associados a este equipamento
     // O administrador vê todos os documentos (incluindo desativados).
     // O técnico vê apenas os documentos ativos (apagado = 0).
-    $filtroApagadoDoc = ($_SESSION['profile'] === 'administrador') ? '' : 'AND d.apagado = 0';
+    $filtroApagadoDoc = $verDocDesativados ? 'AND d.apagado = 1' : 'AND d.apagado = 0';
 
     $stmtDocumentos = $ligacao->prepare("
         SELECT d.*, f.nome_empresa
@@ -70,7 +74,7 @@ try {
     // Ir buscar as garantias/contratos associadas a este equipamento
     // O administrador vê todas (incluindo desativadas).
     // O técnico vê apenas as ativas (apagado = 0).
-    $filtroApagadoGar = ($_SESSION['profile'] === 'administrador') ? '' : 'AND g.apagado = 0';
+    $filtroApagadoGar = $verGarDesativados ? 'AND g.apagado = 1' : 'AND g.apagado = 0';
 
     $stmtGarantias = $ligacao->prepare("
         SELECT g.*, f.nome_empresa
@@ -84,7 +88,7 @@ try {
     $garantiasEquipamento = $stmtGarantias->fetchAll(PDO::FETCH_ASSOC);
 
     // Ir buscar os acessórios associados a este equipamento
-    $filtroApagadoAcess = ($_SESSION['profile'] === 'administrador') ? '' : 'AND apagado = 0';
+    $filtroApagadoAcess = $verAcessDesativados ? 'AND apagado = 1' : 'AND apagado = 0';
 
     $stmtAcessorios = $ligacao->prepare("
         SELECT * FROM acessorios
@@ -96,7 +100,7 @@ try {
     $acessoriosEquipamento = $stmtAcessorios->fetchAll(PDO::FETCH_ASSOC);
 
     // Ir buscar os consumíveis associados a este equipamento
-    $filtroApagadoCons = ($_SESSION['profile'] === 'administrador') ? '' : 'AND c.apagado = 0';
+    $filtroApagadoCons = $verConsDesativados ? 'AND c.apagado = 1' : 'AND c.apagado = 0';
 
     $stmtConsumiveis = $ligacao->prepare("
         SELECT c.*, f.nome_empresa
@@ -165,7 +169,6 @@ $tipos_documento = [
     'outro'                     => 'Outro'
 ];
 $tipos_contrato = [
-    'garantia_fabricante'   => 'Garantia de Fabricante',
     'manutencao_preventiva' => 'Manutenção Preventiva',
     'manutencao_corretiva'  => 'Manutenção Corretiva',
     'manutencao_completa'   => 'Manutenção Completa',
@@ -375,7 +378,18 @@ $periodicidades = [
 
                             <!-- Aba Documentos -->
                             <div class="tab-pane fade" id="documentos" role="tabpanel">
-                                <div class="d-flex justify-content-end mb-3">
+                                <div class="d-flex justify-content-end mb-3 gap-2">
+                                    <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                                        <?php if ($verDocDesativados) : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>&ver_doc=desativados" class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                     <a href="../documentos/novo_doc.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
                                         <i class="fa-solid fa-plus me-1"></i> Adicionar Documento
                                     </a>
@@ -402,7 +416,7 @@ $periodicidades = [
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($documentosEquipamento as $doc): ?>
-                                                    <tr class="<?= $doc['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                    <tr>
                                                         <td><?= htmlspecialchars($tipos_documento[$doc['tipo_documento']] ?? $doc['tipo_documento']) ?></td>
                                                         <td>
                                                             <?= htmlspecialchars($doc['nome_documento']) ?>
@@ -441,7 +455,18 @@ $periodicidades = [
 
                             <!-- Aba Garantias / Contratos -->
                             <div class="tab-pane fade" id="garantias" role="tabpanel">
-                                <div class="d-flex justify-content-end mb-3">
+                                <div class="d-flex justify-content-end mb-3 gap-2">
+                                    <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                                        <?php if ($verGarDesativados) : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>&ver_gar=desativados" class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                     <a href="../garantias/novo_gar.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
                                         <i class="fa-solid fa-plus me-1"></i> Adicionar Garantia/Contrato
                                     </a>
@@ -469,7 +494,7 @@ $periodicidades = [
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($garantiasEquipamento as $gar): ?>
-                                                    <tr class="<?= $gar['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                    <tr>
                                                         <td>
                                                             <?php if (!empty($gar['data_inicio_garantia'])): ?>
                                                                 <?= date('d/m/Y', strtotime($gar['data_inicio_garantia'])) ?> a <?= date('d/m/Y', strtotime($gar['data_fim_garantia'])) ?>
@@ -513,7 +538,30 @@ $periodicidades = [
 
                             <!-- Aba Acessórios -->
                             <div class="tab-pane fade" id="acessorios" role="tabpanel">
-                                <div class="d-flex justify-content-end mb-3">
+                                <div class="d-flex justify-content-end mb-3 gap-2">
+                                    <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                                        <?php if ($verAcessDesativados) : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>&ver_acess=desativados" class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-file-export me-1"></i> Exportar
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=acessorios&formato=csv&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">CSV</a></li>
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=acessorios&formato=json&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">JSON</a></li>
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=acessorios&formato=pdf&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">PDF</a></li>
+                                        </ul>
+                                    </div>
+
                                     <a href="../acessorios/novo_acessorio.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
                                         <i class="fa-solid fa-plus me-1"></i> Adicionar Acessório
                                     </a>
@@ -542,7 +590,7 @@ $periodicidades = [
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($acessoriosEquipamento as $acessorio): ?>
-                                                    <tr class="<?= $acessorio['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                    <tr>
                                                         <td><?= htmlspecialchars($acessorio['codigo']) ?></td>
                                                         <td>
                                                             <?= htmlspecialchars($acessorio['nome']) ?>
@@ -574,7 +622,30 @@ $periodicidades = [
 
                             <!-- Aba Consumíveis -->
                             <div class="tab-pane fade" id="consumiveis" role="tabpanel">
-                                <div class="d-flex justify-content-end mb-3">
+                                <div class="d-flex justify-content-end mb-3 gap-2">
+                                    <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                                        <?php if ($verConsDesativados) : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>" class="btn btn-sm btn-outline-secondary">
+                                                <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="detalhes.php?id_equipamento=<?= htmlspecialchars($idEquipamentoEncrypted) ?>&ver_cons=desativados" class="btn btn-sm btn-outline-danger">
+                                                <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-file-export me-1"></i> Exportar
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=consumiveis&formato=csv&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">CSV</a></li>
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=consumiveis&formato=json&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">JSON</a></li>
+                                            <li><a class="dropdown-item" href="../../exportar.php?tabela=consumiveis&formato=pdf&id_equipamento=<?= aes_encrypt($idEquipamento) ?>">PDF</a></li>
+                                        </ul>
+                                    </div>
+
                                     <a href="../consumiveis/novo_consumivel.php?id_equipamento=<?= aes_encrypt($idEquipamento) ?>" class="btn btn-primary">
                                         <i class="fa-solid fa-plus me-1"></i> Adicionar Consumível
                                     </a>
@@ -600,7 +671,7 @@ $periodicidades = [
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($consumiveisEquipamento as $consumivel): ?>
-                                                    <tr class="<?= $consumivel['apagado'] == 1 ? 'table-secondary text-muted' : '' ?>">
+                                                    <tr>
                                                         <td><?= htmlspecialchars($consumivel['codigo']) ?></td>
                                                         <td>
                                                             <?= htmlspecialchars($consumivel['nome']) ?>

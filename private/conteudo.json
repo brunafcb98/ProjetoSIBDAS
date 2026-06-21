@@ -1,0 +1,104 @@
+{
+    "home": {
+        "titulo": "Gestão de Equipamentos Clínicos",
+        "texto1": "Na EquipFlow, transformamos a gestão de equipamentos clínicos. Com a nossa plataforma inovadora, oferecemos soluções inteligentes para otimizar o fluxo de trabalho, melhorar a eficiência e garantir a segurança dos pacientes.",
+        "texto2": "Junte-se a nós nesta jornada rumo a um futuro mais conectado e eficiente na área da saúde."
+    },
+    "sobre_nos": {
+        "titulo": "Sobre Nós",
+        "texto": "A EquipFlow é uma empresa dedicada à gestão, manutenção e monitorização de equipamentos hospitalares. Fundada por uma equipa de profissionais especializados na área da saúde e tecnologia, trabalhamos lado a lado com instituições de saúde para garantir a fiabilidade dos equipamentos, a segurança dos profissionais e a continuidade dos cuidados ao cliente.",
+        "cards": [
+            {
+                "titulo": "Visão",
+                "texto": "Ser referência nacional na gestão de equipamentos hospitalares, contribuindo para um sistema de saúde mais eficiente e seguro."
+            },
+            {
+                "titulo": "Missão",
+                "texto": "Garantir o funcionamento contínuo e seguro dos equipamentos médicos, através de uma gestão rigorosa e de um serviço técnico de excelência."
+            },
+            {
+                "titulo": "Valores",
+                "texto": "Rigor, responsabilidade, inovação e compromisso com a saúde das pessoas."
+            }
+        ]
+    },
+    "servicos": {
+        "titulo": "Serviços",
+        "cards": [
+            {
+                "titulo": "Gestão de Equipamentos Hospitalares",
+                "texto": "Registe, consulte e atualize toda a informação relativa aos equipamentos médicos da instituição, garantindo rastreabilidade e controlo total do parque tecnológico."
+            },
+            {
+                "titulo": "Gestão Documental e Fornecedores",
+                "texto": "Centralize toda a documentação técnica e administrativa associada aos seus equipamentos, fornecedores e fabricantes, num único repositório de fácil acesso."
+            },
+            {
+                "titulo": "Monitorização e Controlo",
+                "texto": "Acompanhe o estado global do parque tecnológico da instituição através de dashboards, alertas e relatórios detalhados."
+            }
+        ]
+    },
+    "vantagens": {
+        "titulo": "Vantagens da Gestão de Equipamentos Clínicos",
+        "cards": [
+            {
+                "titulo": "Informação Centralizada",
+                "texto": "Reúna todo o histórico, localização e estado operacional dos equipamentos da instituição num único repositório de informação, eliminando a necessidade de procura em múltiplas fontes."
+            },
+            {
+                "titulo": "Decisões Estratégicas",
+                "texto": "Acompanhe indicadores e relatórios do parque tecnológico em tempo real, permitindo o planeamento de investimentos e renovações com dados exatos."
+            },
+            {
+                "titulo": "Prioridade Clínica",
+                "texto": "Identifique instantaneamente os equipamentos de suporte de vida ou de alto risco através de alertas e destaques visuais, garantindo uma intervenção técnica prioritária."
+            },
+            {
+                "titulo": "Conformidade e Segurança",
+                "texto": "Garanta o cumprimento das normas e regulamentações aplicáveis, minimizando riscos operacionais e assegurando o acesso imediato a alertas e documentação técnica."
+            }
+        ]
+    },
+    "funcionalidades": {
+        "titulo": "O Que Faz o Nosso Sistema",
+        "artigos": [
+            {
+                "titulo": "Inventário Dinâmico",
+                "texto": "Registe e catalogue todo o parque tecnológico biomédico. Pesquise por marca ou modelo e aceda ao histórico e estado operacional de cada dispositivo médico."
+            },
+            {
+                "titulo": "Alertas de Criticidade",
+                "texto": "Identifique de forma imediata os dispositivos de suporte de vida ou de alto risco através de destaques visuais automáticos, garantindo uma intervenção técnica prioritária."
+            },
+            {
+                "titulo": "Controlo de Empréstimos",
+                "texto": "Registe e acompanhe o fluxo e a transferência de dispositivos médicos entre serviços do hospital, evitando perdas, duplicações e garantindo a rastreabilidade de cada equipamento."
+            },
+            {
+                "titulo": "Gestão Documental",
+                "texto": "Associe manuais técnicos, contratos de fornecedores e certificados de calibração à ficha de cada equipamento, identificando automaticamente documentos em falta."
+            },
+            {
+                "titulo": "Gestão de Localizações",
+                "texto": "Mapeie a distribuição dos equipamentos pelos diferentes serviços e localizações, permitindo à equipa de engenharia clínica localizar e intervir em qualquer equipamento de forma rápida e eficaz."
+            },
+            {
+                "titulo": "Painéis Estatísticos",
+                "texto": "Aceda a uma área com gráficos dinâmicos sobre a distribuição dos equipamentos por categoria, estado e criticidade, apoiando o planeamento e a tomada de decisão do hospital."
+            }
+        ]
+    },
+    "contacto": {
+        "titulo": "Contacto",
+        "texto": "Entre em contacto connosco para solicitar uma demonstração ou esclarecer qualquer questão."
+    },
+    "rodape": {
+        "localizacao": "Avenida do Sol<br>4150-301, Porto<br>Portugal",
+        "horario_semana": "2ª a 6ª Feira: 9h — 18h",
+        "horario_sabado": "Sábado: 9h — 13h",
+        "horario_domingo": "Domingo e Feriados: Encerrado",
+        "email": "geral@EquipFlow.pt",
+        "telefone": "+351 220 999 000"
+    }
+}

@@ -11,6 +11,7 @@ include '../../includes/toast.php';
 include '../../includes/header.php'; 
 include '../../includes/nav.php'; 
 
+$verDesativados = ($_SESSION['profile'] === 'administrador') && isset($_GET['ver']) && $_GET['ver'] === 'desativados';
 // LIGAÇÃO À BASE DE DADOS E EXECUÇÃO DA QUERY
 try { 
     $ligacao = new PDO( 
@@ -23,7 +24,7 @@ try {
 
     // O administrador vê todos os fornecedores (incluindo desativados).
     // O técnico vê apenas os fornecedores ativos (apagado = 0).
-    $filtroApagado = ($_SESSION['profile'] === 'administrador') ? '' : 'WHERE apagado = 0';
+    $filtroApagado = $verDesativados ? 'WHERE apagado = 1' : 'WHERE apagado = 0';
  
     $resultados = $ligacao->query("SELECT * FROM fornecedores $filtroApagado")->fetchAll(PDO::FETCH_OBJ); 
     $erro = ''; 
@@ -49,12 +50,40 @@ $ligacao = null;
                 <h2 class="mb-0">
                     <i class="fa-solid fa-truck me-2"></i> 
                     <strong>Listagem de Fornecedores</strong>
+                    <?php if ($verDesativados) : ?>
+                        <span class="badge bg-secondary ms-2">Desativados</span>
+                    <?php endif; ?>
                 </h2>
                 <a href="novo_f.php" class="btn btn-success">
                     <i class="fa-solid fa-plus me-1"></i> Novo fornecedor
                 </a>
             </div>
             <hr>
+
+            <div class="text-end mb-2">
+                <?php if ($_SESSION['profile'] === 'administrador') : ?>
+                    <?php if ($verDesativados) : ?>
+                        <a href="fornecedores.php" class="btn btn-sm btn-outline-secondary">
+                            <i class="fa-solid fa-eye me-1"></i> Ver Ativos
+                        </a>
+                    <?php else : ?>
+                        <a href="fornecedores.php?ver=desativados" class="btn btn-sm btn-outline-danger">
+                            <i class="fa-solid fa-eye-slash me-1"></i> Ver Desativados
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                <div class="dropdown d-inline-block">
+                    <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fa-solid fa-file-export me-1"></i> Exportar
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=fornecedores&formato=csv">CSV</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=fornecedores&formato=json">JSON</a></li>
+                        <li><a class="dropdown-item" href="../../exportar.php?tabela=fornecedores&formato=pdf">PDF</a></li>
+                    </ul>
+                </div>
+            </div>
 
             <?php if (!empty($erro)) : ?> 
                 <p class="text-center text-danger"><?= $erro ?></p> 
@@ -78,12 +107,9 @@ $ligacao = null;
                             </thead>
                             <tbody>
                                 <?php foreach ($resultados as $fornecedores) : ?>
-                                    <tr class="<?= $fornecedores->apagado == 1 ? 'table-secondary text-muted' : '' ?>">
+                                    <tr>
                                         <td>
                                             <?= $fornecedores->nome_empresa ?>
-                                            <?php if ($fornecedores->apagado == 1): ?>
-                                                <span class="badge bg-secondary ms-1">Desativado</span>
-                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php

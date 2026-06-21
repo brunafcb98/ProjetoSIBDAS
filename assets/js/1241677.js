@@ -14,12 +14,42 @@ function animarNumero(id, valorFinal) {
     }, 30);
 }
 
-// Quando a página termina de carregar, inicia as animações
-document.addEventListener("DOMContentLoaded", function() {
-    if (document.getElementById("total")) animarNumero("total", 148);
-    if (document.getElementById("ativos")) animarNumero("ativos", 112);
-    if (document.getElementById("manutencao")) animarNumero("manutencao", 18);
-    if (document.getElementById("inativos")) animarNumero("inativos", 9);
-    if (document.getElementById("criticos")) animarNumero("criticos", 24);
-    if (document.getElementById("suporte")) animarNumero("suporte", 31);
-});
+// Função para inicializar os gráficos da dashboard
+function iniciarGraficos(categoriaLabels, categoriaData, localizacaoLabels, localizacaoData) {
+    new Chart(document.getElementById('graficoCategoria'), {
+        type: 'bar',
+        data: {
+            labels: categoriaLabels,
+            datasets: [{
+                label: 'Equipamentos',
+                data: categoriaData,
+                backgroundColor: '#0096a6'
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    new Chart(document.getElementById('graficoLocalizacao'), {
+        type: 'pie',
+        data: {
+            labels: localizacaoLabels,
+            datasets: [{
+                data: localizacaoData,
+                backgroundColor: ['#0096a6', '#00b8c9', '#66d4dd', '#a3e4ea', '#ffb74d', '#ff8a65', '#9575cd', '#4db6ac']
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            aspectRatio: 1.3,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { boxWidth: 12, font: { size: 11 } }
+                }
+            }
+        }
+    });
+}

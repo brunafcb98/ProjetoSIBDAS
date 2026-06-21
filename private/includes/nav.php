@@ -30,9 +30,12 @@ $nome = $_SESSION['utilizador'];
                     <i class="fa-regular fa-user me-2"></i> <?= htmlspecialchars($nome) ?> 
                 </button> 
                 <ul class="dropdown-menu dropdown-menu-end"> 
-                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-key me-2"></i>Alterar password</a> 
-                    </li> 
-
+                    <?php if (($_SESSION['profile'] ?? '') === 'administrador'): ?>
+                    <li><a class="dropdown-item" href="/sibdas/1241677/equipflow/private/editar_pagina_publica.php">
+                        <i class="fa-solid fa-pen-to-square me-2"></i>Editar Página Pública
+                    </a></li>
+                    <?php endif; ?>
+    
                     <?php if (($_SESSION['profile'] ?? '') === 'administrador'): ?>
                     <li><a class="dropdown-item" href="/sibdas/1241677/equipflow/private/logs.php">
                         <i class="fa-solid fa-list-check me-2"></i>Registo de Eventos

@@ -450,6 +450,18 @@ function validar_datas_garantia(string $dataInicio, string $dataFim): array {
     return $erros;
 }
 
+// Validação: a Data de Início da Garantia não pode ser anterior à Data de Aquisição do equipamento
+function validar_data_inicio_vs_aquisicao(string $dataInicioGarantia, string $dataAquisicao): array {
+    $erros = [];
+    $dataInicioGarantia = trim($dataInicioGarantia);
+
+    if (!empty($dataInicioGarantia) && !empty($dataAquisicao) && $dataInicioGarantia < $dataAquisicao) {
+        $erros[] = "A Data de Início da Garantia não pode ser anterior à Data de Aquisição do equipamento.";
+    }
+
+    return $erros;
+}
+
 // Validação do Tipo de Contrato (obrigatório se tem_contrato_manutencao = true; não deve ser preenchido se for false)
 function validar_tipo_contrato(string $tipoContrato, bool $temContrato): array {
     $erros = [];
