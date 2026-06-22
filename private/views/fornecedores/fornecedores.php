@@ -117,7 +117,7 @@ $ligacao = null;
                                                 'fabricante'   => 'Fabricante',
                                                 'distribuidor' => 'Distribuidor / Fornecedor Comercial',
                                                 'assistencia'  => 'Empresa de Assistência Técnica',
-                                                'consumiveis'  => 'Fornecedor de Consumíveis / Acessórios'
+                                                'consumiveis'  => 'Fornecedor de Consumíveis'
                                             ];
                                             echo $tipos[$fornecedores->tipo] ?? $fornecedores->tipo;
                                             ?>

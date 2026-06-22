@@ -77,17 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $erros = array_merge(
         validar_designacao($nomeAcessorio),
+        validar_nserie($nserieAcessorio),
         validar_estado($estadoAcessorio),
         validar_observacoes($observacoesAcessorio)
     );
-
-    // Modelo e Número de Série são opcionais para acessórios — só valida se tiver sido preenchido
-    if (!empty($modeloAcessorio)) {
-        $erros = array_merge($erros, validar_modelo($modeloAcessorio));
-    }
-    if (!empty($nserieAcessorio)) {
-        $erros = array_merge($erros, validar_nserie($nserieAcessorio));
-    }
+    // Modelo é opcional para acessórios — sem validação de obrigatoriedade
 
     // 4. Se não houver erros, guardar na base de dados
     if (empty($erros)) {
@@ -185,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         value="<?= htmlspecialchars($_POST['modelo_acessorio'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="texto_nserie_acessorio" class="form-label">Número de Série <small>(opcional)</small></label>
+                                    <label for="texto_nserie_acessorio" class="form-label">Número de Série </label>
                                     <input type="text" class="form-control" name="nserie_acessorio" id="texto_nserie_acessorio" 
                                         value="<?= htmlspecialchars($_POST['nserie_acessorio'] ?? '') ?>">
                                 </div>

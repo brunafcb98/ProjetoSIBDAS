@@ -32,16 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $erros = array_merge(
         validar_designacao($novoNome),
+        validar_nserie($novoNserie),
         validar_estado($novoEstado),
         validar_observacoes($novasObservacoes)
     );
-
-    if (!empty($novoModelo)) {
-        $erros = array_merge($erros, validar_modelo($novoModelo));
-    }
-    if (!empty($novoNserie)) {
-        $erros = array_merge($erros, validar_nserie($novoNserie));
-    }
+    // Modelo é opcional para acessórios — sem validação de obrigatoriedade
 
     if (empty($erros)) {
         try {
@@ -171,7 +166,7 @@ $idEquipamentoEncrypted = aes_encrypt($acessorio->id_equipamento_pai);
                                         value="<?= htmlspecialchars($acessorio->modelo ?? '') ?>">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="texto_nserie_acessorio" class="form-label">Número de Série <small>(opcional)</small></label>
+                                    <label for="texto_nserie_acessorio" class="form-label">Número de Série</label>
                                     <input type="text" class="form-control" name="nserie_acessorio" id="texto_nserie_acessorio" 
                                         value="<?= htmlspecialchars($acessorio->numero_serie ?? '') ?>">
                                 </div>

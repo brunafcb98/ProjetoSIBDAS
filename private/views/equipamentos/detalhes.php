@@ -156,7 +156,7 @@ $tipos_entrada = [
 ];
 $tipos_fornecedor = [
     'fabricante'   => 'Fabricante',
-    'consumiveis'  => 'Fornecedor de Consumíveis / Acessórios',
+    'consumiveis'  => 'Fornecedor de Consumíveis',
     'distribuidor' => 'Distribuidor / Fornecedor Comercial',
     'assistencia'  => 'Empresa de Assistência Técnica'
 ];

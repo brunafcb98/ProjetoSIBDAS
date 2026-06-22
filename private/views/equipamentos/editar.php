@@ -20,9 +20,19 @@ if (!$idEquipamento || !is_numeric($idEquipamento)) {
     exit;
 }
 
+// Ligação temporária só para verificar se o Número de Série já existe
+try {
+    $ligacaoTemp = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+} catch (PDOException $e) {
+    $ligacaoTemp = null;
+}
+
 //Detetar submissao via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $novoCodigo       = $_POST['codigo_equipamento'] ?? '';
     $novaDesignacao   = $_POST['designacao_equipamento'] ?? '';
     $novaCategoria    = $_POST['categoria_equipamento'] ?? '';
     $novaMarca        = $_POST['marca_equipamento'] ?? '';
@@ -37,14 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novaCriticidade  = $_POST['criticidade_equipamento'] ?? '';
     $novaLocalizacao  = $_POST['localizacao_equipamento'] ?? '';
     $novasObservacoes = $_POST['observacoes_equipamento'] ?? '';
+    $novoFornecedorFabricante   = $_POST['fornecedor_fabricante_equipamento'] ?? '';
+    $novoFornecedorDistribuidor = $_POST['fornecedor_distribuidor_equipamento'] ?? '';
+    $novoFornecedorAssistencia  = $_POST['fornecedor_assistencia_equipamento'] ?? '';
+
 
     $erros = array_merge(
-        validar_codigo($novoCodigo),
         validar_designacao($novaDesignacao),
         validar_categoria($novaCategoria),
         validar_marca($novaMarca),
         validar_modelo($novoModelo),
         validar_nserie($novoNserie),
+        validar_nserie_unico($novoNserie, $ligacaoTemp, $idEquipamento),
         validar_fabricante($novoFabricante),
         validar_data_aquisicao($novaData, $novoAno),
         validar_ano_fabrico($novoAno),
@@ -53,7 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         validar_estado($novoEstado),
         validar_criticidade($novaCriticidade),
         validar_localizacao($novaLocalizacao),
-        validar_observacoes($novasObservacoes)
+        validar_observacoes($novasObservacoes),
+        validar_fornecedores_associados($novoFornecedorFabricante, $novoFornecedorDistribuidor, $novoFornecedorAssistencia)
     );
 
     if (empty($erros)) {
@@ -67,8 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $stmt = $ligacao->prepare("
                 UPDATE equipamentos 
-                SET codigo_interno  = :codigo,
-                    designacao      = :designacao,
+                SET designacao      = :designacao,
                     categoria       = :categoria,
                     marca           = :marca,
                     modelo          = :modelo,
@@ -85,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 WHERE id = :id AND apagado = 0
             ");
 
-            $stmt->bindParam(':codigo',       $novoCodigo,       PDO::PARAM_STR);
             $stmt->bindParam(':designacao',   $novaDesignacao,   PDO::PARAM_STR);
             $stmt->bindParam(':categoria',    $novaCategoria,    PDO::PARAM_STR);
             $stmt->bindParam(':marca',        $novaMarca,        PDO::PARAM_STR);
@@ -251,8 +264,8 @@ try {
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="texto_codigo" class="form-label">Código Interno de Inventário</label>
-                                    <input type="text" class="form-control" name="codigo_equipamento" id="texto_codigo" 
-                                        value="<?= htmlspecialchars($equipamento->codigo_interno) ?>" required> 
+                                    <input type="text" class="form-control" id="texto_codigo" 
+                                        value="<?= htmlspecialchars($equipamento->codigo_interno) ?>" disabled> 
                                 </div>
                             
                                 <div class="col-md-8">

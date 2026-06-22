@@ -230,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <option value="fabricante" <?= (($_POST['tipo_fornecedor'] ?? '') == 'fabricante') ? 'selected' : '' ?>>Fabricante</option>
                                         <option value="distribuidor" <?= (($_POST['tipo_fornecedor'] ?? '') == 'distribuidor') ? 'selected' : '' ?>>Distribuidor / Fornecedor Comercial</option>
                                         <option value="assistencia" <?= (($_POST['tipo_fornecedor'] ?? '') == 'assistencia') ? 'selected' : '' ?>>Empresa de Assistência Técnica</option>
-                                        <option value="consumiveis" <?= (($_POST['tipo_fornecedor'] ?? '') == 'consumiveis') ? 'selected' : '' ?>>Fornecedor de Consumíveis / Acessórios</option>
+                                        <option value="consumiveis" <?= (($_POST['tipo_fornecedor'] ?? '') == 'consumiveis') ? 'selected' : '' ?>>Fornecedor de Consumíveis </option>
                                     </select>
                                 </div>
                             </div>
@@ -242,7 +242,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         value="<?= htmlspecialchars($_POST['nif_fornecedor'] ?? '') ?>">
                                 </div>
                                 <div class="col-md-8">
-                                    <label for="texto_morada" class="form-label">Morada <small>(Nº Porta, Andar)</small></label>
+                                    <label for="texto_morada" class="form-label">Morada <small>(Rua, Nº Porta, (Andar), Localidade)</small></label>
                                     <input type="text" class="form-control" name="morada_fornecedor" id="texto_morada"
                                         value="<?= htmlspecialchars($_POST['morada_fornecedor'] ?? '') ?>">
                                 </div>

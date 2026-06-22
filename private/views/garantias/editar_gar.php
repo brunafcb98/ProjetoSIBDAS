@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         validar_periodicidade($novaPeriodicidade, $novoTemContratoManutencao),
         validar_observacoes_garantia($novasObservacoesGarantia),
         validar_entidade_responsavel($novaEntidadeResponsavel, $novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao),
-        validar_contexto_garantia($novaEntidadeResponsavel, $_FILES['ficheiro_garantia'], $novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao),
+        validar_contexto_garantia($novaDataInicioGarantia, $novaDataFimGarantia, $novoTemContratoManutencao),
         validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)
     );
 

@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         validar_periodicidade($periodicidade, $temContratoManutencao),
         validar_observacoes_garantia($observacoesGarantia),
         validar_entidade_responsavel($entidadeResponsavel, $dataInicioGarantia, $dataFimGarantia, $temContratoManutencao),
-        validar_contexto_garantia($entidadeResponsavel, $_FILES['ficheiro_garantia'], $dataInicioGarantia, $dataFimGarantia, $temContratoManutencao),
+        validar_contexto_garantia($dataInicioGarantia, $dataFimGarantia, $temContratoManutencao),
         validar_ficheiro_upload($_FILES['ficheiro_garantia'], false)
     );
 

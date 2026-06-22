@@ -1,27 +1,16 @@
 <?php
 
 // ============================================================
-// Equipamentos (e acess - designaçao, modelo, nrserie, estado, obs + cons - desig e obs)
+// Equipamentos (e acess - designaçao/nome, nrserie, estado, obs + cons - desig e obs)
 // ============================================================
-
-// Validação do Código Interno
-function validar_codigo(string $codigo): array {
-    $erros = [];
-    if (empty(trim($codigo))) {
-        $erros[] = "O campo Código Interno é obrigatório.";
-    } elseif (!preg_match('/^\d+\.\d{3}\.\d{2}$/', $codigo)) {
-        $erros[] = "O campo Código Interno é inválido. Use o formato XX.XXX.XX (ex: 04.002.01).";
-    }
-    return $erros;
-}
 
 // Validação da Designação
 function validar_designacao(string $designacao): array {
     $erros = [];
     if (empty(trim($designacao))) {
-        $erros[] = "O campo Designação é obrigatório.";
+        $erros[] = "O campo Designação/Nome é obrigatório.";
     } elseif (preg_match('/^\d+$/', $designacao)) {
-        $erros[] = "O campo Designação não pode conter apenas números.";
+        $erros[] = "O campo Designação/Nome não pode conter apenas números.";
     }
     return $erros;
 }
@@ -59,6 +48,33 @@ function validar_nserie(string $nserie): array {
     if (empty(trim($nserie))) {
         $erros[] = "O campo Número de Série é obrigatório.";
     }
+    return $erros;
+}
+// Número de Série deve ser único entre os equipamentos ativos.
+// $idAtual serve para ignorar o próprio registo quando se está a editar.
+function validar_nserie_unico(string $nserie, $ligacao, $idAtual = null): array {
+    $erros = [];
+    $nserie = trim($nserie);
+
+    if (empty($nserie)) {
+        return $erros;
+    }
+
+    if ($idAtual !== null) {
+        $stmt = $ligacao->prepare("SELECT id FROM equipamentos WHERE numero_serie = :nserie AND apagado = 0 AND id != :id_atual");
+        $stmt->bindParam(':nserie', $nserie, PDO::PARAM_STR);
+        $stmt->bindParam(':id_atual', $idAtual, PDO::PARAM_INT);
+    } else {
+        $stmt = $ligacao->prepare("SELECT id FROM equipamentos WHERE numero_serie = :nserie AND apagado = 0");
+        $stmt->bindParam(':nserie', $nserie, PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
+
+    if ($stmt->fetchColumn()) {
+        $erros[] = "Já existe um equipamento com este Número de Série.";
+    }
+
     return $erros;
 }
 
@@ -162,6 +178,15 @@ function validar_observacoes(string $observacoes): array {
     return $erros;
 }
 
+//Fornecedor - associado a equipamentos
+// Validação: pelo menos um Fornecedor Associado (Fabricante, Distribuidor ou Assistência) deve ser preenchido
+function validar_fornecedores_associados(string $fabricante, string $distribuidor, string $assistencia): array {
+    $erros = [];
+    if (empty($fabricante) && empty($distribuidor) && empty($assistencia)) {
+        $erros[] = "Deve selecionar pelo menos um Fornecedor Associado (Fabricante, Distribuidor ou Assistência Técnica).";
+    }
+    return $erros;
+}
 
 // ============================================================
 // Fornecedores
@@ -172,6 +197,8 @@ function validar_nome_fornecedor(string $nome): array {
     $erros = [];
     if (empty(trim($nome))) {
         $erros[] = "O campo Nome da Empresa é obrigatório.";
+    } elseif (preg_match('/^\d+$/', $nome)) {
+        $erros[] = "O campo Nome da Empresa não pode conter apenas números.";
     }
     return $erros;
 }
@@ -201,6 +228,8 @@ function validar_morada_fornecedor(string $morada): array {
     $erros = [];
     if (empty(trim($morada))) {
         $erros[] = "O campo Morada é obrigatório.";
+    } elseif (preg_match('/^\d+$/', $morada)) {
+        $erros[] = "O campo Morada não pode conter apenas números.";
     }
     return $erros;
 }
@@ -309,8 +338,10 @@ function validar_sala(string $sala): array {
     $erros = [];
     if (empty(trim($sala))) {
         $erros[] = "O campo Sala / Gabinete é obrigatório.";
-    } elseif (strlen($sala) > 100) {
-        $erros[] = "O campo Sala não pode exceder 100 caracteres.";
+    } elseif (preg_match('/^\d+$/', $sala)) {
+        $erros[] = "O campo Internamento/Sala/Gabinete não pode conter apenas números.";
+    } elseif (strlen($sala) > 35) {
+        $erros[] = "O campo Sala não pode exceder 35 caracteres.";
     }
     return $erros;
 }
@@ -511,18 +542,10 @@ function validar_entidade_responsavel(string $entidadeResponsavel, string $dataI
     return $erros;
 }
 
-// Validação: o registo de garantia/contrato precisa de ter um mínimo de contexto válido.
-// É obrigatório indicar Entidade Responsável OU anexar um ficheiro,
-// e em qualquer dos casos deve existir garantia (datas) ou contrato de manutenção associado.
-function validar_contexto_garantia(string $entidadeResponsavel, array $ficheiro, string $dataInicio, string $dataFim, bool $temContrato): array {
+// Validação: deve existir garantia (datas) ou contrato de manutenção associado — não pode ser um registo "vazio".
+function validar_contexto_garantia(string $dataInicio, string $dataFim, bool $temContrato): array {
     $erros = [];
-    $temEntidade = !empty(trim($entidadeResponsavel));
-    $temFicheiro = !empty($ficheiro['name']);
     $temGarantia = !empty(trim($dataInicio)) && !empty(trim($dataFim));
-
-    if (!$temEntidade && !$temFicheiro) {
-        $erros[] = "Deve indicar uma Entidade Responsável ou anexar um ficheiro.";
-    }
 
     if (!$temGarantia && !$temContrato) {
         $erros[] = "Deve preencher as Datas de Garantia ou marcar 'Existe contrato de manutenção'.";

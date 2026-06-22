@@ -186,7 +186,7 @@ echo $idFornecedor;
                                         value="<?= htmlspecialchars($fornecedor->nif) ?>" required>
                                 </div>
                                 <div class="col-md-8">
-                                    <label for="texto_morada" class="form-label">Morada <small>(Nº Porta, Andar)</small></label>
+                                    <label for="texto_morada" class="form-label">Morada <small>(Rua, Nº Porta, (Andar), Localidade)</small></label>
                                     <input type="text" class="form-control" name="morada_fornecedor" id="texto_morada" 
                                         value="<?= htmlspecialchars($fornecedor->morada ?? '') ?>">
                                 </div>

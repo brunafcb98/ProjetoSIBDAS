@@ -7,10 +7,42 @@ require_once __DIR__ . '/../../includes/funcoes.php';
 redirect_if_not_logged(); // Inicia a sessão (se necessário) e verifica se o utilizador está autenticado 
 require_once __DIR__ . '/../../includes/validacoes.php';
 
+// Calcular o próximo código de equipamento disponível (incremental, mantém o primeiro grupo, sobe o segundo até 999)
+try {
+    $ligacaoCodigo = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacaoCodigo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmtCodigos = $ligacaoCodigo->query("SELECT codigo_interno FROM equipamentos");
+    $codigosExistentes = $stmtCodigos->fetchAll(PDO::FETCH_COLUMN);
+
+    $maiorCombinado = 0;
+    foreach ($codigosExistentes as $codigoExistente) {
+        $partes = explode('.', $codigoExistente);
+        if (count($partes) >= 2 && is_numeric($partes[0]) && is_numeric($partes[1])) {
+            $combinado = ((int) $partes[0]) * 1000 + ((int) $partes[1]);
+            $maiorCombinado = max($maiorCombinado, $combinado);
+        }
+    }
+
+    $proximoCombinado = $maiorCombinado + 1;
+    $primeiraParcela = intdiv($proximoCombinado, 1000);
+    $segundaParcela = $proximoCombinado % 1000;
+
+    $proximoCodigo = sprintf('%02d.%03d.00', $primeiraParcela, $segundaParcela);
+
+} catch (PDOException $err) {
+    header('Location: equipamentos.php');
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Recolher dados
-    $codigo       = $_POST["codigo_equipamento"] ?? "";
+    $codigo       = $proximoCodigo;
     $designacao   = $_POST["designacao_equipamento"] ?? "";
     $categoria    = $_POST["categoria_equipamento"] ?? "";
     $marca        = $_POST["marca_equipamento"] ?? "";
@@ -25,9 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $criticidade  = $_POST["criticidade_equipamento"] ?? "";
     $localizacao  = $_POST["localizacao_equipamento"] ?? "";
     $observacoes  = $_POST["observacoes_equipamento"] ?? "";
+    $fornecedorFabricante   = $_POST['fornecedor_fabricante_equipamento'] ?? '';
+    $fornecedorDistribuidor = $_POST['fornecedor_distribuidor_equipamento'] ?? '';
+    $fornecedorAssistencia  = $_POST['fornecedor_assistencia_equipamento'] ?? '';
 
     // 2. Trim
-    $codigo       = trim($codigo);
     $designacao   = trim($designacao);
     $marca        = trim($marca);
     $modelo       = trim($modelo);
@@ -43,12 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $erro_sistema = ""; //Para erros de SQL (PDO) 
 
     $erros = array_merge(
-        validar_codigo($codigo),
         validar_designacao($designacao),
         validar_categoria($categoria),
         validar_marca($marca),
         validar_modelo($modelo),
         validar_nserie($nserie),
+        validar_nserie_unico($nserie, $ligacaoCodigo),
         validar_fabricante($fabricante),
         validar_data_aquisicao($dataquisicao, $anofabrico),
         validar_ano_fabrico($anofabrico),
@@ -57,96 +91,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         validar_estado($estado),
         validar_criticidade($criticidade),
         validar_localizacao($localizacao),
-        validar_observacoes($observacoes)
+        validar_observacoes($observacoes),
+        validar_fornecedores_associados($fornecedorFabricante, $fornecedorDistribuidor, $fornecedorAssistencia)
     );
 
-    /* 
-    if (empty($codigo)) {
-        $erros[] = "O campo Código Interno é obrigatório.";
-    }   elseif (!preg_match('/^\d+\.\d{3}\.\d{2}$/', $codigo)) {
-            $erros[] = "O campo Código Interno é inválido. Use o formato XX.XXX.XX (ex: 04.002.01).";
-    }
-
-    if (empty($designacao)) {
-        $erros[] = "O campo Designação é obrigatório.";
-    } elseif (preg_match('/^\d+$/', $designacao)) {
-        $erros[] = "O campo Designação não pode conter apenas números.";
-    }
-
-    if (empty($categoria) || $categoria == "Escolha uma opção") {
-        $erros[] = "O campo Categoria é obrigatório.";
-    }
-
-    if (empty($marca)) {
-        $erros[] = "O campo Marca é obrigatório.";
-    } elseif (preg_match('/\d/', $marca)) {
-        $erros[] = "O campo Marca não pode conter números.";
-    }
-
-    if (empty($modelo)) {
-        $erros[] = "O campo Modelo é obrigatório.";
-    }
-
-    if (empty($nserie)) {
-        $erros[] = "O campo Número de Série é obrigatório.";
-    }
-
-    if (empty($fabricante)) {
-        $erros[] = "O campo Fabricante é obrigatório.";
-    } elseif (preg_match('/\d/', $fabricante)) {
-        $erros[] = "O campo Fabricante não pode conter números.";
-    }
-
-    if (empty($dataquisicao)) {
-        $erros[] = "O campo Data de Aquisição é obrigatório.";
-    } elseif (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $dataquisicao)) {
-        $erros[] = "Formato de data inválido. Use AAAA-MM-DD.";
-    } else {
-        $partes = explode('-', $dataquisicao); 
-        // Verificar se a data é real e existe
-        if (!checkdate((int)$partes[1], (int)$partes[2], (int)$partes[0])) {
-            $erros[] = "Data de aquisição inválida.";
-        } elseif ($dataquisicao > date('Y-m-d')) {
-            $erros[] = "A data de aquisição não pode ser posterior à data atual.";
-        } elseif (!empty($anofabrico) && (int)date('Y', strtotime($dataquisicao)) < (int)$anofabrico) {
-            $erros[] = "A data de aquisição não pode ser anterior ao ano de fabrico.";
-        }
-    }
-
-    if (empty($anofabrico)) {
-        $erros[] = "O campo Ano de Fabrico é obrigatório.";
-    } elseif (!preg_match('/^\d{4}$/', $anofabrico)) {
-        $erros[] = "Ano de fabrico inválido. Use o formato AAAA.";
-    } elseif ((int)$anofabrico > (int)date('Y')) {
-        $erros[] = "O ano de fabrico não pode ser posterior ao ano atual.";
-    }
-
-    if (!empty($custo) && !is_numeric($custo)) {
-        $erros[] = "O custo de aquisição deve ser um valor numérico.";
-    } elseif (!empty($custo) && (float)$custo <= 0) {
-        $erros[] = "O custo de aquisição deve ser maior que 0.";
-    }
-
-    if (empty($tipoentrada) || $tipoentrada == "Escolha uma opção") {
-        $erros[] = "O campo Tipo de Entrada é obrigatório.";
-    }
-
-    if (empty($estado) || $estado == "Escolha uma opção") {
-        $erros[] = "O campo Estado é obrigatório.";
-    }
-
-    if (empty($criticidade) || $criticidade == "Escolha uma opção") {
-        $erros[] = "O campo Criticidade é obrigatório.";
-    }
-
-    if (empty($localizacao) || $localizacao == "Escolha uma opção") {
-        $erros[] = "O campo Localização é obrigatório.";
-    }
-
-    if (!empty($observacoes) && strlen($observacoes) > 500) {
-        $erros[] = "As observações não podem exceder 500 caracteres.";
-    }
-    */
     // 4. Normalizar dados
     if (empty($erros)) {
         $designacao  = ucwords(strtolower($designacao));
@@ -313,9 +261,8 @@ try {
                             <!-- Identificação do equipamento -->
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <label for="texto_codigo" class="form-label">Código Interno de Inventário</label>
-                                    <input type="text" class="form-control" name="codigo_equipamento" id="texto_codigo" 
-                                        value="<?= htmlspecialchars($_POST['codigo_equipamento'] ?? '') ?>">
+                                    <label class="form-label">Código Interno de Inventário</label>
+                                    <input type="text" class="form-control" value="<?= htmlspecialchars($proximoCodigo) ?>" disabled>
                                 </div>
                                 <div class="col-md-8">
                                     <label for="texto_designacao" class="form-label">Designação do Equipamento</label>
