@@ -1,0 +1,48 @@
+eef33ce - Bruna Barbosa - 2026-06-23 15:36:39 +0100 - DBML + Readme
+4824e19 - Bruna Barbosa - 2026-06-22 15:59:58 +0100 - Validações (ajuste) + sql
+035d118 - Bruna Barbosa - 2026-06-21 22:10:37 +0100 - Dashboard + export
+07611fc - Bruna Barbosa - 2026-06-21 12:33:28 +0100 - Aba acessorios e consumiveis
+ae69977 - Bruna Barbosa - 2026-06-20 03:21:40 +0100 - Upload de ficheiros + correção de formatação
+a991c0f - Bruna Barbosa - 2026-06-19 05:25:26 +0100 - Associação eq_for + módulo de documentos e garantias
+a82a4c6 - Bruna Barbosa - 2026-06-18 18:33:43 +0100 - Agentes login + registo de logs
+f87379e - Bruna Barbosa - 2026-06-18 03:23:00 +0100 - Apagar/confirmar_apagar (equipamentos, fornecedores, localizações) + Toasts
+651a2fc - Bruna Barbosa - 2026-06-18 00:23:38 +0100 - Detalhes para equipamentos e fornecedores com dados dinâmicos
+360ebe5 - Bruna Barbosa - 2026-06-17 05:08:02 +0100 - Implementação da  edição de equipamentos, fornecedores e localizações (GET/POST) + validacoes.php
+c9f0812 - Bruna Barbosa - 2026-06-16 02:38:18 +0100 - Implementação novo.php - equipamentos, fornecedores e localizações com validação e INSERT com PDO prepare/execute + flatpickr
+0cc5630 - Bruna Barbosa - 2026-06-14 23:46:57 +0100 - Listagem Fornecedores e Localizações + Paginaçao e Filtros
+454aa61 - Bruna Barbosa - 2026-06-14 22:37:48 +0100 - Listagem de Equipamentos e Paginação e Filtros
+75a7ede - Bruna Barbosa - 2026-06-14 14:10:31 +0100 - Importação BD e config.php
+f366f1b - Bruna Barbosa - 2026-06-13 18:16:55 +0100 - Sessôes em views - caminho fixo e BASE_URL nos redirecionamentos
+9479a94 - Bruna Barbosa - 2026-06-13 13:18:33 +0100 - Sessões e formulário: login, processa_login, logout e funcoes
+8ec63c7 - Bruna Barbosa - 2026-06-11 02:17:14 +0100 - Criação de includes reutilizáveis e conversão de páginas para PHP
+d27ff50 - Bruna Barbosa - 2026-06-10 23:51:46 +0100 - Restruturação do projeto-php
+d7af06c - Bruna Barbosa - 2026-06-10 20:15:09 +0100 - bootstrap - localizações
+b785ca1 - Bruna Barbosa - 2026-06-10 19:37:03 +0100 - bootstrap - fornecedores
+a9503a1 - Bruna Barbosa - 2026-06-09 19:21:11 +0100 - bootstrap-apagar.html e css
+cc9db6e - Bruna Barbosa - 2026-06-09 19:10:43 +0100 - bootstrap-detalhes.html
+ab806df - Bruna Barbosa - 2026-06-09 19:05:53 +0100 - bootstrap-editar.html
+4d8a99b - Bruna Barbosa - 2026-06-09 18:51:06 +0100 - bootstrap - novo.html
+aa58b0a - Bruna Barbosa - 2026-06-09 18:29:30 +0100 - bootstrap - equipamentos.html
+5d891fa - Bruna Barbosa - 2026-06-09 17:32:57 +0100 - bootstrap - dashboard
+b5409b4 - Bruna Barbosa - 2026-06-09 01:46:24 +0100 - login e inicio bootstrap
+c3ea31a - Bruna Barbosa - 2026-06-08 00:56:21 +0100 - dashboard - cards e js
+f3dc0e9 - Bruna Barbosa - 2026-06-07 03:29:02 +0100 - Fornecedores - novo, editar, apagar, detalhes
+3578555 - Bruna Barbosa - 2026-06-06 20:42:21 +0100 - Localizações - novo, apagar, editar
+b4a4226 - Bruna Barbosa - 2026-06-06 19:49:20 +0100 - Equipamentos - novo, editar, detalhes e apagar
+c4ca099 - Bruna Barbosa - 2026-06-05 01:34:58 +0100 - Inserir novo equipamento com formulários
+9cc9eb4 - Bruna Barbosa - 2026-06-04 19:28:10 +0100 - Area privada - lista de equipamentos com tabela
+0f038fe - Bruna Barbosa - 2026-06-04 17:44:47 +0100 - Area Privada - Criar ficheiros para as funcionalidades equipamentos
+6850bf5 - Bruna Barbosa - 2026-06-04 17:35:29 +0100 - Area Privada - google Fonts e font awesome
+e87d684 - Bruna Barbosa - 2026-06-04 17:04:31 +0100 - Reorganização estrutura ficheiros - area privada
+25eb07c - Bruna Barbosa - 2026-06-04 13:16:55 +0100 - Formulário Contacto e botão solicitar demo
+29e714b - Bruna Barbosa - 2026-06-04 03:33:10 +0100 - Estrutura da página vantagens e funcionalidades
+f93e1d1 - Bruna Barbosa - 2026-06-03 04:26:25 +0100 - Estrutura da página Serviços (Font Awesome)
+36a96c6 - Bruna Barbosa - 2026-06-03 03:10:14 +0100 - Estrutura das paginas Home e Sobre Nós (fontes de imagens)
+4363869 - Bruna Barbosa - 2026-06-01 16:26:47 +0100 - Estrutura do Projeto e Google Fonts
+0d6a48b - Bruna Barbosa - 2026-05-31 23:16:35 +0100 - Criação das páginas html da área privada
+960dcc8 - Bruna Barbosa - 2026-05-31 22:47:29 +0100 - Criação do ficheiro de estilos da área privada
+51fe627 - Bruna Barbosa - 2026-05-31 17:18:59 +0100 - Navegação âncora
+58a3788 - Bruna Barbosa - 2026-05-30 18:22:16 +0100 - "Criação do ficheiro de estilos css"
+16d62db - Bruna Barbosa - 2026-05-29 18:56:32 +0100 - "Criação das páginas web"
+3af68d0 - Bruna Barbosa - 2026-05-28 19:06:56 +0100 - "Criação página web (index)"
+f4846f4 - Bruna Barbosa - 2026-05-20 23:37:01 +0100 - Ficheiro inicial do Relatorio
