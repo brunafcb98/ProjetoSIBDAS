@@ -1,0 +1,208 @@
+// --------------------------------------------------------
+// Projeto: EquipFlow
+// Base de Dados exportada do HeidiSQL
+// --------------------------------------------------------
+
+Table acessorios {
+  id int [pk, increment]
+  id_equipamento_pai int [not null]
+  codigo varchar(30) [not null]
+  nome varchar(150) [not null]
+  marca varchar(100) [null]
+  fabricante varchar(100) [null]
+  modelo varchar(100) [null]
+  numero_serie varchar(30) [not null]
+  estado varchar(20) [not null, default: 'ativo']
+  observacoes text [null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado datetime [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_equipamento_pai [name: "fk_acessorio_pai"]
+    id_utilizador_apagou [name: "fk_acessorio_utilizador"]
+  }
+}
+
+Table consumiveis {
+  id int [pk, increment]
+  id_equipamento_pai int [not null]
+  codigo varchar(30) [not null]
+  nome varchar(150) [not null]
+  quantidade int [not null, default: 0]
+  id_fornecedor int [not null]
+  observacoes text [null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado datetime [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_equipamento_pai [name: "fk_consumivel_pai"]
+    id_fornecedor [name: "fk_consumivel_fornecedor"]
+  }
+}
+
+Table documentos {
+  id int [pk, increment]
+  id_equipamento int [not null]
+  id_fornecedor int [null]
+  tipo_documento varchar(50) [not null, note: 'CHECK: manual, certificado_calibracao, fatura, ficha_tecnica, certificado_conformidade, outro']
+  nome_documento varchar(150) [not null]
+  data_documento date [not null]
+  data_validade date [null]
+  caminho_ficheiro varchar(255) [not null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado date [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_equipamento [name: "fk_documentos_equipamento"]
+    id_fornecedor [name: "fk_documentos_fornecedor"]
+    id_utilizador_apagou [name: "fk_documentos_utilizador"]
+  }
+}
+
+Table equipamentos {
+  id int [pk, increment]
+  codigo_interno varchar(50) [unique, not null]
+  designacao varchar(150) [not null]
+  categoria varchar(50) [not null, note: 'CHECK: monitorizacao, suporte_vida, terapia, diagnostico, laboratorio, esterilizacao, reabilitacao']
+  marca varchar(100) [not null]
+  modelo varchar(100) [not null]
+  numero_serie varchar(100) [not null]
+  fabricante varchar(100) [not null]
+  data_aquisicao date [not null]
+  ano_fabrico int [not null]
+  custo_aquisicao decimal(10,2) [null, note: 'CHECK: > 0']
+  tipo_entrada varchar(20) [not null, note: 'CHECK: compra, doacao, aluguer, emprestimo']
+  estado varchar(20) [not null, note: 'CHECK: ativo, manutencao, inativo, calibracao, quarentena, abatido']
+  criticidade varchar(20) [not null, note: 'CHECK: baixa, media, alta, suporte_vida']
+  observacoes text [null]
+  id_localizacao int [not null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado date [null, note: 'CHECK: >= data_aquisicao']
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_localizacao [name: "fk_equipamentos_localizacao"]
+    id_utilizador_apagou [name: "fk_equipamentos_utilizador"]
+  }
+}
+
+Table equipamento_fornecedor {
+  id_equipamento int [not null]
+  id_fornecedor int [not null]
+  tipo varchar(50) [not null, note: 'CHECK: fabricante, distribuidor, assistencia, consumiveis']
+
+  Indexes {
+    (id_equipamento, id_fornecedor) [pk]
+    id_fornecedor [name: "fk_equipamento_fornecedor_fornecedor"]
+  }
+}
+
+Table fornecedores {
+  id int [pk, increment]
+  nome_empresa varchar(150) [not null]
+  nif varchar(9) [unique, not null]
+  morada varchar(255) [null]
+  telefone varchar(20) [not null]
+  email varchar(100) [not null]
+  website varchar(150) [null]
+  tipo varchar(50) [not null, note: 'CHECK: fabricante, distribuidor, assistencia, consumiveis']
+  pessoa_contacto varchar(50) [not null]
+  telefone_pessoa_contacto varchar(20) [not null]
+  observacoes text [null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado date [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_utilizador_apagou [name: "fk_fornecedores_utilizador"]
+  }
+}
+
+Table garantias_contratos {
+  id int [pk, increment]
+  id_equipamento int [not null]
+  id_fornecedor int [not null]
+  data_inicio_garantia date [null]
+  data_fim_garantia date [null, note: 'CHECK: >= data_inicio_garantia']
+  tem_contrato_manutencao tinyint(1) [not null, default: 0]
+  tipo_contrato varchar(50) [null, note: 'CHECK: garantia_fabricante, manutencao_preventiva, manutencao_corretiva, manutencao_completa, outro']
+  periodicidade varchar(50) [null, note: 'CHECK: mensal, trimestral, semestral, anual, nao_aplicavel']
+  observacoes text [null]
+  caminho_ficheiro varchar(255) [null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado date [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_equipamento [name: "fk_garantias_contratos_equipamento"]
+    id_utilizador_apagou [name: "fk_garantias_contratos_utilizador"]
+    id_fornecedor [name: "fk_garantias_contratos_fornecedor"]
+  }
+}
+
+Table localizacoes {
+  id int [pk, increment]
+  edificio varchar(50) [not null]
+  piso varchar(20) [not null]
+  servico varchar(100) [not null]
+  sala_internamento_gabinete varchar(100) [not null]
+  apagado tinyint(1) [not null, default: 0]
+  data_apagado date [null]
+  id_utilizador_apagou int [null]
+
+  Indexes {
+    id_utilizador_apagou [name: "fk_localizacoes_utilizador"]
+  }
+}
+
+Table logs {
+  id int [pk, increment]
+  id_utilizador int [null]
+  tipo_evento varchar(50) [not null, note: 'CHECK: login_sucesso, login_falhado, erro_bd, equipamento_criado, equipamento_editado...']
+  descricao text [null]
+  data_hora datetime [not null, default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    id_utilizador [name: "fk_logs_utilizador"]
+  }
+}
+
+Table utilizadores {
+  id int [pk, increment]
+  email varchar(100) [unique, not null]
+  password varchar(255) [not null]
+  perfil varchar(20) [not null, note: 'administrador ou tecnico. CHECK: administrador, tecnico']
+}
+
+// --------------------------------------------------------
+// Relacionamentos (Chaves Estrangeiras)
+// --------------------------------------------------------
+
+Ref: acessorios.id_equipamento_pai > equipamentos.id [delete: no action, update: no action]
+Ref: acessorios.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: consumiveis.id_fornecedor > fornecedores.id [delete: no action, update: no action]
+Ref: consumiveis.id_equipamento_pai > equipamentos.id [delete: no action, update: no action]
+
+Ref: documentos.id_equipamento > equipamentos.id [delete: no action, update: no action]
+Ref: documentos.id_fornecedor > fornecedores.id [delete: no action, update: no action]
+Ref: documentos.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: equipamentos.id_localizacao > localizacoes.id [delete: no action, update: no action]
+Ref: equipamentos.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: equipamento_fornecedor.id_equipamento > equipamentos.id [delete: no action, update: no action]
+Ref: equipamento_fornecedor.id_fornecedor > fornecedores.id [delete: no action, update: no action]
+
+Ref: fornecedores.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: garantias_contratos.id_equipamento > equipamentos.id [delete: no action, update: no action]
+Ref: garantias_contratos.id_fornecedor > fornecedores.id [delete: no action, update: no action]
+Ref: garantias_contratos.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: localizacoes.id_utilizador_apagou > utilizadores.id [delete: no action, update: no action]
+
+Ref: logs.id_utilizador > utilizadores.id [delete: no action, update: no action]
